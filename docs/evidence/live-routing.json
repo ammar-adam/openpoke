@@ -1,0 +1,3576 @@
+{
+  "schema_version": 1,
+  "prepared_at_utc": "2026-10-28T22:08:40.912463+00:00",
+  "evidence_scope": "Authored synthetic scenarios; live Interaction Agent model calls; workers mocked. Zero human reviews. Not production task accuracy.",
+  "reporter_source_sha256": "baf96627fa0fd02a5f186a1c60f8bc1ab113052113b8f3fe5c647273dcc6cac7",
+  "phases": [
+    {
+      "name": "luna-smoke-100",
+      "interpretation": "Pre-wait-fix diagnostic only: 3 completed records, 1 HTTP429 operational error, 14 not run; do not pool with corrected runtime.",
+      "runtime": {
+        "commit": "76dd0d0be5f3a543d42dd229527283c1c1a8c34e",
+        "dirty": true,
+        "source_sha256": "ed924195d4bbc106b7121ae97eba2037b494c62133c57c76230584945accd6fe"
+      },
+      "manifest_status": "stopped",
+      "publication_status": "stopped",
+      "planned_records": 18,
+      "persisted_records": 18,
+      "fixture_sha256": "a2ce8221b09403ea7f74382375fc035f24bafdc0b694acb8496b0490edba8f1c",
+      "model": "openai/gpt-6-luna",
+      "groups": [
+        {
+          "suite": "challenge",
+          "fixture_group": "smoke",
+          "scale": 100,
+          "metadata": "current_state",
+          "model": "openai/gpt-6-luna",
+          "mode": "focus",
+          "record_count": 6,
+          "case_count": 6,
+          "statuses": {
+            "completed": 1,
+            "not_run": 5,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 2,
+            "correct": 2,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 1,
+            "correct": 0,
+            "fraction": 0.0
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 1,
+            "correct": 1,
+            "fraction": 1.0
+          },
+          "mean_of_observed_case_rates": 0.0,
+          "cases_with_scored_attempts": 1,
+          "publication_source_metadata": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null
+          },
+          "completed_callback_count": 0,
+          "response_semantics_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 0,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 1,
+            "correct": 0,
+            "fraction": 0.0,
+            "eligible": 1,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            },
+            "structural_failures": 1,
+            "complete_component_reviews": 0,
+            "unreviewed_components": 1
+          },
+          "unnecessary_clarification_review": {
+            "observed": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 8,
+            "responses_returned": 8,
+            "network_requests_started": {
+              "reported_total": 8,
+              "observed_invocations": 8,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 36465,
+                "observed_calls": 8,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 658,
+                "observed_calls": 8,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.000786315,
+                "observed_calls": 8,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 1,
+              "p50_ms": 18317.250299995067,
+              "p95_ms": 18317.250299995067
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 8,
+              "p50_ms": 2248.762799994438,
+              "p95_ms": 3500.4064999811817
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        },
+        {
+          "suite": "challenge",
+          "fixture_group": "smoke",
+          "scale": 100,
+          "metadata": "current_state",
+          "model": "openai/gpt-6-luna",
+          "mode": "legacy",
+          "record_count": 6,
+          "case_count": 6,
+          "statuses": {
+            "completed": 1,
+            "not_run": 5,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 2,
+            "correct": 2,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 1,
+            "correct": 0,
+            "fraction": 0.0
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 1,
+            "correct": 1,
+            "fraction": 1.0
+          },
+          "mean_of_observed_case_rates": 0.0,
+          "cases_with_scored_attempts": 1,
+          "publication_source_metadata": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null
+          },
+          "completed_callback_count": 0,
+          "response_semantics_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 0,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 1,
+            "correct": 0,
+            "fraction": 0.0,
+            "eligible": 1,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            },
+            "structural_failures": 1,
+            "complete_component_reviews": 0,
+            "unreviewed_components": 1
+          },
+          "unnecessary_clarification_review": {
+            "observed": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 8,
+            "responses_returned": 8,
+            "network_requests_started": {
+              "reported_total": 8,
+              "observed_invocations": 8,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 35936,
+                "observed_calls": 8,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 417,
+                "observed_calls": 8,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.001130875,
+                "observed_calls": 8,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 1,
+              "p50_ms": 15081.065600010334,
+              "p95_ms": 15081.065600010334
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 8,
+              "p50_ms": 1628.9650500111748,
+              "p95_ms": 3263.0164999864064
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        },
+        {
+          "suite": "challenge",
+          "fixture_group": "smoke",
+          "scale": 100,
+          "metadata": "current_state",
+          "model": "openai/gpt-6-luna",
+          "mode": "retrieval",
+          "record_count": 6,
+          "case_count": 6,
+          "statuses": {
+            "completed": 1,
+            "not_run": 4,
+            "incomplete": 0,
+            "operational_error": 1
+          },
+          "candidate_inclusion": {
+            "observed": 3,
+            "correct": 3,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 1,
+            "correct": 1,
+            "fraction": 1.0
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 1,
+            "correct": 1,
+            "fraction": 1.0
+          },
+          "mean_of_observed_case_rates": 1.0,
+          "cases_with_scored_attempts": 1,
+          "publication_source_metadata": {
+            "observed": 1,
+            "correct": 1,
+            "fraction": 1.0
+          },
+          "completed_callback_count": 1,
+          "response_semantics_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 0,
+            "unreviewed_components": 1
+          },
+          "unnecessary_clarification_review": {
+            "observed": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 15,
+            "responses_returned": 14,
+            "network_requests_started": {
+              "reported_total": 15,
+              "observed_invocations": 15,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 1,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 59063,
+                "observed_calls": 14,
+                "unavailable_calls": 1
+              },
+              "completion_tokens": {
+                "reported_total": 1104,
+                "observed_calls": 14,
+                "unavailable_calls": 1
+              },
+              "cost": {
+                "reported_total": 0.002037315,
+                "observed_calls": 14,
+                "unavailable_calls": 1
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 1,
+              "p50_ms": 8011.46670000162,
+              "p95_ms": 8011.46670000162
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 1,
+              "p50_ms": 20432.61450002319,
+              "p95_ms": 20432.61450002319
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 15,
+              "p50_ms": 1784.6483000030275,
+              "p95_ms": 2733.705899998313
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        }
+      ]
+    },
+    {
+      "name": "luna-smoke-waitfix-100",
+      "interpretation": "Post-wait-fix smoke; 6 authored cases x3 modes. Two model-assisted reviews with unresolved draft-boundary judgments null.",
+      "runtime": {
+        "commit": "76dd0d0be5f3a543d42dd229527283c1c1a8c34e",
+        "dirty": true,
+        "source_sha256": "fd39ee3db8ddb6ff8ce9f71a63094c8c9acbecedd02960a6c48731594535bf7d"
+      },
+      "manifest_status": "completed",
+      "publication_status": "completed",
+      "planned_records": 18,
+      "persisted_records": 18,
+      "fixture_sha256": "a2ce8221b09403ea7f74382375fc035f24bafdc0b694acb8496b0490edba8f1c",
+      "model": "openai/gpt-6-luna",
+      "groups": [
+        {
+          "suite": "challenge",
+          "fixture_group": "smoke",
+          "scale": 100,
+          "metadata": "current_state",
+          "model": "openai/gpt-6-luna",
+          "mode": "focus",
+          "record_count": 6,
+          "case_count": 6,
+          "statuses": {
+            "completed": 6,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 3,
+            "correct": 3,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 6,
+            "correct": 6,
+            "fraction": 1.0
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 4,
+            "correct": 4,
+            "fraction": 1.0
+          },
+          "mean_of_observed_case_rates": 1.0,
+          "cases_with_scored_attempts": 6,
+          "publication_source_metadata": {
+            "observed": 1,
+            "correct": 0,
+            "fraction": 0.0
+          },
+          "completed_callback_count": 1,
+          "response_semantics_review": {
+            "observed": 6,
+            "correct": 6,
+            "fraction": 1.0,
+            "eligible": 6,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 6,
+                "correct": 6,
+                "fraction": 1.0
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 5,
+            "correct": 5,
+            "fraction": 1.0,
+            "eligible": 6,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 5,
+                "correct": 5,
+                "fraction": 1.0
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 5,
+            "unreviewed_components": 1
+          },
+          "unnecessary_clarification_review": {
+            "observed": 6,
+            "fraction": 0.0,
+            "eligible": 6,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 6,
+                "fraction": 0.0,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 21,
+            "responses_returned": 21,
+            "network_requests_started": {
+              "reported_total": 21,
+              "observed_invocations": 21,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 91809,
+                "observed_calls": 21,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 1507,
+                "observed_calls": 21,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.00251331,
+                "observed_calls": 21,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 6,
+              "p50_ms": 8523.071549992892,
+              "p95_ms": 18311.20219998411
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 21,
+              "p50_ms": 2888.187900010962,
+              "p95_ms": 4551.388000021689
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        },
+        {
+          "suite": "challenge",
+          "fixture_group": "smoke",
+          "scale": 100,
+          "metadata": "current_state",
+          "model": "openai/gpt-6-luna",
+          "mode": "legacy",
+          "record_count": 6,
+          "case_count": 6,
+          "statuses": {
+            "completed": 6,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 3,
+            "correct": 3,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 6,
+            "correct": 6,
+            "fraction": 1.0
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 4,
+            "correct": 4,
+            "fraction": 1.0
+          },
+          "mean_of_observed_case_rates": 1.0,
+          "cases_with_scored_attempts": 6,
+          "publication_source_metadata": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null
+          },
+          "completed_callback_count": 1,
+          "response_semantics_review": {
+            "observed": 6,
+            "correct": 6,
+            "fraction": 1.0,
+            "eligible": 6,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 6,
+                "correct": 6,
+                "fraction": 1.0
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 5,
+            "correct": 5,
+            "fraction": 1.0,
+            "eligible": 6,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 5,
+                "correct": 5,
+                "fraction": 1.0
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 5,
+            "unreviewed_components": 1
+          },
+          "unnecessary_clarification_review": {
+            "observed": 6,
+            "fraction": 0.0,
+            "eligible": 6,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 6,
+                "fraction": 0.0,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 18,
+            "responses_returned": 18,
+            "network_requests_started": {
+              "reported_total": 18,
+              "observed_invocations": 18,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 76152,
+                "observed_calls": 18,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 1378,
+                "observed_calls": 18,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.002777305,
+                "observed_calls": 18,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 6,
+              "p50_ms": 8450.840149991564,
+              "p95_ms": 16887.49860000098
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 18,
+              "p50_ms": 2865.08839999442,
+              "p95_ms": 4312.956700014183
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        },
+        {
+          "suite": "challenge",
+          "fixture_group": "smoke",
+          "scale": 100,
+          "metadata": "current_state",
+          "model": "openai/gpt-6-luna",
+          "mode": "retrieval",
+          "record_count": 6,
+          "case_count": 6,
+          "statuses": {
+            "completed": 6,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 3,
+            "correct": 3,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 6,
+            "correct": 6,
+            "fraction": 1.0
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 4,
+            "correct": 4,
+            "fraction": 1.0
+          },
+          "mean_of_observed_case_rates": 1.0,
+          "cases_with_scored_attempts": 6,
+          "publication_source_metadata": {
+            "observed": 1,
+            "correct": 1,
+            "fraction": 1.0
+          },
+          "completed_callback_count": 1,
+          "response_semantics_review": {
+            "observed": 6,
+            "correct": 6,
+            "fraction": 1.0,
+            "eligible": 6,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 6,
+                "correct": 6,
+                "fraction": 1.0
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 5,
+            "correct": 5,
+            "fraction": 1.0,
+            "eligible": 6,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 5,
+                "correct": 5,
+                "fraction": 1.0
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 5,
+            "unreviewed_components": 1
+          },
+          "unnecessary_clarification_review": {
+            "observed": 6,
+            "fraction": 0.0,
+            "eligible": 6,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 6,
+                "fraction": 0.0,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 20,
+            "responses_returned": 20,
+            "network_requests_started": {
+              "reported_total": 20,
+              "observed_invocations": 20,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 86425,
+                "observed_calls": 20,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 1725,
+                "observed_calls": 20,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.00269585,
+                "observed_calls": 20,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 6,
+              "p50_ms": 9780.750999983866,
+              "p95_ms": 19201.2362999958
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 20,
+              "p50_ms": 3049.059450000641,
+              "p95_ms": 4263.559900020482
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        }
+      ]
+    },
+    {
+      "name": "luna-validation-1000",
+      "interpretation": "14 authored scenarios x3 modes x3 repeats. Two model-assisted packet reviews plus adjudication; unresolved evidence null. Not independent holdout.",
+      "runtime": {
+        "commit": "c2e3e930b7a462ee2802ab63ea462853c3854df7",
+        "dirty": false,
+        "source_sha256": "7ad818452e3f6e63efdb035b30017c0fc301350157031ecb2beec33b7ff9e06b"
+      },
+      "manifest_status": "completed",
+      "publication_status": "completed",
+      "planned_records": 126,
+      "persisted_records": 126,
+      "fixture_sha256": "485b3ec6aba1954d73b0e7dea00d46dc8aa0487d1cf5267746bc8b55ec21b957",
+      "model": "openai/gpt-6-luna",
+      "groups": [
+        {
+          "suite": "challenge",
+          "fixture_group": "validation",
+          "scale": 1000,
+          "metadata": "current_state",
+          "model": "openai/gpt-6-luna",
+          "mode": "focus",
+          "record_count": 42,
+          "case_count": 14,
+          "statuses": {
+            "completed": 42,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 27,
+            "correct": 26,
+            "fraction": 0.9629629629629629
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 42,
+            "correct": 33,
+            "fraction": 0.7857142857142857
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 30,
+            "correct": 25,
+            "fraction": 0.8333333333333334
+          },
+          "mean_of_observed_case_rates": 0.7857142857142857,
+          "cases_with_scored_attempts": 14,
+          "publication_source_metadata": {
+            "observed": 21,
+            "correct": 20,
+            "fraction": 0.9523809523809523
+          },
+          "completed_callback_count": 21,
+          "response_semantics_review": {
+            "observed": 38,
+            "correct": 31,
+            "fraction": 0.8157894736842105,
+            "eligible": 42,
+            "unreviewed": 4,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 38,
+                "correct": 31,
+                "fraction": 0.8157894736842105
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 12,
+            "correct": 12,
+            "fraction": 1.0,
+            "eligible": 21,
+            "unreviewed": 9,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 12,
+                "correct": 12,
+                "fraction": 1.0
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 32,
+            "correct": 26,
+            "fraction": 0.8125,
+            "eligible": 42,
+            "unreviewed": 10,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 32,
+                "correct": 26,
+                "fraction": 0.8125
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 32,
+            "unreviewed_components": 10
+          },
+          "unnecessary_clarification_review": {
+            "observed": 42,
+            "fraction": 0.0,
+            "eligible": 42,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 42,
+                "fraction": 0.0,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 179,
+            "responses_returned": 179,
+            "network_requests_started": {
+              "reported_total": 179,
+              "observed_invocations": 179,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 817914,
+                "observed_calls": 179,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 18848,
+                "observed_calls": 179,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.027760085,
+                "observed_calls": 179,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 42,
+              "p50_ms": 11814.049949985929,
+              "p95_ms": 24847.445299994433
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 179,
+              "p50_ms": 3008.244000026025,
+              "p95_ms": 5804.4746999803465
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        },
+        {
+          "suite": "challenge",
+          "fixture_group": "validation",
+          "scale": 1000,
+          "metadata": "current_state",
+          "model": "openai/gpt-6-luna",
+          "mode": "legacy",
+          "record_count": 42,
+          "case_count": 14,
+          "statuses": {
+            "completed": 42,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 27,
+            "correct": 27,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 42,
+            "correct": 27,
+            "fraction": 0.6428571428571429
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 30,
+            "correct": 28,
+            "fraction": 0.9333333333333333
+          },
+          "mean_of_observed_case_rates": 0.6428571428571429,
+          "cases_with_scored_attempts": 14,
+          "publication_source_metadata": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null
+          },
+          "completed_callback_count": 21,
+          "response_semantics_review": {
+            "observed": 36,
+            "correct": 24,
+            "fraction": 0.6666666666666666,
+            "eligible": 42,
+            "unreviewed": 6,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 36,
+                "correct": 24,
+                "fraction": 0.6666666666666666
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 13,
+            "correct": 10,
+            "fraction": 0.7692307692307693,
+            "eligible": 21,
+            "unreviewed": 8,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 13,
+                "correct": 10,
+                "fraction": 0.7692307692307693
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 32,
+            "correct": 21,
+            "fraction": 0.65625,
+            "eligible": 42,
+            "unreviewed": 10,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 32,
+                "correct": 21,
+                "fraction": 0.65625
+              }
+            },
+            "structural_failures": 4,
+            "complete_component_reviews": 30,
+            "unreviewed_components": 12
+          },
+          "unnecessary_clarification_review": {
+            "observed": 42,
+            "fraction": 0.0,
+            "eligible": 42,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 42,
+                "fraction": 0.0,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 167,
+            "responses_returned": 167,
+            "network_requests_started": {
+              "reported_total": 167,
+              "observed_invocations": 167,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 3439273,
+                "observed_calls": 167,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 16549,
+                "observed_calls": 167,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.117236345,
+                "observed_calls": 167,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 42,
+              "p50_ms": 9742.778050000197,
+              "p95_ms": 22443.197800021153
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 167,
+              "p50_ms": 3104.334999981802,
+              "p95_ms": 5414.431600016542
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        },
+        {
+          "suite": "challenge",
+          "fixture_group": "validation",
+          "scale": 1000,
+          "metadata": "current_state",
+          "model": "openai/gpt-6-luna",
+          "mode": "retrieval",
+          "record_count": 42,
+          "case_count": 14,
+          "statuses": {
+            "completed": 42,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 27,
+            "correct": 24,
+            "fraction": 0.8888888888888888
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 42,
+            "correct": 32,
+            "fraction": 0.7619047619047619
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 30,
+            "correct": 25,
+            "fraction": 0.8333333333333334
+          },
+          "mean_of_observed_case_rates": 0.7619047619047619,
+          "cases_with_scored_attempts": 14,
+          "publication_source_metadata": {
+            "observed": 21,
+            "correct": 21,
+            "fraction": 1.0
+          },
+          "completed_callback_count": 21,
+          "response_semantics_review": {
+            "observed": 39,
+            "correct": 33,
+            "fraction": 0.8461538461538461,
+            "eligible": 42,
+            "unreviewed": 3,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 39,
+                "correct": 33,
+                "fraction": 0.8461538461538461
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 10,
+            "correct": 10,
+            "fraction": 1.0,
+            "eligible": 21,
+            "unreviewed": 11,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 10,
+                "correct": 10,
+                "fraction": 1.0
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 31,
+            "correct": 25,
+            "fraction": 0.8064516129032258,
+            "eligible": 42,
+            "unreviewed": 11,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 31,
+                "correct": 25,
+                "fraction": 0.8064516129032258
+              }
+            },
+            "structural_failures": 1,
+            "complete_component_reviews": 31,
+            "unreviewed_components": 11
+          },
+          "unnecessary_clarification_review": {
+            "observed": 42,
+            "fraction": 0.0,
+            "eligible": 42,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 42,
+                "fraction": 0.0,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 191,
+            "responses_returned": 191,
+            "network_requests_started": {
+              "reported_total": 191,
+              "observed_invocations": 191,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 873976,
+                "observed_calls": 191,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 19645,
+                "observed_calls": 191,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.029282725,
+                "observed_calls": 191,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 42,
+              "p50_ms": 12244.717699999455,
+              "p95_ms": 22587.007499998435
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 191,
+              "p50_ms": 3022.7094999863766,
+              "p95_ms": 4754.110699985176
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        }
+      ]
+    },
+    {
+      "name": "luna-extension-1000",
+      "interpretation": "20 additional authored scenarios x3 modes, one model-assisted metadata-blind reviewer; not independent holdout. Visible rewrites do not prove provider draft updates.",
+      "runtime": {
+        "commit": "57e38a06a31a9267992435fddacb98d3044b64e6",
+        "dirty": false,
+        "source_sha256": "60ee98ae3d5ca01c9d728dbad5411e6200805c37c53d31b1642496433050787d"
+      },
+      "manifest_status": "completed",
+      "publication_status": "completed",
+      "planned_records": 60,
+      "persisted_records": 60,
+      "fixture_sha256": "58087c06f706f71b5dfbaf38949cbec1b1f16fec11e7e53da720a75245952dc9",
+      "model": "openai/gpt-6-luna",
+      "groups": [
+        {
+          "suite": "extension",
+          "fixture_group": "extension",
+          "scale": 1000,
+          "metadata": "current_state",
+          "model": "openai/gpt-6-luna",
+          "mode": "focus",
+          "record_count": 20,
+          "case_count": 20,
+          "statuses": {
+            "completed": 20,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 11,
+            "correct": 11,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 20,
+            "correct": 18,
+            "fraction": 0.9
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 14,
+            "correct": 13,
+            "fraction": 0.9285714285714286
+          },
+          "mean_of_observed_case_rates": 0.9,
+          "cases_with_scored_attempts": 20,
+          "publication_source_metadata": {
+            "observed": 5,
+            "correct": 5,
+            "fraction": 1.0
+          },
+          "completed_callback_count": 5,
+          "response_semantics_review": {
+            "observed": 20,
+            "correct": 19,
+            "fraction": 0.95,
+            "eligible": 20,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 20,
+                "correct": 19,
+                "fraction": 0.95
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 5,
+            "correct": 5,
+            "fraction": 1.0,
+            "eligible": 5,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 5,
+                "correct": 5,
+                "fraction": 1.0
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 20,
+            "correct": 19,
+            "fraction": 0.95,
+            "eligible": 20,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 20,
+                "correct": 19,
+                "fraction": 0.95
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 20,
+            "unreviewed_components": 0
+          },
+          "unnecessary_clarification_review": {
+            "observed": 20,
+            "fraction": 0.0,
+            "eligible": 20,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 20,
+                "fraction": 0.0,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 69,
+            "responses_returned": 69,
+            "network_requests_started": {
+              "reported_total": 69,
+              "observed_invocations": 69,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 311336,
+                "observed_calls": 69,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 6737,
+                "observed_calls": 69,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.00979363,
+                "observed_calls": 69,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 20,
+              "p50_ms": 9572.821049994673,
+              "p95_ms": 18981.989599997178
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 69,
+              "p50_ms": 3224.6586000255775,
+              "p95_ms": 4519.877200014889
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        },
+        {
+          "suite": "extension",
+          "fixture_group": "extension",
+          "scale": 1000,
+          "metadata": "current_state",
+          "model": "openai/gpt-6-luna",
+          "mode": "legacy",
+          "record_count": 20,
+          "case_count": 20,
+          "statuses": {
+            "completed": 20,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 11,
+            "correct": 11,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 20,
+            "correct": 18,
+            "fraction": 0.9
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 14,
+            "correct": 13,
+            "fraction": 0.9285714285714286
+          },
+          "mean_of_observed_case_rates": 0.9,
+          "cases_with_scored_attempts": 20,
+          "publication_source_metadata": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null
+          },
+          "completed_callback_count": 5,
+          "response_semantics_review": {
+            "observed": 20,
+            "correct": 19,
+            "fraction": 0.95,
+            "eligible": 20,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 20,
+                "correct": 19,
+                "fraction": 0.95
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 5,
+            "correct": 5,
+            "fraction": 1.0,
+            "eligible": 5,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 5,
+                "correct": 5,
+                "fraction": 1.0
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 20,
+            "correct": 19,
+            "fraction": 0.95,
+            "eligible": 20,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 20,
+                "correct": 19,
+                "fraction": 0.95
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 20,
+            "unreviewed_components": 0
+          },
+          "unnecessary_clarification_review": {
+            "observed": 20,
+            "fraction": 0.0,
+            "eligible": 20,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 20,
+                "fraction": 0.0,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 64,
+            "responses_returned": 64,
+            "network_requests_started": {
+              "reported_total": 64,
+              "observed_invocations": 64,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 1316575,
+                "observed_calls": 64,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 6089,
+                "observed_calls": 64,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.068653845,
+                "observed_calls": 64,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 20,
+              "p50_ms": 11122.681099994224,
+              "p95_ms": 19418.03020000225
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 64,
+              "p50_ms": 3311.3697500084527,
+              "p95_ms": 5417.8957999974955
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        },
+        {
+          "suite": "extension",
+          "fixture_group": "extension",
+          "scale": 1000,
+          "metadata": "current_state",
+          "model": "openai/gpt-6-luna",
+          "mode": "retrieval",
+          "record_count": 20,
+          "case_count": 20,
+          "statuses": {
+            "completed": 20,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 11,
+            "correct": 11,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 20,
+            "correct": 17,
+            "fraction": 0.85
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 14,
+            "correct": 14,
+            "fraction": 1.0
+          },
+          "mean_of_observed_case_rates": 0.85,
+          "cases_with_scored_attempts": 20,
+          "publication_source_metadata": {
+            "observed": 5,
+            "correct": 5,
+            "fraction": 1.0
+          },
+          "completed_callback_count": 5,
+          "response_semantics_review": {
+            "observed": 19,
+            "correct": 16,
+            "fraction": 0.8421052631578947,
+            "eligible": 20,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 19,
+                "correct": 16,
+                "fraction": 0.8421052631578947
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 5,
+            "correct": 5,
+            "fraction": 1.0,
+            "eligible": 5,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 5,
+                "correct": 5,
+                "fraction": 1.0
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 19,
+            "correct": 16,
+            "fraction": 0.8421052631578947,
+            "eligible": 20,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 19,
+                "correct": 16,
+                "fraction": 0.8421052631578947
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 19,
+            "unreviewed_components": 1
+          },
+          "unnecessary_clarification_review": {
+            "observed": 20,
+            "fraction": 0.0,
+            "eligible": 20,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 20,
+                "fraction": 0.0,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 71,
+            "responses_returned": 71,
+            "network_requests_started": {
+              "reported_total": 71,
+              "observed_invocations": 71,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 325112,
+                "observed_calls": 71,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 6627,
+                "observed_calls": 71,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.0112429,
+                "observed_calls": 71,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 20,
+              "p50_ms": 8766.854400004377,
+              "p95_ms": 17415.96290000598
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 71,
+              "p50_ms": 2989.041000022553,
+              "p95_ms": 4254.644400003599
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        }
+      ]
+    },
+    {
+      "name": "luna-stress-10000",
+      "interpretation": "14 validation scenarios x2 bounded modes, one repeat; automated metrics only unless joined reviews are explicitly present. No 10,000-worker live full-roster baseline.",
+      "runtime": {
+        "commit": "57e38a06a31a9267992435fddacb98d3044b64e6",
+        "dirty": true,
+        "source_sha256": "a7998f709b676a2b89f97e3a29a8c961023ebbfaace3da1a30696dab29e3fb6d"
+      },
+      "manifest_status": "completed",
+      "publication_status": "completed",
+      "planned_records": 28,
+      "persisted_records": 28,
+      "fixture_sha256": "485b3ec6aba1954d73b0e7dea00d46dc8aa0487d1cf5267746bc8b55ec21b957",
+      "model": "openai/gpt-6-luna",
+      "groups": [
+        {
+          "suite": "challenge",
+          "fixture_group": "validation",
+          "scale": 10000,
+          "metadata": "current_state",
+          "model": "openai/gpt-6-luna",
+          "mode": "focus",
+          "record_count": 14,
+          "case_count": 14,
+          "statuses": {
+            "completed": 14,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 9,
+            "correct": 9,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 11,
+            "correct": 8,
+            "fraction": 0.7272727272727273
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 10,
+            "correct": 9,
+            "fraction": 0.9
+          },
+          "mean_of_observed_case_rates": 0.7272727272727273,
+          "cases_with_scored_attempts": 11,
+          "publication_source_metadata": {
+            "observed": 7,
+            "correct": 7,
+            "fraction": 1.0
+          },
+          "completed_callback_count": 7,
+          "response_semantics_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 14,
+            "unreviewed": 14,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 7,
+            "unreviewed": 7,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 1,
+            "correct": 0,
+            "fraction": 0.0,
+            "eligible": 14,
+            "unreviewed": 13,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            },
+            "structural_failures": 1,
+            "complete_component_reviews": 0,
+            "unreviewed_components": 14
+          },
+          "unnecessary_clarification_review": {
+            "observed": 0,
+            "fraction": null,
+            "eligible": 14,
+            "unreviewed": 14,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 3,
+          "resources": {
+            "recorded_model_invocations": 64,
+            "responses_returned": 64,
+            "network_requests_started": {
+              "reported_total": 64,
+              "observed_invocations": 64,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 292701,
+                "observed_calls": 64,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 7282,
+                "observed_calls": 64,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.010489885000000001,
+                "observed_calls": 64,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 14,
+              "p50_ms": 14332.548849997693,
+              "p95_ms": 40337.580399995204
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 64,
+              "p50_ms": 2998.7789500009967,
+              "p95_ms": 5778.355999995256
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        },
+        {
+          "suite": "challenge",
+          "fixture_group": "validation",
+          "scale": 10000,
+          "metadata": "current_state",
+          "model": "openai/gpt-6-luna",
+          "mode": "retrieval",
+          "record_count": 14,
+          "case_count": 14,
+          "statuses": {
+            "completed": 14,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 9,
+            "correct": 8,
+            "fraction": 0.8888888888888888
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 11,
+            "correct": 9,
+            "fraction": 0.8181818181818182
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 10,
+            "correct": 9,
+            "fraction": 0.9
+          },
+          "mean_of_observed_case_rates": 0.8181818181818182,
+          "cases_with_scored_attempts": 11,
+          "publication_source_metadata": {
+            "observed": 7,
+            "correct": 7,
+            "fraction": 1.0
+          },
+          "completed_callback_count": 7,
+          "response_semantics_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 14,
+            "unreviewed": 14,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 7,
+            "unreviewed": 7,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 14,
+            "unreviewed": 14,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 0,
+            "unreviewed_components": 14
+          },
+          "unnecessary_clarification_review": {
+            "observed": 0,
+            "fraction": null,
+            "eligible": 14,
+            "unreviewed": 14,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 3,
+          "resources": {
+            "recorded_model_invocations": 63,
+            "responses_returned": 63,
+            "network_requests_started": {
+              "reported_total": 63,
+              "observed_invocations": 63,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 292928,
+                "observed_calls": 63,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 6442,
+                "observed_calls": 63,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.01028613,
+                "observed_calls": 63,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 14,
+              "p50_ms": 13351.404899978661,
+              "p95_ms": 25484.15189998923
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 63,
+              "p50_ms": 2866.417300014291,
+              "p95_ms": 5313.68819999625
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        }
+      ]
+    },
+    {
+      "name": "sonnet-confirmation-1000",
+      "interpretation": "Interrupted when execution session disappeared: manifest is an original running snapshot, not completion. One result persisted; partial second trial may have spent calls without a result. Preserved separately, never pooled with recovery.",
+      "runtime": {
+        "commit": "57e38a06a31a9267992435fddacb98d3044b64e6",
+        "dirty": true,
+        "source_sha256": "a7998f709b676a2b89f97e3a29a8c961023ebbfaace3da1a30696dab29e3fb6d"
+      },
+      "manifest_status": "running",
+      "publication_status": "interrupted",
+      "planned_records": 24,
+      "persisted_records": 1,
+      "fixture_sha256": "2ef9edf0fac787a11f3ca547c20103adb29826162f5d0c809ee971cf0596bc02",
+      "model": "anthropic/claude-sonnet-4.6",
+      "groups": [
+        {
+          "suite": "challenge",
+          "fixture_group": "smoke",
+          "scale": 1000,
+          "metadata": "current_state",
+          "model": "anthropic/claude-sonnet-4.6",
+          "mode": "legacy",
+          "record_count": 1,
+          "case_count": 1,
+          "statuses": {
+            "completed": 1,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 1,
+            "correct": 1,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 1,
+            "correct": 1,
+            "fraction": 1.0
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 1,
+            "correct": 1,
+            "fraction": 1.0
+          },
+          "mean_of_observed_case_rates": 1.0,
+          "cases_with_scored_attempts": 1,
+          "publication_source_metadata": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null
+          },
+          "completed_callback_count": 1,
+          "response_semantics_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 0,
+            "unreviewed_components": 1
+          },
+          "unnecessary_clarification_review": {
+            "observed": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 6,
+            "responses_returned": 6,
+            "network_requests_started": {
+              "reported_total": 6,
+              "observed_invocations": 6,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 150072,
+                "observed_calls": 6,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 440,
+                "observed_calls": 6,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.456816,
+                "observed_calls": 6,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 1,
+              "p50_ms": 17500.868399976753,
+              "p95_ms": 17500.868399976753
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 6,
+              "p50_ms": 2355.548599982285,
+              "p95_ms": 5433.740600012243
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        }
+      ]
+    },
+    {
+      "name": "sonnet-confirmation-recovery-1000",
+      "interpretation": "Fresh Sonnet rerun after interrupted host/session; separate result directory and reservations. Do not pool interrupted first trial.",
+      "runtime": {
+        "commit": "0b884a6ff110fe60e3da383d478ae37ab749d913",
+        "dirty": true,
+        "source_sha256": "ee59afc60ec74638539a52ae7f08d8758591432324d2465d62e668b8ce588d53"
+      },
+      "manifest_status": "completed",
+      "publication_status": "completed",
+      "planned_records": 24,
+      "persisted_records": 24,
+      "fixture_sha256": "2ef9edf0fac787a11f3ca547c20103adb29826162f5d0c809ee971cf0596bc02",
+      "model": "anthropic/claude-sonnet-4.6",
+      "groups": [
+        {
+          "suite": "challenge",
+          "fixture_group": "smoke",
+          "scale": 1000,
+          "metadata": "current_state",
+          "model": "anthropic/claude-sonnet-4.6",
+          "mode": "focus",
+          "record_count": 4,
+          "case_count": 4,
+          "statuses": {
+            "completed": 4,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 1,
+            "correct": 1,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 4,
+            "correct": 4,
+            "fraction": 1.0
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 2,
+            "correct": 2,
+            "fraction": 1.0
+          },
+          "mean_of_observed_case_rates": 1.0,
+          "cases_with_scored_attempts": 4,
+          "publication_source_metadata": {
+            "observed": 1,
+            "correct": 1,
+            "fraction": 1.0
+          },
+          "completed_callback_count": 1,
+          "response_semantics_review": {
+            "observed": 4,
+            "correct": 4,
+            "fraction": 1.0,
+            "eligible": 4,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 4,
+                "correct": 4,
+                "fraction": 1.0
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 3,
+            "correct": 3,
+            "fraction": 1.0,
+            "eligible": 4,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 3,
+                "correct": 3,
+                "fraction": 1.0
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 3,
+            "unreviewed_components": 1
+          },
+          "unnecessary_clarification_review": {
+            "observed": 4,
+            "fraction": 0.0,
+            "eligible": 4,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 4,
+                "fraction": 0.0,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 10,
+            "responses_returned": 10,
+            "network_requests_started": {
+              "reported_total": 10,
+              "observed_invocations": 10,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 57688,
+                "observed_calls": 10,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 685,
+                "observed_calls": 10,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.183339,
+                "observed_calls": 10,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 4,
+              "p50_ms": 5089.142700002412,
+              "p95_ms": 17340.464599983534
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 10,
+              "p50_ms": 2574.2690499901073,
+              "p95_ms": 4932.49440001091
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        },
+        {
+          "suite": "challenge",
+          "fixture_group": "smoke",
+          "scale": 1000,
+          "metadata": "current_state",
+          "model": "anthropic/claude-sonnet-4.6",
+          "mode": "legacy",
+          "record_count": 4,
+          "case_count": 4,
+          "statuses": {
+            "completed": 4,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 1,
+            "correct": 1,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 4,
+            "correct": 3,
+            "fraction": 0.75
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 2,
+            "correct": 2,
+            "fraction": 1.0
+          },
+          "mean_of_observed_case_rates": 0.75,
+          "cases_with_scored_attempts": 4,
+          "publication_source_metadata": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null
+          },
+          "completed_callback_count": 1,
+          "response_semantics_review": {
+            "observed": 4,
+            "correct": 2,
+            "fraction": 0.5,
+            "eligible": 4,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 4,
+                "correct": 2,
+                "fraction": 0.5
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 3,
+            "correct": 2,
+            "fraction": 0.6666666666666666,
+            "eligible": 4,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 3,
+                "correct": 2,
+                "fraction": 0.6666666666666666
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 3,
+            "unreviewed_components": 1
+          },
+          "unnecessary_clarification_review": {
+            "observed": 4,
+            "fraction": 0.0,
+            "eligible": 4,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 4,
+                "fraction": 0.0,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 12,
+            "responses_returned": 12,
+            "network_requests_started": {
+              "reported_total": 12,
+              "observed_invocations": 12,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 298661,
+                "observed_calls": 12,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 798,
+                "observed_calls": 12,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.907953,
+                "observed_calls": 12,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 4,
+              "p50_ms": 7428.204899988486,
+              "p95_ms": 17820.64329998684
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 12,
+              "p50_ms": 2998.3708999934606,
+              "p95_ms": 5350.980799994431
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        },
+        {
+          "suite": "challenge",
+          "fixture_group": "smoke",
+          "scale": 1000,
+          "metadata": "current_state",
+          "model": "anthropic/claude-sonnet-4.6",
+          "mode": "retrieval",
+          "record_count": 4,
+          "case_count": 4,
+          "statuses": {
+            "completed": 4,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 1,
+            "correct": 1,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 4,
+            "correct": 4,
+            "fraction": 1.0
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 2,
+            "correct": 2,
+            "fraction": 1.0
+          },
+          "mean_of_observed_case_rates": 1.0,
+          "cases_with_scored_attempts": 4,
+          "publication_source_metadata": {
+            "observed": 1,
+            "correct": 1,
+            "fraction": 1.0
+          },
+          "completed_callback_count": 1,
+          "response_semantics_review": {
+            "observed": 4,
+            "correct": 4,
+            "fraction": 1.0,
+            "eligible": 4,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 4,
+                "correct": 4,
+                "fraction": 1.0
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null,
+            "eligible": 1,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 3,
+            "correct": 3,
+            "fraction": 1.0,
+            "eligible": 4,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 3,
+                "correct": 3,
+                "fraction": 1.0
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 3,
+            "unreviewed_components": 1
+          },
+          "unnecessary_clarification_review": {
+            "observed": 4,
+            "fraction": 0.0,
+            "eligible": 4,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 4,
+                "fraction": 0.0,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 10,
+            "responses_returned": 10,
+            "network_requests_started": {
+              "reported_total": 10,
+              "observed_invocations": 10,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 57716,
+                "observed_calls": 10,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 686,
+                "observed_calls": 10,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.183438,
+                "observed_calls": 10,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 4,
+              "p50_ms": 5050.245499995071,
+              "p95_ms": 45053.52809999022
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 10,
+              "p50_ms": 2899.9977000057697,
+              "p95_ms": 28658.508900000015
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        },
+        {
+          "suite": "challenge",
+          "fixture_group": "validation",
+          "scale": 1000,
+          "metadata": "current_state",
+          "model": "anthropic/claude-sonnet-4.6",
+          "mode": "focus",
+          "record_count": 4,
+          "case_count": 4,
+          "statuses": {
+            "completed": 4,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 3,
+            "correct": 3,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 4,
+            "correct": 3,
+            "fraction": 0.75
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 3,
+            "correct": 2,
+            "fraction": 0.6666666666666666
+          },
+          "mean_of_observed_case_rates": 0.75,
+          "cases_with_scored_attempts": 4,
+          "publication_source_metadata": {
+            "observed": 2,
+            "correct": 2,
+            "fraction": 1.0
+          },
+          "completed_callback_count": 2,
+          "response_semantics_review": {
+            "observed": 4,
+            "correct": 3,
+            "fraction": 0.75,
+            "eligible": 4,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 4,
+                "correct": 3,
+                "fraction": 0.75
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 1,
+            "correct": 1,
+            "fraction": 1.0,
+            "eligible": 2,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 1,
+                "correct": 1,
+                "fraction": 1.0
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 3,
+            "correct": 2,
+            "fraction": 0.6666666666666666,
+            "eligible": 4,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 3,
+                "correct": 2,
+                "fraction": 0.6666666666666666
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 3,
+            "unreviewed_components": 1
+          },
+          "unnecessary_clarification_review": {
+            "observed": 4,
+            "fraction": 0.0,
+            "eligible": 4,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 4,
+                "fraction": 0.0,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 17,
+            "responses_returned": 17,
+            "network_requests_started": {
+              "reported_total": 17,
+              "observed_invocations": 17,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 105860,
+                "observed_calls": 17,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 1555,
+                "observed_calls": 17,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.340905,
+                "observed_calls": 17,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 4,
+              "p50_ms": 12729.672599991318,
+              "p95_ms": 18769.739399984246
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 17,
+              "p50_ms": 2334.243699995568,
+              "p95_ms": 5746.872699994128
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        },
+        {
+          "suite": "challenge",
+          "fixture_group": "validation",
+          "scale": 1000,
+          "metadata": "current_state",
+          "model": "anthropic/claude-sonnet-4.6",
+          "mode": "legacy",
+          "record_count": 4,
+          "case_count": 4,
+          "statuses": {
+            "completed": 4,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 3,
+            "correct": 3,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 4,
+            "correct": 3,
+            "fraction": 0.75
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 3,
+            "correct": 3,
+            "fraction": 1.0
+          },
+          "mean_of_observed_case_rates": 0.75,
+          "cases_with_scored_attempts": 4,
+          "publication_source_metadata": {
+            "observed": 0,
+            "correct": 0,
+            "fraction": null
+          },
+          "completed_callback_count": 2,
+          "response_semantics_review": {
+            "observed": 3,
+            "correct": 2,
+            "fraction": 0.6666666666666666,
+            "eligible": 4,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 3,
+                "correct": 2,
+                "fraction": 0.6666666666666666
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 2,
+            "correct": 2,
+            "fraction": 1.0,
+            "eligible": 2,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 2,
+                "correct": 2,
+                "fraction": 1.0
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 3,
+            "correct": 2,
+            "fraction": 0.6666666666666666,
+            "eligible": 4,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 3,
+                "correct": 2,
+                "fraction": 0.6666666666666666
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 3,
+            "unreviewed_components": 1
+          },
+          "unnecessary_clarification_review": {
+            "observed": 4,
+            "fraction": 0.0,
+            "eligible": 4,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 4,
+                "fraction": 0.0,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 17,
+            "responses_returned": 17,
+            "network_requests_started": {
+              "reported_total": 17,
+              "observed_invocations": 17,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 423268,
+                "observed_calls": 17,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 1153,
+                "observed_calls": 17,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 1.287099,
+                "observed_calls": 17,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 4,
+              "p50_ms": 12506.952600015211,
+              "p95_ms": 18140.15200000722
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 17,
+              "p50_ms": 3095.6357999821194,
+              "p95_ms": 4707.416799996281
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        },
+        {
+          "suite": "challenge",
+          "fixture_group": "validation",
+          "scale": 1000,
+          "metadata": "current_state",
+          "model": "anthropic/claude-sonnet-4.6",
+          "mode": "retrieval",
+          "record_count": 4,
+          "case_count": 4,
+          "statuses": {
+            "completed": 4,
+            "not_run": 0,
+            "incomplete": 0,
+            "operational_error": 0
+          },
+          "candidate_inclusion": {
+            "observed": 3,
+            "correct": 3,
+            "fraction": 1.0
+          },
+          "dispatch_or_reviewed_response_attempts": {
+            "observed": 4,
+            "correct": 3,
+            "fraction": 0.75
+          },
+          "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+          "automatic_dispatch_identity": {
+            "observed": 3,
+            "correct": 2,
+            "fraction": 0.6666666666666666
+          },
+          "mean_of_observed_case_rates": 0.75,
+          "cases_with_scored_attempts": 4,
+          "publication_source_metadata": {
+            "observed": 2,
+            "correct": 1,
+            "fraction": 0.5
+          },
+          "completed_callback_count": 2,
+          "response_semantics_review": {
+            "observed": 4,
+            "correct": 3,
+            "fraction": 0.75,
+            "eligible": 4,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 4,
+                "correct": 3,
+                "fraction": 0.75
+              }
+            }
+          },
+          "publication_content_review": {
+            "observed": 1,
+            "correct": 0,
+            "fraction": 0.0,
+            "eligible": 2,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 1,
+                "correct": 0,
+                "fraction": 0.0
+              }
+            }
+          },
+          "joint_scenario_behavior_review": {
+            "observed": 3,
+            "correct": 1,
+            "fraction": 0.3333333333333333,
+            "eligible": 4,
+            "unreviewed": 1,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "correct": 0,
+                "fraction": null
+              },
+              "model_assisted": {
+                "observed": 3,
+                "correct": 1,
+                "fraction": 0.3333333333333333
+              }
+            },
+            "structural_failures": 0,
+            "complete_component_reviews": 3,
+            "unreviewed_components": 1
+          },
+          "unnecessary_clarification_review": {
+            "observed": 4,
+            "fraction": 0.0,
+            "eligible": 4,
+            "unreviewed": 0,
+            "by_reviewer_type": {
+              "human": {
+                "observed": 0,
+                "fraction": null,
+                "unnecessary": 0
+              },
+              "model_assisted": {
+                "observed": 4,
+                "fraction": 0.0,
+                "unnecessary": 0
+              }
+            },
+            "unnecessary": 0
+          },
+          "completed_unscored": 0,
+          "resources": {
+            "recorded_model_invocations": 16,
+            "responses_returned": 16,
+            "network_requests_started": {
+              "reported_total": 16,
+              "observed_invocations": 16,
+              "unavailable_invocations": 0
+            },
+            "calls_without_usage_object": 0,
+            "provider_reported_usage": {
+              "prompt_tokens": {
+                "reported_total": 98938,
+                "observed_calls": 16,
+                "unavailable_calls": 0
+              },
+              "completion_tokens": {
+                "reported_total": 1550,
+                "observed_calls": 16,
+                "unavailable_calls": 0
+              },
+              "cost": {
+                "reported_total": 0.320064,
+                "observed_calls": 16,
+                "unavailable_calls": 0
+              }
+            },
+            "completed_scenario_local_wall_latency": {
+              "observed": 4,
+              "p50_ms": 11539.10845000064,
+              "p95_ms": 19530.992200016044
+            },
+            "partial_or_error_scenario_local_wall_latency": {
+              "observed": 0,
+              "p50_ms": null,
+              "p95_ms": null
+            },
+            "recorded_model_invocation_local_wall_latency": {
+              "observed": 16,
+              "p50_ms": 3141.6074999870034,
+              "p95_ms": 6289.3577000068035
+            },
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
+            "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."
+          }
+        }
+      ]
+    }
+  ],
+  "archive": {
+    "path": "live-routing-records.zip",
+    "sha256": "04b86bed14812520f8ce36a4fed6fc037bf99a58f8bad66121fa59cf8d4fe674",
+    "bytes": 911871
+  }
+}

@@ -1,0 +1,1391 @@
+{
+  "runtime_commit": "0b884a6ff110fe60e3da383d478ae37ab749d913",
+  "original_report_sha256": "919844b690f67fd9a907f51e793ed66161653c1667963ef577de30e82188aa21",
+  "redactions": [
+    "retained_state_directory made repository-relative"
+  ],
+  "manifest": {
+    "started_at": "2026-10-28T22:07:31.243328+00:00",
+    "status": "completed",
+    "model": "openai/gpt-6-luna",
+    "input_rate": 0.2,
+    "output_rate": 0.75,
+    "max_calls": 40,
+    "max_estimated_usd": 2.0,
+    "max_output_tokens": 2048,
+    "min_call_interval_seconds": 3.0,
+    "ledger_before": {
+      "total_usd": 50.0,
+      "max_calls": 5000,
+      "calls": 1049,
+      "reserved_calls": 1049,
+      "reserved_estimated_usd": 26.303777487,
+      "remaining_calls": 3951,
+      "remaining_estimated_usd": 23.696222513,
+      "accounting": "conservative reservations, not actual provider charges"
+    },
+    "simulated_gmail": true,
+    "real_account_access": false,
+    "request": "Use the existing Maya lease renewal task to create a draft to maya@example.test. Use the exact subject and body between these delimiters; the delimiters are not part of the email.\n<email_subject>Linden Street lease renewal</email_subject>\n<email_body>Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.</email_body>\nShow me the complete draft before sending. Do not send it yet.",
+    "automatic_success": true,
+    "stop_reason": null,
+    "ledger_after": {
+      "total_usd": 50.0,
+      "max_calls": 5000,
+      "calls": 1064,
+      "reserved_calls": 1064,
+      "reserved_estimated_usd": 26.388281088,
+      "remaining_calls": 3936,
+      "remaining_estimated_usd": 23.611718912,
+      "accounting": "conservative reservations, not actual provider charges"
+    },
+    "local_model_calls": 15,
+    "local_reserved_estimated_usd": 0.08450359999999998
+  },
+  "report": {
+    "evaluation": "live-model internal integration with simulated Gmail",
+    "record_status": "completed",
+    "stop_reason": null,
+    "automatic_success": true,
+    "real_gmail_access": false,
+    "provider_validation": false,
+    "manual_content_review_required": true,
+    "success_definition": "All listed strict integration checks pass; a recovered tool error can fail no_tool_errors even if the final deliverable is correct.",
+    "memory_observation": "The saved draft ID is available in the fresh worker prompt. This does not prove causal reliance on archive memory; the prompt also contains current instructions and catalog state.",
+    "request": "Use the existing Maya lease renewal task to create a draft to maya@example.test. Use the exact subject and body between these delimiters; the delimiters are not part of the email.\n<email_subject>Linden Street lease renewal</email_subject>\n<email_body>Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.</email_body>\nShow me the complete draft before sending. Do not send it yet.",
+    "confirmation": "Yes, send it.",
+    "expected_draft": {
+      "recipient_email": "maya@example.test",
+      "subject": "Linden Street lease renewal",
+      "body": "Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you."
+    },
+    "approved_simulated_snapshot": {
+      "id": "demo-draft-0001",
+      "recipient_email": "maya@example.test",
+      "subject": "Linden Street lease renewal",
+      "body": "Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.",
+      "is_html": false
+    },
+    "checks": {
+      "one_exact_requested_draft": true,
+      "no_send_attempt_before_confirmation": true,
+      "confirmation_only_after_exact_draft_shown": true,
+      "one_simulated_send_of_approved_snapshot": true,
+      "same_worker_dispatched_once_per_user_turn": true,
+      "two_distinct_worker_runtimes": true,
+      "continuation_prompt_contains_saved_draft_id": true,
+      "create_receipt_stored_in_worker_journal": true,
+      "callback_sources_match_actual_worker_runs": true,
+      "draft_publication_has_actual_source_id": true,
+      "all_runtime_results_successful": true,
+      "no_tool_errors": true
+    },
+    "simulated_gmail": {
+      "simulated": true,
+      "drafts": {
+        "demo-draft-0001": {
+          "id": "demo-draft-0001",
+          "recipient_email": "maya@example.test",
+          "subject": "Linden Street lease renewal",
+          "body": "Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.",
+          "is_html": false
+        }
+      },
+      "sent": [
+        {
+          "id": "demo-draft-0001",
+          "recipient_email": "maya@example.test",
+          "subject": "Linden Street lease renewal",
+          "body": "Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.",
+          "is_html": false
+        }
+      ],
+      "events": [
+        {
+          "phase": "draft",
+          "tool": "GMAIL_CREATE_EMAIL_DRAFT",
+          "arguments": {
+            "recipient_email": "maya@example.test",
+            "subject": "Linden Street lease renewal",
+            "body": "Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.",
+            "is_html": false
+          },
+          "success": true,
+          "draft_id": "demo-draft-0001"
+        },
+        {
+          "phase": "confirmation",
+          "tool": "GMAIL_SEND_DRAFT",
+          "arguments": {
+            "draft_id": "demo-draft-0001"
+          },
+          "success": true,
+          "draft_id": "demo-draft-0001"
+        }
+      ]
+    },
+    "calls": [
+      {
+        "phase": "draft",
+        "role": "interaction",
+        "model": "openai/gpt-6-luna",
+        "status": "returned",
+        "input_characters": 16493,
+        "worker": null,
+        "run_id": null,
+        "usage": {
+          "prompt_tokens": 3156,
+          "completion_tokens": 77,
+          "total_tokens": 3233,
+          "cost": 9.701e-05,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 2921,
+            "cache_write_tokens": 232,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 9.701e-05,
+            "upstream_inference_prompt_cost": 5.851e-05,
+            "upstream_inference_completions_cost": 3.85e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 35,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "finish_reasons": [
+          "tool_calls"
+        ],
+        "assistant_messages": [
+          {
+            "role": "assistant",
+            "content": null,
+            "refusal": null,
+            "reasoning": "**Creating a draft with agent**\n\nI need to respond by letting the user know that I'll be using the existing task to create a draft as requested. I'll acknowledge their request before I proceed with the tool. It seems like I have an agent set up already for this task, so I'll dispatch that once I've confirmed with the user. It's all about making sure I'm clear before taking action!",
+            "tool_calls": [
+              {
+                "type": "function",
+                "index": 0,
+                "id": "call_dr3ktywuvavyJgvWXNcn7gYA",
+                "function": {
+                  "name": "send_message_to_user",
+                  "arguments": "{\"message\":\"I’ll put the exact text into a draft for Maya and show it to you before anything is sent.\"}"
+                }
+              }
+            ],
+            "reasoning_details": [
+              {
+                "type": "reasoning.summary",
+                "summary": "**Creating a draft with agent**\n\nI need to respond by letting the user know that I'll be using the existing task to create a draft as requested. I'll acknowledge their request before I proceed with the tool. It seems like I have an agent set up already for this task, so I'll dispatch that once I've confirmed with the user. It's all about making sure I'm clear before taking action!",
+                "format": "openai-responses-v1",
+                "index": 0
+              },
+              {
+                "type": "reasoning.encrypted",
+                "data": "gAAAAABq4nIlidJVn_9DbXragVt-5uvmxlTGTulk0j9UAXjWNCTxCoeU4_xzi5-47qVdGutgXyGITBCRRZAjH4ObxGW3trKTod7r8HzWXso6Zt9OtL1mzkOu9v0e3m_CZAO_jEXq_E6Xz5eQL3jweZgc82yX3kj7JlARIajG68PFsFPEtEB_h_7SHAgAphCclz95HiaxUcXkBLVY9sTXcs-g9wu6avR50xhpKZm37fAPAp2_UQwicAJRE5meUWWdZX6kShwUebCnemDChWiTWADeDx_RZopaWqAjGO9z6MQ9r5jdwu8mxyar_-OCmiZ9KT2kV6w9CIQU7mSbRkgwOya68GAzRuZvIZfadJajoqJe9IBefQ9LZ_N9kiugYQiVoduY7uChrRvafZsROWUnJHoDcYWybXF7oouQCZDnA49Urhwph9Q4ny3qMVTddN_-QPHT2lzac7qjKIcu_6L1l0dagCepteyyQXiulUzlRH6y01o82T08VcBx5cdgHNR_O9ZTX8t6KJOjM5EAFjAInUthvJsvRV1o5HizFCYzW8ERcFt-1Hgr0P5bEVmfZRJP5WLXYMWA__k4sEHGcUCzOlBI6Gs9o9dLMmsyQd3mX8sIoYicr7TurvEKe1bKTxdb-2gzEPVKufFTxDWgMKBVgn6v__3SRL0FsA5Y14yb8kciq3Hx4oGls92NLa5ZDTP9vmpd_JV7klOzYwUsM1_p8Zky4HAy8k3m6XfECwGXrN98iYwP1sBINcxTAq-j7K_yIMES0YLKiNz-QK7XleXXwIc8RvORCbzFQ_6zcX4nyVodJzg_U1KvKEXyKJ2Dns5Y_dSWoMnMKpnAXWXDn-Jzr-3IyJJnX-qNLFNuAnobcvxNfo5O7g8BL6H9nvRxa6wUVUrG3bUkiUDcPnZ9edGvA4rdeqk6fGui-mqKuRaY2tENGf-bsn81THtcsetauDF3PIbmyVZM2JCT9UXLAJ4TfKZzOjqf70IAG-pa9qBXzzJRIyNwqBtXC0swZjXHtZWpOlkbuoJEjXgVJ7RGBB6VEyR3bKWvwUvF4jNe7pg3Y2Od1Zl8qf5HsDbXrwckhNFynemfnkanJrth4t0fw3JVDs8FebzROSTgHQUpLBNhKqtXcZoWBQPMDxc4PcGxOyBOptamv_SWkrp7Vk8rxf7vQKs7P4wvDtFUgG5eERVFVwbA4oVTFk5kAyD4v0KBIXTE-lifmh_CmIYjzE1lOf3r4nEbOvtZTJiNj7OCkrTEooQWFmFpNv9uBvSAVsRodkwhliZoOzujUlz-rE15lSTBqzwgrpZKkSTI5g1w4-MWTDzaaRunqJENw44zVBckqPH_i3MtP92XIvRZ-fg4OkFmOU7dEl6tmvwmTbg9faFANnpsS1efdWuQp-g4rDGN_oSAhgg7xTjGoyZPCStoT9farYICEbdrRrmakeoD1EM71X6ygQttvmkJ_uHWFxqtXq7AdgKoACPidKrZ1V_ZeU8vq6MNHtAiay2YbI71PB3ujygQKbSFgLAO5jw2GovNCnHYI7X_WcPfLVblFHj5yQSORlbqQH74lSA2PkcT3BwCL2wpfVraM-eKhWICBk9eIBMwcAROW3JbqirvFc0E0u3iNVTyyFsG_a24VAXarbS00UpykBkPcTk8CHaEN_W_Dfwaep-fnJyE01DGdu0joG0gHW-58Ov4gnYLDHrIsD8iqLizgFXE8zZKvZRPzdvjOVXp2OG6RoTxhveeKNqKrnFVaviQtsiNtBievie5vrFBYMTKUcslTLXQmRUVSAKKDQtg9vUxHNeIDY3C18dTxfo9GdEzOhGwwHxGL0YbYsdzhaL7uINKfT7016M0U36FKigB58o5vysijq81s9nMCVsEJDK7rWTJW21dr0kh16zjiiZ3ZufGwZTnU5vkY1rXj-hqLx6vlfSGkptomjBoRFAoNWN0p--cy2XgrgT_HIPX9DwZJLiv96q5frxclD-a8qUfixZeCgmq5ihFc7zc9_tiE45cWRfqarIG7fKkY6Se66Eg2CJz2h6WOKc=.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LWx1bmEtMjAyNjA5MjJ8b3BlbmFpIn0",
+                "format": "openai-responses-v1",
+                "id": "rs_008dd1e567e8dc9e016ae27224b57087d193c706f1a874076e",
+                "index": 1
+              }
+            ]
+          }
+        ],
+        "latency_ms": 2576.0463000042364,
+        "adapter_calls_started": 1
+      },
+      {
+        "phase": "draft",
+        "role": "interaction",
+        "model": "openai/gpt-6-luna",
+        "status": "returned",
+        "input_characters": 17110,
+        "worker": null,
+        "run_id": null,
+        "usage": {
+          "prompt_tokens": 3266,
+          "completion_tokens": 102,
+          "total_tokens": 3368,
+          "cost": 9.658e-05,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 3153,
+            "cache_write_tokens": 110,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 9.658e-05,
+            "upstream_inference_prompt_cost": 4.558e-05,
+            "upstream_inference_completions_cost": 5.1e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 0,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "finish_reasons": [
+          "tool_calls"
+        ],
+        "assistant_messages": [
+          {
+            "role": "assistant",
+            "content": null,
+            "refusal": null,
+            "reasoning": null,
+            "tool_calls": [
+              {
+                "type": "function",
+                "index": 0,
+                "id": "call_NeONuc0sAUhuNHV0pR5LCAVN",
+                "function": {
+                  "name": "send_message_to_agent",
+                  "arguments": "{\"agent_name\":\"Maya lease renewal\",\"instructions\":\"Using the existing Maya lease renewal task, create an email draft to maya@example.test with exact subject: Linden Street lease renewal and exact body: Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you. Do not send it. Report the complete draft details for user review.\"}"
+                }
+              }
+            ]
+          }
+        ],
+        "latency_ms": 2292.714099981822,
+        "adapter_calls_started": 1
+      },
+      {
+        "phase": "draft",
+        "role": "interaction",
+        "model": "openai/gpt-6-luna",
+        "status": "returned",
+        "input_characters": 17989,
+        "worker": null,
+        "run_id": null,
+        "usage": {
+          "prompt_tokens": 3426,
+          "completion_tokens": 49,
+          "total_tokens": 3475,
+          "cost": 7.743e-05,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 3263,
+            "cache_write_tokens": 160,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 7.743e-05,
+            "upstream_inference_prompt_cost": 5.293e-05,
+            "upstream_inference_completions_cost": 2.45e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 8,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "finish_reasons": [
+          "tool_calls"
+        ],
+        "assistant_messages": [
+          {
+            "role": "assistant",
+            "content": null,
+            "refusal": null,
+            "reasoning": null,
+            "tool_calls": [
+              {
+                "type": "function",
+                "index": 0,
+                "id": "call_LDIDsaoXpyYDmRjQP91DtFMt",
+                "function": {
+                  "name": "wait",
+                  "arguments": "{\"reason\":\"The existing lease-renewal task is preparing the requested draft; waiting for its result before showing the complete text.\"}"
+                }
+              }
+            ],
+            "reasoning_details": [
+              {
+                "type": "reasoning.encrypted",
+                "data": "gAAAAABq4nIqotjxvVwcDWHpfHruY8JaJtbzdgMZA4EJJcHruMBsKtQK8Wa5YuA6U6jXHTquzz6cFIu4a89L32l3UaCDlPw8UjM6JsR4GJ1U2hDjST6yYROgCIGLPEHl4R5guS-J73lYgL2cux5k0eb03-loZ9VNxbVy_9nFRYfvj9UTkKhlJ1loGVtA_1jkdokGRvF9T99UOfePwy6W_6pZWMUrI5ts7WKHLjMZwcqIq3QrsFAVbdzd9XMnWo9Jzv6NlEg4-jfRZUe0eBv3G_e-0BcJ7Z7iRNIRORW6QdYvUBO1icdzo32nYZEr9OJxMGq8EHydYzVyrQP_PmYFE2lxBgIlvVZ36nDd6knMHn7dVgYFw9hlkbdicmvfjBVkZoVqhUtDoSlYaHqfyDpeoN5sQAnwz4GzUmOfSkH6XsWaTxPc4BboDuRDTROmLrJpAx6fTqLhUatqq9InJ4TTMaIHOgN7ZQ0anUChg8SzBVI7knzC2t2PxXoM8fUQ7jj6GOFB4Gt28qD-0E94MPE2CynTS650aclbvZRO6GeYnTLXHFf3lVibSnPzVHq6cAx5oPpOTaHx3MSMoig5l2qw2d21xyCkLzW7VMsWaZwbBA7xS8qHNx5HIA-fF56uPExhl2VB7Moig2PystAqjpVim168lub-vsKOThE3kRYqQjccpsMhs5RHq98PlHVcbf_y2KGdSHRs4FuHDNyvoImcvsm4tZKmDhF_1540hN6tda-oY6-uNBuYstJTw0Ly6k-n0Q94ouIeiZP-DQWE1Eyt85UnffXVocByL4asCVCAiOrFzUlckLQBetzjN6qo06vtb6zOppn1qjIZxX5Qb2ehVU7ekRcZ3AmPrIjHck0yf3Dl7uWwO1jhiv7c0Wnr0MLm16QfpqxPU2edjM8yk9vbThh2sEisR5jPtNEnbAdQCUFQcYMTU4ipEngpzOUAI0TcBZk0vHPhNcvEK-SlV70H84d7puM2r4hWkchhQ_K3qkKa3m5jTvYi06hFL5MTXFahSvKLxI6oEeBmlOOZUCFRLRThVVkqshi9fueg3yFKVi7jO2AiXjkvqNgMs8am_WnV9-1oYjwUlEYw-YzbP9HzcyJnj2oEpG6v37GCWVxge4dXzMsPWtX3EhgBdnh1fXUrvao2xJQoCTr2puBKaF3I_BnHJE84jl4Al9xBcW56aPQfYfkLHzK-e95V0DjyStWBMS8vRHndYWHjNMGWJIJiv_o9EefhbZnHBWPTnW_jEHYPjpuu-uehkMySu74qH5YVk7R7K09-R2UeR1r5c4Hh_x5zvSeOhIl0SadXuSx_TYtWaCGz9gbDk6b5bslswvigwuD0qs9Zw-uqrmevK9hCaZ39KEvGh-iI149BP8pvufPbYvEtWrSGpIL9f9-QOBCeJn3YAyInYVo_6XTo_OkKXbHWl7tVqn-Yc7HQ1ETcdhVLmZNNFCSjVsXM_jo-aHrKCibkpNNac0VQ0vdVRHdu9tiqJEHMhMfYWPv11_Fl4_ZMRYCUyos2SaYSlnHG7RVQlq2b5iUo06IoJzkFeGZR7IVZmhqsoWQO8-2FXBHZTdOWk8oEME8QZOG-lrF68iXPR9V7Pmu-Tj3J-yzQPYdtzrW3ihFLcSYBmfHiRRlUCUcm91CMUe-4XrnsGewjANRqJPbHPm3UDGBl.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LWx1bmEtMjAyNjA5MjJ8b3BlbmFpIn0",
+                "format": "openai-responses-v1",
+                "id": "rs_00e517a35fc38073016ae2722a908887d18d7650add4d4b35e",
+                "index": 0
+              }
+            ]
+          }
+        ],
+        "latency_ms": 2734.68039999716,
+        "adapter_calls_started": 1
+      },
+      {
+        "phase": "draft",
+        "role": "execution",
+        "model": "openai/gpt-6-luna",
+        "status": "returned",
+        "input_characters": 16517,
+        "worker": "Maya lease renewal",
+        "run_id": "1fd24cdb-895d-40c5-968e-de64c563c88d",
+        "usage": {
+          "prompt_tokens": 2623,
+          "completion_tokens": 149,
+          "total_tokens": 2772,
+          "cost": 0.0004023,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 2620,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 0.0004023,
+            "upstream_inference_prompt_cost": 0.0003278,
+            "upstream_inference_completions_cost": 7.45e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 51,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "prompt_contains_created_draft_id": false,
+        "first_worker_prompt": "You are the assistant of Poke by the Interaction Company of California. You are the \"execution engine\" of Poke, helping complete tasks for Poke, while Poke talks to the user. Your job is to execute and accomplish a goal, and you do not have direct access to the user.\n\nIMPORTANT: Don't ever execute a draft unless you receive explicit confirmation to execute it. If you are instructed to send an email, first JUST create the draft. Then, when the user confirms draft, we can send it. \n\n\nYour final output is directed to Poke, which handles user conversations and presents your results to the user. Focus on providing Poke with adequate contextual information; you are not responsible for framing responses in a user-friendly way.\n\nIf it needs more data from Poke or the user, you should also include it in your final output message. If you ever need to send a message to the user, you should tell Poke to forward that message to the user.\n\nRemember that your last output message (summary) will be forwarded to Poke. In that message, provide all relevant information and avoid preamble or postamble (e.g., \"Here's what I found:\" or \"Let me know if this looks good to send\"). If you create a draft, you need to send the exact to, subject, and body of the draft to the interaction agent verbatim. \n\nThis conversation history may have gaps. It may start from the middle of a conversation, or it may be missing messages. The only assumption you can make is that Poke's latest message is the most recent one, and representative of Poke's current requests. Address that message directly. The other messages are just for context.\n\nBefore you call any tools, reason through why you are calling them by explaining the thought process. If it could possibly be helpful to call more than one tool at once, then do so.\n\nIf you have context that would help the execution of a tool call (e.g. the user is searching for emails from a person and you know that person's email address), pass that context along.\n\nWhen searching for personal information about the user, it's probably smart to look through their emails.\n\n\n\n\nAgent Name: Maya lease renewal\nPurpose: Handle tasks related to: Maya lease renewal\n\n# Instructions\n[TO BE FILLED IN BY USER - Add your specific instructions here]\n\n# Available Tools\nYou have access to the following Gmail tools:\n- gmail_create_draft: Create an email draft\n- gmail_execute_draft: Send a previously created draft\n- gmail_forward_email: Forward an existing email\n- gmail_reply_to_thread: Reply to an email thread\n\nYou also manage reminder triggers for this agent:\n- createTrigger: Store a reminder by providing the payload to run later. Supply an ISO 8601 `start_time` and an iCalendar `RRULE` when recurrence is needed.\n- updateTrigger: Change an existing trigger (use `status=\"paused\"` to cancel or `status=\"active\"` to resume).\n- listTriggers: Inspect all triggers assigned to this agent.\n\n# Guidelines\n1. Analyze the instructions carefully before taking action\n2. Use the appropriate tools to complete the task\n3. Be thorough and accurate in your execution\n4. Provide clear, concise responses about what you accomplished\n5. If you encounter errors, explain what went wrong and what you tried\n6. When creating or updating triggers, convert natural-language schedules into explicit `RRULE` strings and precise `start_time` timestamps yourself—do not rely on the trigger service to infer intent without them.\n7. All times will be interpreted using the user's automatically detected timezone.\n8. After creating or updating a trigger, consider calling `listTriggers` to confirm the schedule when clarity would help future runs.\n\nWhen you receive instructions, think step-by-step about what needs to be done, then execute the necessary tools to complete the task.\n\n# Compact worker state\n{\"version\": 3, \"last_run_status\": \"running\", \"latest_run_id\": \"1fd24cdb-895d-40c5-968e-de64c563c88d\", \"last_result_run_id\": null, \"last_instruction\": \"Using the existing Maya lease renewal task, create an email draft to maya@example.test with exact subject: Linden Street lease renewal and exact body: Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you. Do not send it. Report the complete draft details for user review.\", \"last_result_excerpt_unverified\": \"\", \"observed_refs\": [], \"omitted_refs\": 0}\n\n# Recent archive excerpt\n{\"format\": \"Raw XML journal excerpt; may start mid-entry. Not a semantic summary.\", \"offset\": 0, \"end_offset\": 417, \"archive_bytes\": 417, \"omitted_earlier\": false, \"text\": \"<agent_request timestamp=\\\"2026-10-28 22:07:36\\\">Using the existing Maya lease renewal task, create an email draft to maya@example.test with exact subject: Linden Street lease renewal and exact body: Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you. Do not send it. Report the complete draft details for user review.</agent_request>\\n\"}\n\nHistory is an excerpt, not a semantic summary or complete list of constraints. Use search_worker_archive for older facts; continue its next_offset until null before concluding no match. Use read_worker_archive with a returned byte offset to retrieve exact stored text, following next_offset. Chunks are raw XML journal text: concatenate them before decoding XML entities or JSON receipt escapes. Observed object IDs and run status are hints, not proof of current provider state, ownership, or user approval. Legacy logs may already have truncated details; the archive cannot restore those.",
+        "finish_reasons": [
+          "tool_calls"
+        ],
+        "assistant_messages": [
+          {
+            "role": "assistant",
+            "content": "I’ll create an unsent draft using the exact recipient, subject, and body provided.",
+            "refusal": null,
+            "reasoning": "**Drafting the tool call**\n\nI need to create a draft and explain my thought process before making a tool call, per the developer's instructions. I should articulate the rationale clearly, avoiding any convoluted thinking. I can state that I'll create the draft without sending it, using the exact recipient, subject, and body provided. This way, it keeps things straightforward and ensures I'm following the guidelines. Once I have that ready, then I can proceed with the call.",
+            "tool_calls": [
+              {
+                "type": "function",
+                "index": 0,
+                "id": "call_JmPig4zgTyDV36CMd2Q72IPa",
+                "function": {
+                  "name": "gmail_create_draft",
+                  "arguments": "{\"recipient_email\":\"maya@example.test\",\"subject\":\"Linden Street lease renewal\",\"body\":\"Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.\",\"is_html\":false}"
+                }
+              }
+            ],
+            "reasoning_details": [
+              {
+                "type": "reasoning.summary",
+                "summary": "**Drafting the tool call**\n\nI need to create a draft and explain my thought process before making a tool call, per the developer's instructions. I should articulate the rationale clearly, avoiding any convoluted thinking. I can state that I'll create the draft without sending it, using the exact recipient, subject, and body provided. This way, it keeps things straightforward and ensures I'm following the guidelines. Once I have that ready, then I can proceed with the call.",
+                "format": "openai-responses-v1",
+                "index": 0
+              },
+              {
+                "type": "reasoning.encrypted",
+                "data": "gAAAAABq4nIvxn_wrue-qcB9QSv852rkcOaJgi-n3yHZNLFHEJ9nFTnLt_qI3dJOUa5AvUGrZfX-xwanZ-2xBogYLbebsduE5qPIsmKBIU52DyH6kp0CkwNOQ31AVknExctDnlzloMwZzyBLs69ZO0T7BB6g2L1F5flbeAtX9OVs_69WAiAmVn8sS8P-CQqnUZtbgMzMQeiScUQGsE7FAHm2KmTRQZ4WH2WvXHm5Eq3qKzv6VSVxyRWTol0Q6nZcFhHdTJlFhADJv_NZ-DvEcTM34ScsEDa8GwenW7MmIDj0G093qAaEM5KLAiJ043QNnySlpbCFsfrhD_zufXSKXmLplCPC7UHznpF7lfYcvZUP7kyKutqdEYfYoYeS2uvk50JsWxGXWKmo73Fyk17KDZHzgIl0t4YcLC-EpKcLu2HcBwZHhgsYIEfu1KIQNvmtv0dEgIghYn6HeFMwB5An9kYzM5emgluXY50cma4G3U4isrwHEq4Ysbc5CQvmwMyTNF_McdmyKTsepGSWF2oRR-0nzfJAdcmv4CEv4Wc527l2oAq_MjeLco1jZp8D4CYVOPAZl81_4LV0rgCjec3i6VDZp6c-1QGZJVDVG9NNAPfqOEjp40eKm0Q1Yei-l38ZaeiY6W-AV2g1fMo9xSGf81yUO1ez1FTHK8bKnLvvF9IrdkatwF_-FTQxtV7RGKi680-lS_roTuBahihdc2hPiL44TtMF5LsyTPMZKfMgMPvDROhBGeKf0INPXW6lpiD4X7Yl5zhJ511vdKBgQ7FKXsbwx60onatM5Y-Y3A4pJ-ZSp-f5tt0Cgf0eYzvGKL-D1Q8zzWc3hsQXNxQLCeThAX57ztey5K3-p4tNkIOZpIl7m6MThr9mui1SKkBMNcEWkhjkByQrBi50kaWIRaushJH14r-krZ7yMxJI435MZ6vSrADFbDpKY7Kxqw9CRAox7jmdEOH7KjtSnCVw3YTWBFbYbak74Ea-XaRZihJ_Utkk8wDM2MSsiTZPSGWbd3swsxVTwn-eR85IiCimUcg5NWmrs2YLewRjVgPjMK2OuTqa5W08fELBapstKcSbuq7tmlmrU3mvP1mZIeQNzBenMTOj9tyA3Me0PF_7-1cP4jyWLzqFtT28s9J_IYuKY5v--LSyf0lhPjnfdo0FQRRrcX0I_L2Ol1aMqJMlJ4KohYifOv_9PfKE6QkVEgfQE1YJOQM7SfDXovcdryLSNOYB1fUXbv6YZl9AsyoawZQi4gK48vInAda0n1OVLM3CeLuIBFROBV5FJAxZzlbHEKkvd3ILq2uM9JKCibzJbk0fVqnbb2UQSlKZ0fVP1og6g4EnyuMPoyR42pkNyjw5OqL813tHw-DL6g0WeuNVhg6Xy6BtCRhTBlaHbsENPbjQnqJo4chZ06EouvAFg_PFWlWnHhhIxgXUUBlQFJI13zYhswKyqeKZCO0sbU-8M2JM9vD1yLWZNP6HxhINHqNkgP4Oe8SW7DlGfkNJcSOUd9cIHj2nTAMY3E6ziEEaAB-hhZeCGQ7R0Dgiy4XgOozvFb-S0Ksb72gzUBjB7fJU0K6fOFVwb9swMKyWhptghQO6NMCe7f7M-PjGbAV5Wb-hJoiAozuyM1Z0_oDVSBkdpQVZQQTJooVmKemoyxk9kQmG0g0bm-gP3jXknu5WxpmvaEjNVuM3GDvFuhRIMkarjpLyo8H-_iTjvAEv7rGPdigo7As25yrMPgo2MTqvC-1-Z1Q1XZ2bAWjCJETDbs4x3YYqpCISSP6KxH5A7wY8C3SQdDiXud75s4r4Dzu-KEfRMHJho6PImqzhntQvLVcw3vSta224J9H-_xEY1tWprcEXTzj0_bdYO71_I47IbxAV9x-YyjX7IRzsf5efzt1jZ5lvBSQXKlLrOqWzldmOUGf-zmZTRuPWyTYRM1S75ODRH7z8gTt9bU9szbqykpcDbSmKrl5hXFgUBPfod154gvbZFTELEPMzEUBkcZ4PHkX34yt2atCgzzewwsARVeK8rxbOYzLNkkpPkc4hvFBLIS3r1biVr91li58cXZqzEAOapJjk3MO9n_mxK9URx4vm4kyS8hRr4HFNM-ZGS8L8req0sA2D2ubf-UH-7O0_MfYdGjebRyiSzCEj_tRQLznsLqLXEf7umgSRAm8NPD1lcBk5YMJ9qptDt7LgRpWcv8JUf6ugR6o6NFoYStJ0B1gmxqytSTcuILmhaqUmp3hKnrgUePJh1EIL--w507yADkmF9kJp-onU4qvEuRLtjQ==.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LWx1bmEtMjAyNjA5MjJ8b3BlbmFpIn0",
+                "format": "openai-responses-v1",
+                "id": "rs_085e37bc8648c909016ae2722dc60487d1884136c138d14d5c",
+                "index": 1
+              }
+            ]
+          }
+        ],
+        "latency_ms": 7150.133400020422,
+        "adapter_calls_started": 2
+      },
+      {
+        "phase": "draft",
+        "role": "execution",
+        "model": "openai/gpt-6-luna",
+        "status": "returned",
+        "input_characters": 17857,
+        "worker": "Maya lease renewal",
+        "run_id": "1fd24cdb-895d-40c5-968e-de64c563c88d",
+        "usage": {
+          "prompt_tokens": 2913,
+          "completion_tokens": 71,
+          "total_tokens": 2984,
+          "cost": 9.825e-05,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 2620,
+            "cache_write_tokens": 290,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 9.825e-05,
+            "upstream_inference_prompt_cost": 6.275e-05,
+            "upstream_inference_completions_cost": 3.55e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 0,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "prompt_contains_created_draft_id": false,
+        "finish_reasons": [
+          "stop"
+        ],
+        "assistant_messages": [
+          {
+            "role": "assistant",
+            "content": "Created an unsent email draft for review.\n\nTo: maya@example.test  \nSubject: Linden Street lease renewal  \nBody: Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.  \nDraft ID: demo-draft-0001",
+            "refusal": null,
+            "reasoning": null
+          }
+        ],
+        "latency_ms": 1970.3084000211675,
+        "adapter_calls_started": 1
+      },
+      {
+        "phase": "draft",
+        "role": "callback",
+        "model": "openai/gpt-6-luna",
+        "status": "returned",
+        "input_characters": 17932,
+        "worker": null,
+        "run_id": null,
+        "usage": {
+          "prompt_tokens": 3552,
+          "completion_tokens": 122,
+          "total_tokens": 3674,
+          "cost": 0.00016901,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 2921,
+            "cache_write_tokens": 628,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 0.00016901,
+            "upstream_inference_prompt_cost": 0.00010801,
+            "upstream_inference_completions_cost": 6.1e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 28,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "finish_reasons": [
+          "tool_calls"
+        ],
+        "assistant_messages": [
+          {
+            "role": "assistant",
+            "content": null,
+            "refusal": null,
+            "reasoning": null,
+            "tool_calls": [
+              {
+                "type": "function",
+                "index": 0,
+                "id": "call_IsB135bIiFZnHxNvBCqNuFdZ",
+                "function": {
+                  "name": "send_draft",
+                  "arguments": "{\"to\":\"maya@example.test\",\"subject\":\"Linden Street lease renewal\",\"body\":\"Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.\",\"source_result_ids\":[\"1fd24cdb-895d-40c5-968e-de64c563c88d\"]}"
+                }
+              }
+            ],
+            "reasoning_details": [
+              {
+                "type": "reasoning.encrypted",
+                "data": "gAAAAABq4nI0J-Kzjx0m07FgXVZlJXVmsrHRUOz5Bfa631-Yr14DtNYQ0tU2gK2gFV7LkKDE2zF6SxS_XZDsQL34pDri9Dl6MKY1EzNEGCyraPM1DmwWwbmC89SC1eghmd-AoLC_Bjpt03KLq3L97GTk0J3sb03q4AW2lypYTxQxdBvm8mcvWkoW23Gpx5K5VijmOFnzqcTgKWMtSflXDB369OPNxPSBcGaL9bkLMgepZfG8_Ki-yO1OHZALf5SPAo_XRxuo3QLXwLUOvNhnQeZincwTTauUrf9vKiLMBm9I7nozX-Yhzpltd6ja7HBXZkrMWypN0oyxuIYnNJ5jjsNNkv3OMV2fTnLQZcEjeaTlrK8YTPqueraqE0eSdDBoVOyPEHeqkiZSojKO8LqOcFHneb1pPMwqt5n5IJs8q5eGRI4MfqD1uJHs35msQUdwwqbbCJeWFbklMPGKi_qeaXftcVG1JtxZsrORDV5H-gOyJtxZfXNkLxvLZx-zEiGM4zuvOiLGGMwUdwuCN2_sBqJ1IDlKIybx_STI1CrW9uf1GGo2awPfAveJqX9rO6VGJLmnTfvFn271qDBFPYHnqLK4eFQ-xfD87vIm2WFQpGjh7k4Hj9OX7HAtOdeXMYjcce_-mXSF8wuxvlNL1YaJkFyCTdMKX2LXS8-PU_L4ZXZZMgfyT6i4UL6fN8be8DETNm0jXyygW3zSnV-iN8fQBz7gc0xSxUB4keMsCYJvMNj9uQvipaCspXtueNdlC9PpYfUypj9vIOlTanZF67yXrJWRHFJGxFU8zvIQtM8znJ6KnhOWYEMwBvdbaCPMoRAAsfScmG6XnOYVfXE6MBwx3L8AayX-a7nr704vZRjOlb-q8ix1P_mBzPzc6q_vkNPd3swhj29V9rWQJahrwtoES_Ow5_o5x7hrXOFK7qPp-t7BhmhcDBvOoB2jEIm-UdUA3dNiTInbaZJk0-nrUXbhqoDfgdx5ekm6L6FIipGZC7LYwgIsPpQDYOBgtgtboCNIhXcX9JIS9PzPatvru2ymX4-U-xzIBnYXi_RCw29boVszI08XrKuQ0VpD-p-xZj7VZebel4OOt7zdI5GjsTLHSOxRwVpbv4FJ7dPsnNM1K3edUidvuaPPY48CbL9XUL6lAPXXnkhrwCHb08FOYL8em0y14pX8CctCG9YDSx32dbX7ZVW437z3ledPa1nx1-AOwX_gEXP_-LeeyPEb98BeoTw12OtMrsIz8jyaPw5V171r0trecrkgfJKeLpQqAUtij_k4Wr46BIlwIei1kKMZbDJEL5FmXrrootpMXySrzVsn9MtJ1hSfCvlDdjVXULakD4yqV8xWIAAm2rRbFYIwd5_D1Czb65o_KRs2O8qV1HmSLl9TPquScj0u8btlT1kf84ob9u3D804Uz_6LUgY2l2VNwB7GyWUF5Qaes3KLGNXnZjcKxbuLZvgPdZJjq32GUUVTP_JjhI485Jv_mBzDurD3uIEhDmnchNcTApuav1ehBJQ7hG8K9qkMZ_hsQ44TsuqqjM9v2QSVRBJ0nyQfBudC27JZfT-VWbXwWob3mjSj21lNaW8k7Yog0OsRfD7CD9wVgdWq09Nd31LCsazJSc7WqqNqTjJczm5hyMxnjeZkoeKmLx5mZ1sh9L5ghWlbIhnwqoBZ9FzIfEn-WWBn4edL8eZTrcoCDwQw7yrE4inmlRPOBwWJor7LEKH8qk2Zvp5Pxj1OOXd1oE_MgEdETIcSa_loTBd4O5SKymRjwLid_wbpcu7zLmYFRalBDZWtPl756cyDbPOixsC3MXOi3tDPuZgy-HKxKiImxHR60bwWDYHYz5bIZpJBbvsoWzN5RMdeqRQoPYZcQCDpZIW3DlT6HLmV5gC9tINV3KVRQRJ0uzRIo7OjAK3A4XL9ndnpGl3vpHTLzZ-cSaQD0G9TPwfwBm1gLiuaTGz1F2L-pQGnujym35D01aw=.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LWx1bmEtMjAyNjA5MjJ8b3BlbmFpIn0",
+                "format": "openai-responses-v1",
+                "id": "rs_0a6b00ff6544b56b016ae27234171887d1821b09623d990fa7",
+                "index": 0
+              }
+            ]
+          }
+        ],
+        "latency_ms": 3551.918699988164,
+        "adapter_calls_started": 1
+      },
+      {
+        "phase": "draft",
+        "role": "callback",
+        "model": "openai/gpt-6-luna",
+        "status": "returned",
+        "input_characters": 18968,
+        "worker": null,
+        "run_id": null,
+        "usage": {
+          "prompt_tokens": 3787,
+          "completion_tokens": 118,
+          "total_tokens": 3905,
+          "cost": 0.000124165,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 3549,
+            "cache_write_tokens": 235,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 0.000124165,
+            "upstream_inference_prompt_cost": 6.5165e-05,
+            "upstream_inference_completions_cost": 5.9e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 0,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "finish_reasons": [
+          "tool_calls"
+        ],
+        "assistant_messages": [
+          {
+            "role": "assistant",
+            "content": null,
+            "refusal": null,
+            "reasoning": null,
+            "tool_calls": [
+              {
+                "type": "function",
+                "index": 0,
+                "id": "call_UJLrEqO1MOUuiR5y2n3Bjhfk",
+                "function": {
+                  "name": "send_message_to_user",
+                  "arguments": "{\"message\":\"Draft is ready and unsent.\\n\\nTo: maya@example.test\\nSubject: Linden Street lease renewal\\n\\nHi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.\\n\\nWould you like me to send it, or make any edits?\",\"source_result_ids\":[\"1fd24cdb-895d-40c5-968e-de64c563c88d\"]}"
+                }
+              }
+            ]
+          }
+        ],
+        "latency_ms": 2526.7518000036944,
+        "adapter_calls_started": 1
+      },
+      {
+        "phase": "draft",
+        "role": "callback",
+        "model": "openai/gpt-6-luna",
+        "status": "returned",
+        "input_characters": 20102,
+        "worker": null,
+        "run_id": null,
+        "usage": {
+          "prompt_tokens": 4051,
+          "completion_tokens": 63,
+          "total_tokens": 4114,
+          "cost": 0.00010264,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 3784,
+            "cache_write_tokens": 264,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 0.00010264,
+            "upstream_inference_prompt_cost": 7.114e-05,
+            "upstream_inference_completions_cost": 3.15e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 20,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "finish_reasons": [
+          "tool_calls"
+        ],
+        "assistant_messages": [
+          {
+            "role": "assistant",
+            "content": null,
+            "refusal": null,
+            "reasoning": null,
+            "tool_calls": [
+              {
+                "type": "function",
+                "index": 0,
+                "id": "call_3yRboQZoy0duxK2XCVA04M1a",
+                "function": {
+                  "name": "wait",
+                  "arguments": "{\"reason\":\"The exact unsent draft and complete contents have already been shown to the user; avoid duplicating the draft or review prompt.\"}"
+                }
+              }
+            ],
+            "reasoning_details": [
+              {
+                "type": "reasoning.encrypted",
+                "data": "gAAAAABq4nI66AOvlL91-lVVioEZT_jGhj5a41zP7FMTa6J8rHe4MeQSbMA8GBqDnUMYM9_s75Zsc0q4xr2oj2a8LRFhbVUwpblX5EZuM1gH5R0XJerInu2e6BibCW0dMW4foufwHCyO-u5YmlXunyrEouRbYZLyR2IV83hXws3tAcMrqa8vZfGrPVSe-ZFYZYrVybDcfHjLBy5B0xtm5hhA2PloxPH4M9-ekeeyXRFg5rWQXVNQqFBAscqB1kgOw5HvZSbWeYZ-TnnXVuBxoxmGRclcdqIQthel1QLAHw4A7Ea3TbhKvjZDfbCiVn9UVPtzot3DEtKs5QALkqWMgbw2w4zCkB2eWZZAbLX3m-krp1JrPRuJ-oLtcUNsS16PWNvfWeSPbHp42MXzWqLZVPHByU7Z0MGuWecBMZYba-_5LSp6dZyAl5PsfnHGt1d1EBaje6epAln5iR-EsnBbzafvwx9NgBE6lHR8BFa5yei-qAw75nfWRv3LXmLCN_0Y290qsFJzj0Lw21YN6_q5cQBj8y4jDmWvbba3B9AIXD6znpW9mc8VGv6BMPkssVytOlAlI_7u44AZ34yBUSCUaosdgls_VZViJuGEuD0KJDq1pSg_pVfXZbj4eK7b3orxJhIOPYEmsNgHBRjUOWDkyZn2uszt7b0ruk4b_W3RVMPNLillk0v8yZRo5ym3c9pvc7HYK9Fzm5ugaRRrsHtAkJGaGWjrWPLXnKBoa5_wqsUm5QpjaOltDiiNDQEvXQKqhEOILxt1K2HXGiYc1plhx5WHHR8eSF51xVIPw_3SRXBMhNRuPT-PbL5-5Jtpisqgg3XYZmKsPHwZHjkyTup9WEFy9m6wtx14u0-cb1FKd-VQV2hVyykKbPtJjVcmu-bYFH0NEESZqv0feoGNMiXgW8iqfiF3KFnFRGdnBkjrQjVSxSOJzUysyZ6CoQyhOISwLjVf9LqkvYTSEcpChEBvKsnJyvMN-1pyE_XcexsxRZ7WkCE2S3JMVahVpQ505xHji2dw4jLUoBoQSANBQ7vnEtCAjy50GlYMQyEnyd3JA0wPgs743pfWe7xnhWR6LyY3zKZh6XqU3xICRxjlYGUBzOJd5SYqYfarCxVawvSxyRNUhvDWOrJ7f_Zh6eafsT6ObEDfPmHGJW3SfC8i_hH7jnnVawGwxfzFVCE9SfAGKV4bieDlbD2GiMxVG3SMG4AbshQoI5OpIzXmJBEmMH1Zqrc2G4Uc-zdMDszeQsNIqrAmzZAIn6QhfGu-J9t1uLCoxttyDz0QR-RjeOSVZbz4MxCBg2Abq2cv4qHkZM2eOPSZwe3Ik8cLEs5A7CkxC129v74yeAi9LhNWLdbLUv8o0UXG2j_BKL12aGS69Yb9U60AE9rN2a8uyJi-2kdMC2gmcCttUQL3TPrX7MDLDvOAvXVDrXCA_R5JRTmrabp45yHWbqwgltYL6SGEhgq79O5ESjlN7mbb4Hu6zkYKpPSz-MtHZCtsBo4vR-G5sohF15_2OJgVaLhbLxHbCvcrxWS9tTFWomsx8-W5p-gcHB8rVe3-3aHn-JXafVqPIjp9TiMgzIJhICx5VAg8u5Ipk5y_yaukqSJntpSW7Xznc4sMWiTN1nx7FrMwuoUgYLvd4QVLwNULSf6FyIYAKPzXIBmxiMWy5FS6FA8LwME5r2BpXb4HJiXBCaSRhs-PURLS6DdWoTVu7hnx1SSyBuIeeCSdSvhAu0JQhAR5hGSajEWRQNw137ioZM-tbrhTgujeitAqst2KCCCH4oaniUiDsznU_GnXNpWZHDaOKsUGyre1KFtte4t8AaMO4yW6GZWtryAS8F3oODodd4U=.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LWx1bmEtMjAyNjA5MjJ8b3BlbmFpIn0",
+                "format": "openai-responses-v1",
+                "id": "rs_08ffb80d154672d1016ae27239d40887d1a5e39e82e98a2149",
+                "index": 0
+              }
+            ]
+          }
+        ],
+        "latency_ms": 2787.4449999944773,
+        "adapter_calls_started": 1
+      },
+      {
+        "phase": "confirmation",
+        "role": "interaction",
+        "model": "openai/gpt-6-luna",
+        "status": "returned",
+        "input_characters": 18454,
+        "worker": null,
+        "run_id": null,
+        "usage": {
+          "prompt_tokens": 3678,
+          "completion_tokens": 65,
+          "total_tokens": 3743,
+          "cost": 0.00015626,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 2921,
+            "cache_write_tokens": 754,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 0.00015626,
+            "upstream_inference_prompt_cost": 0.00012376,
+            "upstream_inference_completions_cost": 3.25e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 32,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "finish_reasons": [
+          "tool_calls"
+        ],
+        "assistant_messages": [
+          {
+            "role": "assistant",
+            "content": null,
+            "refusal": null,
+            "reasoning": null,
+            "tool_calls": [
+              {
+                "type": "function",
+                "index": 0,
+                "id": "call_7MzOOdajPhuNWy6E7Ra3hG5G",
+                "function": {
+                  "name": "send_message_to_user",
+                  "arguments": "{\"message\":\"Got it—I’ll send the approved draft to Maya now.\"}"
+                }
+              }
+            ],
+            "reasoning_details": [
+              {
+                "type": "reasoning.encrypted",
+                "data": "gAAAAABq4nI9ZizV0E1Uol3RGLvp1Gd4yHIxFZ9KZ-U_klo3JH6TQGkJei6P1ZNvs77_tlpoCTort4ug_foykXXcglM932-0OKH2RCs3Zb9_Ia-qJt4VEODLUUcnpo1pXfLu-oE6TKLtmwsn52dTN4ab0uit3iEFmZ7a3TtrpaznIagRuwtfkNwITLJznO2PisSYW1HlzZ4IeQNmShrpdMXnHxJyhzwLL_F7vbD_9k0TEd5uL50fPTT9qae-PJ5tJQs_OmQdTzWBblKVuxBJJjlkAeV88A3IKhzlFUgCFCphhrVoKddiWPpyZb6rqsLJeQZuoe5_l-gW1BXLaFYCX1TMBx5GHm3e2BY_T54ljbozGQQ9yAsxQj2IFzv-wCf-9s2-zRik8qG2l5XCyGp3EiGuF7VoMERwXjm1zObo-R1DiDScewBY7QmC3uHeqC1WfnhNbx54iNOwy9EJ1JBH_26kPnQl5VaLUDDamxHPsTBmJhlSp8ONvG1V1hD5Lb9lRBYtLW3gu8wQlEsyeGMDuJda01LpaSPZ7V3zZzTbj2NIDIjTQdm1UHmBaAJnh_2uYAENyzXl0Mix0rGmu8p6skQY1cfgoJ7WVmlP_VsnRuqm8q1SKdwrizdV_28sz_lJG-7qAJuThJxoWq3JVwYx0gEnhES5UtmWJWdOn-QTD1knqRI_3iTLLNNKljMpuJ_RqsYnCHf3UHrCGhxULKhHtjrXAm8LBA2o0bpLxBc67rikPTq3s8d0HYh2dYxBXUfC6K1Vy0WRa1Gx03hSn3LspsscAUgr90hXwtGKsuaTuJJD2u9P6_vUnV0t0jMzeTSC-pK4H8Xns7TjbPgrRNHJ2KNYo_yjr5jrsi27E-o5nE4aC3MnF-WKyT2isZySMiv8Lhqk6k-RGbY7Bm64Y0MWbof3Nl3l8je9GyBt2k0X9VZ-zFcJwR1RSuvazwqHde3u53KuCAJcBfKX4qsZi7f_-ctRaPQR1T3VhM3pxhubqHyuFcEiDQKqdDPtqH8lFAVA_JJeDO2sfwW35U0sLDBs4LfcPz6NwwfJIr9MC3czBeZcn7Zunp2hQQ-VVif6QK8i5ON7zfKzQjREUfRWQBr9eFZeJ4N-WSXYiaAtX7Tlloiy43gGgGcGbtE0ihjWT9JubGIXp5HeXtHmdOtZFvzRsx8RKaL7nee2XZm5SDjt0kHoDH3rZ8HwRVCPE_lhgQFgv_Gkdq5KuRKEenYBCbkwNjwBq4KJGFQb2Cpc4g9i28xMzEcpLEEFedxhg5GW7Dma-HP89gGBVtlLn4EpSoGKtBIlLVa7N5oOSk62Y9YJXOZcghziJUxCCjQwqgHHqWRttbmkWWpBF8L8movH0kOEOeIT-GqSwa7CMiNUBaCOYW1G75dCJc_YlS4L47uueg8Xi6E-QeS3M_zfinzVu71UkI_4Hg3MkmICnrK7Zn7SVPtgclsa4LB_TyLhvqgWlTd-yXjDuBN_u7ctEaogUPrKYpYmWvpJ_-FByhAP5WV2ZVD3lAzFL80gXiK3LqqNsMnLgdIm5dMM9uJhcyx5Hy0fIJ3N7myw8-Uu5A_kaZxSTxQ-QHkPSqE1pkPIp09t00UyfhuNh1ARCDuK7TvbhA-_NKALEDGqkMviD97OXssSAvoMNubV65BpQD06JwwAvCP4zFPML_v4ZBr3bdPObdmi_HabDKwB744f6KtvomBPmoXEHZfEZpJxn9TMthuqZuhf3Eu9FzC2aOILJwnJe-tuPdpg4XSe3gnQs24BgSWhAJ3CiLUN45kyywJy_sQzqLWUf57m2rlTAnTR7atbIFgpz5tuSmzXWl5QQl_zfRbni1Kh7v2ALleedDhaF8Bd6xErwNsDrkYlpz2RcPXvrN2UYs_qn8qni6CEZbrbG5vWPRDvd2Qklm3Fn5PaxHsEgYZ8evQece0-yTYQ95sUhvYaEcIms8XK7z-q9WFTGaHXVDrfEJFeae0ABa8S0kosJKjxFJ83wJeYxHJTCYFS0-fgh6Vx4gi3-zv_Cw==.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LWx1bmEtMjAyNjA5MjJ8b3BlbmFpIn0",
+                "format": "openai-responses-v1",
+                "id": "rs_0d429e8beb682d0f016ae2723ccf9487d19cf033bf95da8817",
+                "index": 0
+              }
+            ]
+          }
+        ],
+        "latency_ms": 3019.0579000045545,
+        "adapter_calls_started": 1
+      },
+      {
+        "phase": "confirmation",
+        "role": "interaction",
+        "model": "openai/gpt-6-luna",
+        "status": "returned",
+        "input_characters": 19000,
+        "worker": null,
+        "run_id": null,
+        "usage": {
+          "prompt_tokens": 3773,
+          "completion_tokens": 90,
+          "total_tokens": 3863,
+          "cost": 9.3925e-05,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 3675,
+            "cache_write_tokens": 95,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 9.3925e-05,
+            "upstream_inference_prompt_cost": 4.8925e-05,
+            "upstream_inference_completions_cost": 4.5e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 0,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "finish_reasons": [
+          "tool_calls"
+        ],
+        "assistant_messages": [
+          {
+            "role": "assistant",
+            "content": null,
+            "refusal": null,
+            "reasoning": null,
+            "tool_calls": [
+              {
+                "type": "function",
+                "index": 0,
+                "id": "call_3o9qIUZvSNnNtm1FzKAqT3H0",
+                "function": {
+                  "name": "send_message_to_agent",
+                  "arguments": "{\"agent_name\":\"Maya lease renewal\",\"instructions\":\"Send the existing approved draft to maya@example.test, subject “Linden Street lease renewal,” with the exact body: “Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.” Report whether it was sent.\"}"
+                }
+              }
+            ]
+          }
+        ],
+        "latency_ms": 3205.6586999970023,
+        "adapter_calls_started": 1
+      },
+      {
+        "phase": "confirmation",
+        "role": "interaction",
+        "model": "openai/gpt-6-luna",
+        "status": "returned",
+        "input_characters": 19826,
+        "worker": null,
+        "run_id": null,
+        "usage": {
+          "prompt_tokens": 3921,
+          "completion_tokens": 239,
+          "total_tokens": 4160,
+          "cost": 0.000176,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 3770,
+            "cache_write_tokens": 148,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 0.000176,
+            "upstream_inference_prompt_cost": 5.65e-05,
+            "upstream_inference_completions_cost": 0.0001195
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 192,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "finish_reasons": [
+          "tool_calls"
+        ],
+        "assistant_messages": [
+          {
+            "role": "assistant",
+            "content": null,
+            "refusal": null,
+            "reasoning": null,
+            "tool_calls": [
+              {
+                "type": "function",
+                "index": 0,
+                "id": "call_o5sLI79mybN5HE9QSnLBM5rC",
+                "function": {
+                  "name": "wait",
+                  "arguments": "{\"reason\":\"I already told the user I’m sending the approved draft and the send request is underway; waiting for the delivery result rather than repeating the update.\"}"
+                }
+              }
+            ],
+            "reasoning_details": [
+              {
+                "type": "reasoning.encrypted",
+                "data": "gAAAAABq4nJEB-RckXk6Qvf8MX4qPA2igA8a69rR-mzF8R7qWriU9Cq9TNkFqdvvhCwnFlQmEvR28T7MipAnzDX75nQ7yXF1HpmqEZzlJaPMLYgq3HkUXx8g_eWxr7bqjZx_n-cw0QmWY6r0LKOR7zCRQYvtCnDnfs3u99JRFjGuBquFFgH1Rf7z1I1wahAKNjc8ovfbgOfONPzNqVUr-3bjjny-COdlytKEypsJDWPpd2ITGZTkFrouu5pEZj7yga7q1ySoCYSLeks6ZNP1Se2oNDy8NoPn6ENde-Gq_D9PmYYtlP0fCWx-cX9PM6cwIhNf1QoChthf1qy_xiMqmdPRVhW3TzXmFe-kEepaHqAfwasK8GauhiFZLmtYnBDbR-vUuSOmc7Q6fAfDxCTFx2it5XODH6h0xXXSmcv3cR11ZCDkTDzvG1GV4REgGPSEGN6S-ZCGXCxRlPr0l7jtTQHmDQtR7L6L7nMS0hEBhS4XXTj28FwB_FzsG8p9lAso5VvJt2fL6iAX0G-GDxYukhyeZwQlEccMAupD3YUKDkF8iN0-hFxKJa7ybhhFe5f727NjvZn9NUhS1LN2kV1Sr3fWOJ96TPB7gaq9MB3QI0MXI3jCVe7hlzM4Lr0rw_U9O4D-Vg_SsK-On-GTsxQrRr5gltdLpoury1ncNKb9NXL-8ZJz_ntUWisDxaF4QJC-Ky6ydp3h-mmM29n1oQxikIf9HI4C-STBgPzjtqFltHhAahpSdkA4waV6x8JsJN9zUOJ1m-HN3fQ_4ETZjz4Aoean2rZbvKrUC7aHZdA0xHf1FR9rfB4K4vQat7o2B4FDe_MaIdSXjVaEP_WFSTT75l-Cc2gcDM8NP2qdeBg88-hCzb46-f9x3XSyTGcjCfLBFrCbfk2_TU6bYkklVu9hI1aHGK4_vfmowkTJ1dkJJ-TaVkSStS1I9BjjA-OnyP31zAOD2xMpTIkZ6ppiE3WCTpdIx5jW27vNWQw-AwtO53qnzQScHn6qUxNHd_Wsi9AV_ibh9u5_N1ig-_ZgihklsTwbc5GA3VTrW5IeIWnrUo2bOcuuql5A0pMFaLWtbZtW63SPbpvdnI4mcmz-1cx66s3AHw-RS8Udc8ZgNstLBqtmg8JYLiv0DIdhhWGdC5mjFEIJrlo1RG8Wk_OnA4QgW7_YopbdMkkTxaXnHi6QWY5OAWzxfuCzGlGkXtGEROTL7JJAych77vylGFBYr8-JlmV6f6DN2-VVG3KagHcLAkCztWaZ8Y1oPU5Ia-CTWCKdGIEpFtmPbGomMNHuuhCufC4sjhgpnxxOc6hevNKP4g5oBgTIS8OtaQzYESrAylZ6U8PMFtWrkcEipN3-Q-F5ZAwOJVlASjbCY2IHU-efNxbSzFAYIn6S_puKY_ZqAdPEHZxM1zeAoWJWrbE3bUGiTlniN0qrFBrWndCgZXWf_iFP6Bg88dfpWfMDEzi-RFoTR6bd0pnm0HU1dOs9NOKEvFeNuXj3zMPqjREUNSxf0buzjJ7c4PXRIxaJr1CgPnJGVGUnPqfmB33a6c_zuWSYTia1aDnAm9Xd8oaFgfBkDdceWyDR95XzdBeqi7DlQp9T5cH6wHXUjropMFM-jcJKWjNHe6soZV09QzSCUjDKQjpGgv9V3ASagkEhHeqiJrzTN9PHDWAv0VgUpnVqhw1B2ywpZBt7Ted7AqTgh73_dVHhOlozmRzsWeH5VOXfNtxsjK6rzWiCB4m4OA-BGR-cUOS50_L_8ffLr0g14L-FJekDACU5Aosc19z240VNhulQC0oVEieOkci_l-nCzJTeUqi-eY7ES94_pvDBinliA7Xd19Y1pKQ5tslm6BZFCBAr46mPNTzas9eON9fIlj2oubNlmlsX8tRMH_ul1oXWya8E6WH4_iqzWV8xQwGAN3qpHLmuWEqMrKeeMgZnoVFRhRuMmsKGhJ7qBfDlfTNMzIDnYtQmxpK90V31RUN_icLSSFBF1_4nkPeuwVxhkIwBYKWV26W_LQT1c-6kMAK1sMRqUsHHbLi49784XwzB8mzhj3FrJm8SFaYWlTiwW5WVm7TvorbxxYTGIbQrJiOEoCvMgU-luDzDxB9Nq89Z9pmRyM762S_iMPhDCWsbdBHNoBW9SBjaKr3UkY3cHtJTrvXUxAB4nS4JflCGXQw-a_Nbc-5qUAlKDGNY9IiaMfS4JAtmT7Ph0QRO9UmesepOfrST6iHVAg2VYt1CY14WBSsBrL1PZzJoeoRUoR0LqooHxqv3iRkrT_MLZHLva7_bKVZQhTYcxz1e8vF-98pnbeXFn2hOTZJ_HDjEK8NvIE3PLGgAj6XsIRRZ3XdzK7_jUcSHY6SVtPfnj_fgpYiv3Ik5j47dsP70Bas6QY9fneeUiAe0vPrR0Aabhhhex8Ast-eaf1yHyIei-DHJTEQOeCT84FbO_3v0PTsrNn1vL4Gm70BV8i6PjZ1LiI37SPVwX7_j7nad1NOc9l4fo85xHECb0OF1G3LvQLxxLaAzdA-XXz0iJx5HypxK0pfjRs_bFwKzmyomDv8UWTugLZW2xD39bHtMvgRkH6ZNbpabh_103I0-HK0HjbvH9spJyKpY-V4206nkWcaH6W-4WFjDsghRBGh_ZjrMoiwnzSyqNZIc9MQty4FJPSpowQcvs1fOQobPO_DyrqSujdFLv2yGSUvVw5j2jueTV0wvy1uw3jZR7rDi0NA1lQcu3aV__SBSnB2WYRPlJjLCncDp-gbXwfIDGtHuVPkCSTWtWYRPOgF54Y3GQLTECopfIHGgdaSY6oqQCnqFDY1-u2cNoEjKKnCE1sf-J8FBRNDN22KJsHG_BqPD_A6JFEX98_BYNvCLUFyKFpKLD8nlWFZpAMrL-dzjT08RF9YkMQsynCDmyssQeFXc1YgTKAQnqJItg9MDbZlan86LqQ-HfQYj6AGL7B4_wzVhdU8EiTkhNOAyqGkbwg5XoiBH0ckr1drWRWO-qthRfZ3hNFCUO1NnbaGB43k2CKyZ78dFCkq6sISjeGYjc-bZhjTvLZk6QYzBlnlrnPP6JO0FG3VgJCdwQcbUg72IbygX8F4Z4YKuSRTfL7wSTCm_Gev-tDTn1rfWjd_vQTl3S76CcnaelnzY56Bd8rDRumWOdZvt7y6ZxDBqMm2Ww5iFrEgywcCLJQPc-laGnOnm38uOMzT-9QOIPRs85xkp5kP-SB8tHflQ9HqdegMLAZ0iWe4isHLyfbmBfrKouOlcYelPlprOkMPuubEKMLJK3cFETj_jGPHarcb3JlBrIz2y8vOnrjBfJnbvNJlKQchgzpIIQWDLp2MvjC4rb4GQrSJUSymccjKbicQ5ZyQDR-1bIGJ0BxteWOhJedY8AvpvOCtfo_3WM7wJGeL2QrWECUhjO-efALm3zCvnI_duC47fffAkePW3-eWjo8fBSbVvnU75pNy9jAhdAzRneY3rmAc17bj0jxheixdy58u1Q_u4iDf_9ncWWU3uX5Z0oYbu-L_DO_k5qDpugaJNrOqQ_g3qznfB3BuUj52dFQv4lXeTnvRhL9nAJ6ibaS2d1UQ-MavwmNJpw7f2bu4k3noHheLOxG1cswLK_0A8TqGbWLrQSu3MhRyLdugDKE6l_oQqXtEyoygpRkhD-zSvYFHp8BmdDXTiSJczWNGxvyBbu2wwE8lNiRdlbCsrFvltnxq_pYc3ctWaZWMWx8B-dMLS8P_zukx9uyjh92S2-jxxRYR55LL8VAKp0Lgbz77cRccbjv9y5FBoq2nA593n3WLD7DxA7XG7E0Eyq3liX06am6dT2mkoCsTSn1wqidHpa0R6M9P0zoc6TEaa1j0ZosuLDIG3m4rwr-WxUKlm-sMQ-ze8JMa0sbJvQHKby3_8tKf4h6Tb0ReVcaXRo-QYmH-l1E6WapKDcNxS0KlbTPxjH2mBfT2THI9nRzacAabnlBdNywK_YNNrMkJzNUOiZNXUV-kyi-41M1DZYBpJhv-CSN_wZL9oI5EFE8XOTJLfWKAlnADVn5wla5WnsvikORAksLPAkli5vNpHWBImu0CzOONYkKDY9CN9fFqiw_s2ziAzugW3DGW6TT-GAUpnhv2F-JD36giHK4fjk2fAWuiIPWTL-ZQZQ1cd_tz0KDizG7LN8H8hJhGZbYbE-5NUdSQAPtWzWV784iwg.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LWx1bmEtMjAyNjA5MjJ8b3BlbmFpIn0",
+                "format": "openai-responses-v1",
+                "id": "rs_06420a063be8ce95016ae27242c19887d1a3aa14c9afa199fa",
+                "index": 0
+              }
+            ]
+          }
+        ],
+        "latency_ms": 4443.0930000089575,
+        "adapter_calls_started": 2
+      },
+      {
+        "phase": "confirmation",
+        "role": "execution",
+        "model": "openai/gpt-6-luna",
+        "status": "returned",
+        "input_characters": 18466,
+        "worker": "Maya lease renewal",
+        "run_id": "76c09634-ed41-4458-a885-ab2710d8cd84",
+        "usage": {
+          "prompt_tokens": 3150,
+          "completion_tokens": 121,
+          "total_tokens": 3271,
+          "cost": 0.000454175,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 3147,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 0.000454175,
+            "upstream_inference_prompt_cost": 0.000393675,
+            "upstream_inference_completions_cost": 6.05e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 55,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "prompt_contains_created_draft_id": true,
+        "first_worker_prompt": "You are the assistant of Poke by the Interaction Company of California. You are the \"execution engine\" of Poke, helping complete tasks for Poke, while Poke talks to the user. Your job is to execute and accomplish a goal, and you do not have direct access to the user.\n\nIMPORTANT: Don't ever execute a draft unless you receive explicit confirmation to execute it. If you are instructed to send an email, first JUST create the draft. Then, when the user confirms draft, we can send it. \n\n\nYour final output is directed to Poke, which handles user conversations and presents your results to the user. Focus on providing Poke with adequate contextual information; you are not responsible for framing responses in a user-friendly way.\n\nIf it needs more data from Poke or the user, you should also include it in your final output message. If you ever need to send a message to the user, you should tell Poke to forward that message to the user.\n\nRemember that your last output message (summary) will be forwarded to Poke. In that message, provide all relevant information and avoid preamble or postamble (e.g., \"Here's what I found:\" or \"Let me know if this looks good to send\"). If you create a draft, you need to send the exact to, subject, and body of the draft to the interaction agent verbatim. \n\nThis conversation history may have gaps. It may start from the middle of a conversation, or it may be missing messages. The only assumption you can make is that Poke's latest message is the most recent one, and representative of Poke's current requests. Address that message directly. The other messages are just for context.\n\nBefore you call any tools, reason through why you are calling them by explaining the thought process. If it could possibly be helpful to call more than one tool at once, then do so.\n\nIf you have context that would help the execution of a tool call (e.g. the user is searching for emails from a person and you know that person's email address), pass that context along.\n\nWhen searching for personal information about the user, it's probably smart to look through their emails.\n\n\n\n\nAgent Name: Maya lease renewal\nPurpose: Handle tasks related to: Maya lease renewal\n\n# Instructions\n[TO BE FILLED IN BY USER - Add your specific instructions here]\n\n# Available Tools\nYou have access to the following Gmail tools:\n- gmail_create_draft: Create an email draft\n- gmail_execute_draft: Send a previously created draft\n- gmail_forward_email: Forward an existing email\n- gmail_reply_to_thread: Reply to an email thread\n\nYou also manage reminder triggers for this agent:\n- createTrigger: Store a reminder by providing the payload to run later. Supply an ISO 8601 `start_time` and an iCalendar `RRULE` when recurrence is needed.\n- updateTrigger: Change an existing trigger (use `status=\"paused\"` to cancel or `status=\"active\"` to resume).\n- listTriggers: Inspect all triggers assigned to this agent.\n\n# Guidelines\n1. Analyze the instructions carefully before taking action\n2. Use the appropriate tools to complete the task\n3. Be thorough and accurate in your execution\n4. Provide clear, concise responses about what you accomplished\n5. If you encounter errors, explain what went wrong and what you tried\n6. When creating or updating triggers, convert natural-language schedules into explicit `RRULE` strings and precise `start_time` timestamps yourself—do not rely on the trigger service to infer intent without them.\n7. All times will be interpreted using the user's automatically detected timezone.\n8. After creating or updating a trigger, consider calling `listTriggers` to confirm the schedule when clarity would help future runs.\n\nWhen you receive instructions, think step-by-step about what needs to be done, then execute the necessary tools to complete the task.\n\n# Compact worker state\n{\"version\": 9, \"last_run_status\": \"running\", \"latest_run_id\": \"76c09634-ed41-4458-a885-ab2710d8cd84\", \"last_result_run_id\": \"1fd24cdb-895d-40c5-968e-de64c563c88d\", \"last_instruction\": \"Send the existing approved draft to maya@example.test, subject \\u201cLinden Street lease renewal,\\u201d with the exact body: \\u201cHi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.\\u201d Report whether it was sent.\", \"last_result_excerpt_unverified\": \"Created an unsent email draft for review.\\n\\nTo: maya@example.test  \\nSubject: Linden Street lease renewal  \\nBody: Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.  \\nDraft ID: demo-draft-0001\", \"observed_refs\": [{\"kind\": \"draft\", \"value\": \"demo-draft-0001\"}], \"omitted_refs\": 0}\n\n# Recent archive excerpt\n{\"format\": \"Raw XML journal excerpt; may start mid-entry. Not a semantic summary.\", \"offset\": 0, \"end_offset\": 1881, \"archive_bytes\": 1881, \"omitted_earlier\": false, \"text\": \"<agent_request timestamp=\\\"2026-10-28 22:07:36\\\">Using the existing Maya lease renewal task, create an email draft to maya@example.test with exact subject: Linden Street lease renewal and exact body: Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you. Do not send it. Report the complete draft details for user review.</agent_request>\\n<tool_receipt timestamp=\\\"2026-10-28 22:07:43\\\" encoding=\\\"json\\\">{\\\"tool\\\": \\\"gmail_create_draft\\\", \\\"arguments\\\": {\\\"recipient_email\\\": \\\"maya@example.test\\\", \\\"subject\\\": \\\"Linden Street lease renewal\\\", \\\"body\\\": \\\"Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.\\\", \\\"is_html\\\": false}, \\\"result\\\": {\\\"successful\\\": true, \\\"data\\\": {\\\"id\\\": \\\"demo-draft-0001\\\", \\\"recipient_email\\\": \\\"maya@example.test\\\", \\\"subject\\\": \\\"Linden Street lease renewal\\\", \\\"body\\\": \\\"Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.\\\", \\\"is_html\\\": false}}, \\\"tool_returned_normally\\\": true, \\\"run_id\\\": \\\"1fd24cdb-895d-40c5-968e-de64c563c88d\\\"}</tool_receipt>\\n<agent_response timestamp=\\\"2026-10-28 22:07:45\\\">Created an unsent email draft for review.\\\\n\\\\nTo: maya@example.test  \\\\nSubject: Linden Street lease renewal  \\\\nBody: Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.  \\\\nDraft ID: demo-draft-0001</agent_response>\\n<agent_request timestamp=\\\"2026-10-28 22:08:00\\\">Send the existing approved draft to maya@example.test, subject \\u201cLinden Street lease renewal,\\u201d with the exact body: \\u201cHi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.\\u201d Report whether it was sent.</agent_request>\\n\"}\n\nHistory is an excerpt, not a semantic summary or complete list of constraints. Use search_worker_archive for older facts; continue its next_offset until null before concluding no match. Use read_worker_archive with a returned byte offset to retrieve exact stored text, following next_offset. Chunks are raw XML journal text: concatenate them before decoding XML entities or JSON receipt escapes. Observed object IDs and run status are hints, not proof of current provider state, ownership, or user approval. Legacy logs may already have truncated details; the archive cannot restore those.",
+        "finish_reasons": [
+          "tool_calls"
+        ],
+        "assistant_messages": [
+          {
+            "role": "assistant",
+            "content": "The request explicitly authorizes sending the existing draft, and the recorded draft ID is `demo-draft-0001`. I’ll execute that draft now.",
+            "refusal": null,
+            "reasoning": "**Preparing to execute request**\n\nI need to send an explicit request based on the draft ID hints from the archive. Since the policy requires confirmation before execution, and I have that here, I can move forward. I should think carefully before making the tool call, providing a brief rationale without revealing too much detail. Okay, I’ll prepare to execute the action now! It’s important to make sure everything is clear.",
+            "tool_calls": [
+              {
+                "type": "function",
+                "index": 0,
+                "id": "call_ziI2LWZMlDM67BhnFmCalKQ5",
+                "function": {
+                  "name": "gmail_execute_draft",
+                  "arguments": "{\"draft_id\":\"demo-draft-0001\"}"
+                }
+              }
+            ],
+            "reasoning_details": [
+              {
+                "type": "reasoning.summary",
+                "summary": "**Preparing to execute request**\n\nI need to send an explicit request based on the draft ID hints from the archive. Since the policy requires confirmation before execution, and I have that here, I can move forward. I should think carefully before making the tool call, providing a brief rationale without revealing too much detail. Okay, I’ll prepare to execute the action now! It’s important to make sure everything is clear.",
+                "format": "openai-responses-v1",
+                "index": 0
+              },
+              {
+                "type": "reasoning.encrypted",
+                "data": "gAAAAABq4nJIiIKZWGHqOXr5V27xspC_0SCtuAHn3QQujvvlz2xUghkVJgR1EMFYvqff7drLNAV2t5xUbj_OmbkF24hwUERE_ZaE-O8WMk1sZjwz_hskPEG4Zcx90nUqHPZsdkvwNN5YuouX9lrkyROhdQsHsiNFioHRWfotS97HiHkLylM0PU89fA5GlqpfLipIja1ZyAlaTpyNFGcr-ncYshViASKjrtZeFRQfQuWMS38H5_fNLm_YgdP_9kMHohI2qnJK1GeoKeRKvK1Mft9hyvYC6ulUUWRFZ2c9FUcfTxtm0w3XghYP_dqey0LURlpMAxhEgtXpOs9aj2M_9-m65WTKuZv2omOBARY--Bt2lhmg4zYT4uquU4d5QdDwAgsBaCaM6xeqLnDfsuVgygU5zXX4l0YhnKsf7btR301eHlOWsVJFQOefWFYjUW7D1w5w9PXTAR-IKgxvnC8ow2c9hWWK5HLp9aVK7RAR9ylwlqSFzARFGrSStI7lKmYdzWZTa5BFaH3PBXgY4sZ6WPRlRflF6M9KgDz4AxYO1QwzEUytvhyWekq71VyPIjJrKfVmaIHzpqNlABhSvVyzSuZcvuJW0mEam7UEWNmwtQ3rCzQcu-5V8DWEYqn03oLspQkpa9wKtGMe5MrfievlZJ49RqSIYNVr_8h9xwmQV4oUylFsfpO7QV0zzgEZVxxxt369Xqh8lf-vQyZOreD5NZzYCfm2GqWR4Ks_sq9L3slhnEVJrbBsea2Rw-cuTnjXmeDBWFrnWw8AKeLI9tIfMYxd2voKu8yWFKg74McM9zYksmjwFZj8rXEX50Q7yilwRlO0JSo_uLGkbZ3F_cxYe1iZ4IB6JP4ho6hhcmDnF45QHCiYEan4ZEpeQrg4NRaZatfFH8d-f319lYOW2J9opzn1VK9I9JfV0MDuvnVl9H6gy7NbbHhbgkz2r3hxxkp3ck1sASbINemrvtoBfiWOJ0Q73GqiFCiMXyGCfODzfJ8RX8iAJruUanymEvLcxEN4DbsBjimSK4xeGOv6JYsFoAlCRDpz0oRIRaTODkiJCz8y0kJlqjA7ZBTRiEiUf7O5M1tcyPVYLDD3J7XQjes_0wK78QD1DfHjNanbJ1LLz3RGDzHYRsR2Yj4tc42Mx1iEpypFgK9ygVHXsnqYjDWIidXsq59j78oODQMUHtA1fyTjTcROt9t5nahez1zb8Iy51YGUVhu_ZOXlGFYYCLvVF5gd5vI6rfB5_FiDz1Rr24132TeNY2bnK5W9iRh-22IJdXOiKQXHvl7Jqcd3NOiVUPtbCJu8skPUn8-7cwoZBX6T7cmTZcTMWvKNDb4eOXRh5Pp6e9J_-oxRtNjALoQ4ZTniHUzjPc44W5zuekqWs-f7PzU5HS5_xGab373LMHMpriCEeRZ7CQUR96SIptlGBPvvM1y_b1TBfSWmeW8vmOOgQtePWCaJVll0oqjvAt6T1sj05ArzwyD8Wt0kU3oJWSxuZAjLxQp1BzCk2R2Hgy1gC5uoNmKFyZjY-zs6_O-CZZgkBt5x5zvSg5RPKGPRLkOWZHgKL8qHocwG0LHyqNZerw1RaN8pXNT8nec-NPyPcDzcmxIrgNoe7AKmeQd8rpwIaRVdHRaLeT25itWRLdChU-byJolnCKBKqiG0YGdCO5oijToHjdUEHwU-o1AYAxY9guDPdQHLeR0ri_Pe0N5kZFowpfBoRxRHOgJAYlLLmc4r_xdZyOF-tCY4ac0e1dV66NKitnWYD1UiQMuQQqMokP37o41D_Xfx_yhNO1_w4NrgMkUuRgyejT3MFAmyAG6qMwxpNrrz8v0uXQ378I9C9-QsIQNW-5M8TEdaOAYH6D1OnK8KWMrve5WVvJVbTG1LRrMAhjpTtrycBfm4RbqTFaOXg8mOAtDCtWqnme0IvdeZrw49oTZqYNlECgalmjIj9mNUNCwyfKHbEg9vH2MtpUEDVO7aGnhZqWh8jYzWC12vcYslMqwpnYHYd8e6KUnapeWUn1XgfgpscTRy3CYaYG0tJWOtkhhjVtXUjdp49Nn1jfab1rB_7NAYkxKts1zNDazLCKbbF8-AUfePsBOH1QhqqVc6BsPqxs6V4vV-50S1bms_rOvNbxEjJDg80DSx8TFulWbb4HbElYCAK5ezG4knBWRZo8Zc6K7MO5tEcNbNtad-W7RDnQ5xBnqAPXF3XCp69VswZkaS6savxzaWsqztV8rnr9V0MXXN7yJ96ePUeeyAL2AYumiArY-W9G7rDGGExozKPk0wIgsf45oY8SUZXKmmTkTviqJiQgGRHxuYfniaNFR7L829wbmuPVB01ndIx87nssBOHvsVWjbfwaQPmKdK9ybSqExiecM4VM99696b7zLc.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LWx1bmEtMjAyNjA5MjJ8b3BlbmFpIn0",
+                "format": "openai-responses-v1",
+                "id": "rs_0d2ea7993e35834e016ae27246053887d18b9a5b351d2057da",
+                "index": 1
+              }
+            ]
+          }
+        ],
+        "latency_ms": 7558.863399986876,
+        "adapter_calls_started": 2
+      },
+      {
+        "phase": "confirmation",
+        "role": "execution",
+        "model": "openai/gpt-6-luna",
+        "status": "returned",
+        "input_characters": 19195,
+        "worker": "Maya lease renewal",
+        "run_id": "76c09634-ed41-4458-a885-ab2710d8cd84",
+        "usage": {
+          "prompt_tokens": 3309,
+          "completion_tokens": 32,
+          "total_tokens": 3341,
+          "cost": 6.7645e-05,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 3147,
+            "cache_write_tokens": 159,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 6.7645e-05,
+            "upstream_inference_prompt_cost": 5.1645e-05,
+            "upstream_inference_completions_cost": 1.6e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 0,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "prompt_contains_created_draft_id": true,
+        "finish_reasons": [
+          "stop"
+        ],
+        "assistant_messages": [
+          {
+            "role": "assistant",
+            "content": "Sent successfully to maya@example.test using draft `demo-draft-0001`. The resulting message ID is `demo-message-0001`.",
+            "refusal": null,
+            "reasoning": null
+          }
+        ],
+        "latency_ms": 1610.833700018702,
+        "adapter_calls_started": 1
+      },
+      {
+        "phase": "confirmation",
+        "role": "callback",
+        "model": "openai/gpt-6-luna",
+        "status": "returned",
+        "input_characters": 19089,
+        "worker": null,
+        "run_id": null,
+        "usage": {
+          "prompt_tokens": 3845,
+          "completion_tokens": 71,
+          "total_tokens": 3916,
+          "cost": 0.000180135,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 2921,
+            "cache_write_tokens": 921,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 0.000180135,
+            "upstream_inference_prompt_cost": 0.000144635,
+            "upstream_inference_completions_cost": 3.55e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 15,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "finish_reasons": [
+          "tool_calls"
+        ],
+        "assistant_messages": [
+          {
+            "role": "assistant",
+            "content": null,
+            "refusal": null,
+            "reasoning": null,
+            "tool_calls": [
+              {
+                "type": "function",
+                "index": 0,
+                "id": "call_ba8r2dG4624kuo2SR2T7Od0l",
+                "function": {
+                  "name": "send_message_to_user",
+                  "arguments": "{\"message\":\"Sent to maya@example.test with the approved subject and body.\",\"source_result_ids\":[\"76c09634-ed41-4458-a885-ab2710d8cd84\"]}"
+                }
+              }
+            ],
+            "reasoning_details": [
+              {
+                "type": "reasoning.encrypted",
+                "data": "gAAAAABq4nJNmGWpyWWscIINFOU0jjsRaY3j8nlqjMf4T2sUNhy-P7OM1kXzxE-AebdYgpfyRbMiw9TUKDcYfafGXrdRFl8Fg8lKWUDjrcip4aknMH5gnELWjk91ia9GMJjaU7WZt8YsMMUS35GanAXA17uqyed1iE6gu7of0HV0wsaDJXHuJ9HKeVIn8kaJ-SWEUwvAQuKBUgq2cbq5j-GpPtjZRdz6EhaoAXxMis2upQCXOCF8oDP_qCbalPDHH7gi7h5kvVnjzrTFWxk0xZbsj_BBtBj1_-WLzZlZOPW7VI7Dn5LOzGVJepnIOy6_ibBTY6lIO-JpeIjLLHLL7q-wU05esRXzD6KU4_q5oIGRUD1jWhRt3BsgpaK_MlR4GQyUdpmmMCJVSCJwDofXwsG8Bnc_q70xXQnC57362zTabgtV-YjlZIRorlIMqOq5viB9YcuOB1NWe23U8WIjm_jObVPTkYHOUmgkrGKPSnTY8Ra1GRMvLK5aIKMIO46nrwpckuGaZDQvCcOKhjVBiiCRaw7DFwctH_lncQFdyKyxLTX-QEtWdwS07gzVIf4eIUrgtKkK7SXpD-eofv-Kf83266JjtN-SdUobBWJwbb02Pzh5KSnGY7bmOO3y_VZOmLfY7OTTQ_0nPOmidX9PjSvf6sdDsWdBDkPEinIv2agkLyFqnWtglBtN0hZpddwoLK7-k1CXeerivepPWF6vGl83Y_4I86DlArrFoq2DC3o5TJ_pUJh4G1KeNCJnq2dsDQTdkwh_dCRwx3L2CwVcST0B7d7PeklZ0-KucDZ55955uypJRSk9pJAujYUDxL_-ttMJK8MjWOORy5HZ5A0WPCjKqIDFKFWoZ8sveF02NBWOC2cwoyhr4u-Dji2_mdj2Fn7h_Scbe3Au95iFdWHRYrwJ-EPLFEB61uGdlHNw0Dklz9n6B3atG1PSldBo-Bflg8xRJO_spS6tIk4Aj3BX-6MgMC0cPQ2sHw4FniI6HP602ifjIe74F5gCf_WbLYkgHCSWTQg4Dsxgxf5YIuU4TYvDxdrl1AQopIAK3_l4g-J2GNDQRs2nM8zxtJvCsCN6M5c21n_vMDjmdvIYT7jOHRL2xOvpad_TZKbc8FyfMOmx3q3eFRULaF7qbyvrdYtZYQ1MxfpwVmF9AA-AOmuCGUPpOxTctVYrmrzRKzw9nslRvsu74Zo4ts8TWAan9qXhSUXjPxEVUbxL6_F9BbtBFf_fre4UzsccugEhkYNCKybxt9UsJ4v_GzC_8wuv0sTEHVxFqH_9VBIuZZYFo1Vk5cDwmYujjjkWaV6SGOWDQH9fo6iyCE4WCWF1n-ItBijslNdbzJVsaVDYcEe9Y88vLVZSwWjDfGnQer1V62pq9kuoq3LBjvj5G8Qj3GIAVo_jjpXNwH70EIz3CMX2TOpS21izwiH6SXe8sMaLOx7j1NrddNCX0xJHVzFKENICAQIlGLLLdnw4hFDLPgVBQpbZmWtInGaUmvrzNcPXQEJ6vgkJ73xHxNMrlveP-8wCSlT9ANlktL3Fobgu29_P7nUTESfNZAZb_Gy8NNmZ5MngxaX0gDyKEPkRDx6Na3q1pv6RfT77kTEPxuiUlYR7n8eHt_vLdAh1BTazPi9OxpNWVESV8NO0pY0chjHrP20oxGwJ-FPXU5wGLYp2OIrYCEmQZN1uYzXqG31tJara3afVaosVPxJ-93jIAJLVezG0LBp75N3CXvtl5sPtUq7ODcHnztqg8mdx5yktmQYa-8XoeArZrIg7oqI674E=.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LWx1bmEtMjAyNjA5MjJ8b3BlbmFpIn0",
+                "format": "openai-responses-v1",
+                "id": "rs_0befac24559c3740016ae2724c4f7887d1bb4d480237caf7cc",
+                "index": 0
+              }
+            ]
+          }
+        ],
+        "latency_ms": 3554.1775999881793,
+        "adapter_calls_started": 1
+      },
+      {
+        "phase": "confirmation",
+        "role": "callback",
+        "model": "openai/gpt-6-luna",
+        "status": "returned",
+        "input_characters": 19771,
+        "worker": null,
+        "run_id": null,
+        "usage": {
+          "prompt_tokens": 3982,
+          "completion_tokens": 4,
+          "total_tokens": 3986,
+          "cost": 5.7845e-05,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 3842,
+            "cache_write_tokens": 137,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 5.7845e-05,
+            "upstream_inference_prompt_cost": 5.5845e-05,
+            "upstream_inference_completions_cost": 2e-06
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 0,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "finish_reasons": [
+          "stop"
+        ],
+        "assistant_messages": [
+          {
+            "role": "assistant",
+            "content": null,
+            "refusal": null,
+            "reasoning": null
+          }
+        ],
+        "latency_ms": 1943.4676000091713,
+        "adapter_calls_started": 1
+      }
+    ],
+    "tools": [
+      {
+        "phase": "draft",
+        "role": "interaction",
+        "name": "send_message_to_user",
+        "arguments": {
+          "message": "I’ll put the exact text into a draft for Maya and show it to you before anything is sent."
+        },
+        "success": true,
+        "payload": {
+          "status": "delivered"
+        }
+      },
+      {
+        "phase": "draft",
+        "role": "interaction",
+        "name": "send_message_to_agent",
+        "arguments": {
+          "agent_name": "Maya lease renewal",
+          "instructions": "Using the existing Maya lease renewal task, create an email draft to maya@example.test with exact subject: Linden Street lease renewal and exact body: Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you. Do not send it. Report the complete draft details for user review."
+        },
+        "success": true,
+        "payload": {
+          "status": "submitted",
+          "agent_name": "Maya lease renewal",
+          "new_agent_created": false
+        }
+      },
+      {
+        "phase": "draft",
+        "role": "interaction",
+        "name": "wait",
+        "arguments": {
+          "reason": "The existing lease-renewal task is preparing the requested draft; waiting for its result before showing the complete text."
+        },
+        "success": true,
+        "payload": {
+          "status": "waiting",
+          "reason": "The existing lease-renewal task is preparing the requested draft; waiting for its result before showing the complete text."
+        }
+      },
+      {
+        "phase": "draft",
+        "role": "execution",
+        "worker": "Maya lease renewal",
+        "run_id": "1fd24cdb-895d-40c5-968e-de64c563c88d",
+        "name": "gmail_create_draft",
+        "arguments": {
+          "recipient_email": "maya@example.test",
+          "subject": "Linden Street lease renewal",
+          "body": "Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.",
+          "is_html": false
+        },
+        "success": true,
+        "payload": {
+          "successful": true,
+          "data": {
+            "id": "demo-draft-0001",
+            "recipient_email": "maya@example.test",
+            "subject": "Linden Street lease renewal",
+            "body": "Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.",
+            "is_html": false
+          }
+        }
+      },
+      {
+        "phase": "draft",
+        "role": "callback",
+        "name": "send_draft",
+        "arguments": {
+          "to": "maya@example.test",
+          "subject": "Linden Street lease renewal",
+          "body": "Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.",
+          "source_result_ids": [
+            "1fd24cdb-895d-40c5-968e-de64c563c88d"
+          ]
+        },
+        "success": true,
+        "payload": {
+          "status": "draft_recorded",
+          "to": "maya@example.test",
+          "subject": "Linden Street lease renewal"
+        }
+      },
+      {
+        "phase": "draft",
+        "role": "callback",
+        "name": "send_message_to_user",
+        "arguments": {
+          "message": "Draft is ready and unsent.\n\nTo: maya@example.test\nSubject: Linden Street lease renewal\n\nHi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.\n\nWould you like me to send it, or make any edits?",
+          "source_result_ids": [
+            "1fd24cdb-895d-40c5-968e-de64c563c88d"
+          ]
+        },
+        "success": true,
+        "payload": {
+          "status": "delivered"
+        }
+      },
+      {
+        "phase": "draft",
+        "role": "callback",
+        "name": "wait",
+        "arguments": {
+          "reason": "The exact unsent draft and complete contents have already been shown to the user; avoid duplicating the draft or review prompt."
+        },
+        "success": true,
+        "payload": {
+          "status": "waiting",
+          "reason": "The exact unsent draft and complete contents have already been shown to the user; avoid duplicating the draft or review prompt."
+        }
+      },
+      {
+        "phase": "confirmation",
+        "role": "interaction",
+        "name": "send_message_to_user",
+        "arguments": {
+          "message": "Got it—I’ll send the approved draft to Maya now."
+        },
+        "success": true,
+        "payload": {
+          "status": "delivered"
+        }
+      },
+      {
+        "phase": "confirmation",
+        "role": "interaction",
+        "name": "send_message_to_agent",
+        "arguments": {
+          "agent_name": "Maya lease renewal",
+          "instructions": "Send the existing approved draft to maya@example.test, subject “Linden Street lease renewal,” with the exact body: “Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.” Report whether it was sent."
+        },
+        "success": true,
+        "payload": {
+          "status": "submitted",
+          "agent_name": "Maya lease renewal",
+          "new_agent_created": false
+        }
+      },
+      {
+        "phase": "confirmation",
+        "role": "interaction",
+        "name": "wait",
+        "arguments": {
+          "reason": "I already told the user I’m sending the approved draft and the send request is underway; waiting for the delivery result rather than repeating the update."
+        },
+        "success": true,
+        "payload": {
+          "status": "waiting",
+          "reason": "I already told the user I’m sending the approved draft and the send request is underway; waiting for the delivery result rather than repeating the update."
+        }
+      },
+      {
+        "phase": "confirmation",
+        "role": "execution",
+        "worker": "Maya lease renewal",
+        "run_id": "76c09634-ed41-4458-a885-ab2710d8cd84",
+        "name": "gmail_execute_draft",
+        "arguments": {
+          "draft_id": "demo-draft-0001"
+        },
+        "success": true,
+        "payload": {
+          "successful": true,
+          "data": {
+            "id": "demo-message-0001",
+            "draft_id": "demo-draft-0001"
+          }
+        }
+      },
+      {
+        "phase": "confirmation",
+        "role": "callback",
+        "name": "send_message_to_user",
+        "arguments": {
+          "message": "Sent to maya@example.test with the approved subject and body.",
+          "source_result_ids": [
+            "76c09634-ed41-4458-a885-ab2710d8cd84"
+          ]
+        },
+        "success": true,
+        "payload": {
+          "status": "delivered"
+        }
+      }
+    ],
+    "turns": [
+      {
+        "phase": "draft",
+        "kind": "user",
+        "success": true,
+        "response": "I’ll put the exact text into a draft for Maya and show it to you before anything is sent.",
+        "error": null,
+        "discovery_trace": {
+          "mode": "focus",
+          "initial": {
+            "backend": "fts5_bm25",
+            "tokenizer": "porter unicode61",
+            "include_focus": true,
+            "max_cards": 12,
+            "max_chars": 6000,
+            "rendered_chars": 418,
+            "candidates_observed": 1,
+            "omitted_observed": 0,
+            "selected": [
+              {
+                "agent_name": "Maya lease renewal",
+                "reason": "fts5_bm25"
+              }
+            ],
+            "history_retrieval": {
+              "heuristic": "closed_english_continuation_v1",
+              "eligible": false,
+              "max_candidates": 3,
+              "query_chars": 0,
+              "reason": "current_query_specific_or_unsupported"
+            }
+          },
+          "expansions": [],
+          "state_refreshes": []
+        }
+      },
+      {
+        "phase": "draft",
+        "kind": "callback",
+        "success": true,
+        "response": "Draft is ready and unsent.\n\nTo: maya@example.test\nSubject: Linden Street lease renewal\n\nHi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.\n\nWould you like me to send it, or make any edits?",
+        "error": null
+      },
+      {
+        "phase": "confirmation",
+        "kind": "user",
+        "success": true,
+        "response": "Got it—I’ll send the approved draft to Maya now.",
+        "error": null,
+        "discovery_trace": {
+          "mode": "focus",
+          "initial": {
+            "backend": "fts5_bm25",
+            "tokenizer": "porter unicode61",
+            "include_focus": true,
+            "max_cards": 12,
+            "max_chars": 6000,
+            "rendered_chars": 1114,
+            "candidates_observed": 1,
+            "omitted_observed": 0,
+            "selected": [
+              {
+                "agent_name": "Maya lease renewal",
+                "reason": "recent_user_context"
+              }
+            ],
+            "history_retrieval": {
+              "heuristic": "closed_english_continuation_v1",
+              "eligible": true,
+              "max_candidates": 3,
+              "query_chars": 175,
+              "reason": "recent_user_context"
+            }
+          },
+          "expansions": [],
+          "state_refreshes": []
+        }
+      },
+      {
+        "phase": "confirmation",
+        "kind": "callback",
+        "success": true,
+        "response": "Sent to maya@example.test with the approved subject and body.",
+        "error": null
+      }
+    ],
+    "worker_runs": [
+      {
+        "phase": "draft",
+        "worker": "Maya lease renewal",
+        "run_id": "1fd24cdb-895d-40c5-968e-de64c563c88d",
+        "instructions": "Using the existing Maya lease renewal task, create an email draft to maya@example.test with exact subject: Linden Street lease renewal and exact body: Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you. Do not send it. Report the complete draft details for user review.",
+        "instance": 1,
+        "success": true,
+        "response": "Created an unsent email draft for review.\n\nTo: maya@example.test  \nSubject: Linden Street lease renewal  \nBody: Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.  \nDraft ID: demo-draft-0001",
+        "error": null
+      },
+      {
+        "phase": "confirmation",
+        "worker": "Maya lease renewal",
+        "run_id": "76c09634-ed41-4458-a885-ab2710d8cd84",
+        "instructions": "Send the existing approved draft to maya@example.test, subject “Linden Street lease renewal,” with the exact body: “Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.” Report whether it was sent.",
+        "instance": 2,
+        "success": true,
+        "response": "Sent successfully to maya@example.test using draft `demo-draft-0001`. The resulting message ID is `demo-message-0001`.",
+        "error": null
+      }
+    ],
+    "callbacks": [
+      {
+        "phase": "draft",
+        "payload": "<execution_result source_result_id=\"1fd24cdb-895d-40c5-968e-de64c563c88d\" agent_name=\"Maya lease renewal\" correlation_id=\"83fb8d3e-1a85-4157-ad10-3e6224c2fa74\" status=\"SUCCESS\">\nCreated an unsent email draft for review.\n\nTo: maya@example.test  \nSubject: Linden Street lease renewal  \nBody: Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.  \nDraft ID: demo-draft-0001\n</execution_result>",
+        "sources": [
+          {
+            "result_id": "1fd24cdb-895d-40c5-968e-de64c563c88d",
+            "agent_name": "Maya lease renewal",
+            "correlation_id": "83fb8d3e-1a85-4157-ad10-3e6224c2fa74"
+          }
+        ]
+      },
+      {
+        "phase": "confirmation",
+        "payload": "<execution_result source_result_id=\"76c09634-ed41-4458-a885-ab2710d8cd84\" agent_name=\"Maya lease renewal\" correlation_id=\"fbff76d6-d60e-4690-8460-270e8d4209f7\" status=\"SUCCESS\">\nSent successfully to maya@example.test using draft `demo-draft-0001`. The resulting message ID is `demo-message-0001`.\n</execution_result>",
+        "sources": [
+          {
+            "result_id": "76c09634-ed41-4458-a885-ab2710d8cd84",
+            "agent_name": "Maya lease renewal",
+            "correlation_id": "fbff76d6-d60e-4690-8460-270e8d4209f7"
+          }
+        ]
+      }
+    ],
+    "conversation": "\n<user_message>Use the existing Maya lease renewal task to create a draft to maya@example.test. Use the exact subject and body between these delimiters; the delimiters are not part of the email.\n&lt;email_subject&gt;Linden Street lease renewal&lt;/email_subject&gt;\n&lt;email_body&gt;Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.&lt;/email_body&gt;\nShow me the complete draft before sending. Do not send it yet.</user_message>\n<poke_reply>I’ll put the exact text into a draft for Maya and show it to you before anything is sent.</poke_reply>\n<agent_message>&lt;execution_result source_result_id=\"1fd24cdb-895d-40c5-968e-de64c563c88d\" agent_name=\"Maya lease renewal\" correlation_id=\"83fb8d3e-1a85-4157-ad10-3e6224c2fa74\" status=\"SUCCESS\"&gt;\nCreated an unsent email draft for review.\n\nTo: maya@example.test  \nSubject: Linden Street lease renewal  \nBody: Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.  \nDraft ID: demo-draft-0001\n&lt;/execution_result&gt;</agent_message>\n<poke_reply>To: maya@example.test\nSubject: Linden Street lease renewal\n\nHi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.</poke_reply>\n<poke_reply>Draft is ready and unsent.\n\nTo: maya@example.test\nSubject: Linden Street lease renewal\n\nHi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.\n\nWould you like me to send it, or make any edits?</poke_reply>\n<user_message>Yes, send it.</user_message>\n<poke_reply>Got it—I’ll send the approved draft to Maya now.</poke_reply>\n<agent_message>&lt;execution_result source_result_id=\"76c09634-ed41-4458-a885-ab2710d8cd84\" agent_name=\"Maya lease renewal\" correlation_id=\"fbff76d6-d60e-4690-8460-270e8d4209f7\" status=\"SUCCESS\"&gt;\nSent successfully to maya@example.test using draft `demo-draft-0001`. The resulting message ID is `demo-message-0001`.\n&lt;/execution_result&gt;</agent_message>\n<poke_reply>Sent to maya@example.test with the approved subject and body.</poke_reply>",
+    "worker_journals": {
+      "gmail-execution-agent.log": "<agent_action timestamp=\"2026-10-28 22:07:43\">GMAIL_CREATE_EMAIL_DRAFT succeeded | args={\"body\": \"Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.\", \"is_html\": false, \"recipient_email\": \"maya@example.test\", \"subject\": \"Linden Street lease renewal\"}</agent_action>\n<agent_action timestamp=\"2026-10-28 22:08:08\">GMAIL_SEND_DRAFT succeeded | args={\"draft_id\": \"demo-draft-0001\"}</agent_action>\n",
+      "maya-lease-renewal.log": "<agent_request timestamp=\"2026-10-28 22:07:36\">Using the existing Maya lease renewal task, create an email draft to maya@example.test with exact subject: Linden Street lease renewal and exact body: Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you. Do not send it. Report the complete draft details for user review.</agent_request>\n<tool_receipt timestamp=\"2026-10-28 22:07:43\" encoding=\"json\">{\"tool\": \"gmail_create_draft\", \"arguments\": {\"recipient_email\": \"maya@example.test\", \"subject\": \"Linden Street lease renewal\", \"body\": \"Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.\", \"is_html\": false}, \"result\": {\"successful\": true, \"data\": {\"id\": \"demo-draft-0001\", \"recipient_email\": \"maya@example.test\", \"subject\": \"Linden Street lease renewal\", \"body\": \"Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.\", \"is_html\": false}}, \"tool_returned_normally\": true, \"run_id\": \"1fd24cdb-895d-40c5-968e-de64c563c88d\"}</tool_receipt>\n<agent_response timestamp=\"2026-10-28 22:07:45\">Created an unsent email draft for review.\\n\\nTo: maya@example.test  \\nSubject: Linden Street lease renewal  \\nBody: Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.  \\nDraft ID: demo-draft-0001</agent_response>\n<agent_request timestamp=\"2026-10-28 22:08:00\">Send the existing approved draft to maya@example.test, subject “Linden Street lease renewal,” with the exact body: “Hi Maya, I can renew the Linden Street studio lease for twelve months at EUR 2,100 per month. Please let me know if that works for you.” Report whether it was sent.</agent_request>\n<tool_receipt timestamp=\"2026-10-28 22:08:08\" encoding=\"json\">{\"tool\": \"gmail_execute_draft\", \"arguments\": {\"draft_id\": \"demo-draft-0001\"}, \"result\": {\"successful\": true, \"data\": {\"id\": \"demo-message-0001\", \"draft_id\": \"demo-draft-0001\"}}, \"tool_returned_normally\": true, \"run_id\": \"76c09634-ed41-4458-a885-ab2710d8cd84\"}</tool_receipt>\n<agent_response timestamp=\"2026-10-28 22:08:09\">Sent successfully to maya@example.test using draft `demo-draft-0001`. The resulting message ID is `demo-message-0001`.</agent_response>\n"
+    },
+    "retained_state_directory": "evals/routing/results/live-execution-demo/state",
+    "local_model_calls": 15,
+    "local_reserved_estimated_usd": 0.08450359999999998,
+    "ledger_after": {
+      "total_usd": 50.0,
+      "max_calls": 5000,
+      "calls": 1064,
+      "reserved_calls": 1064,
+      "reserved_estimated_usd": 26.388281088,
+      "remaining_calls": 3936,
+      "remaining_estimated_usd": 23.611718912,
+      "accounting": "conservative reservations, not actual provider charges"
+    },
+    "limits": [
+      "One explicit synthetic task, not a routing accuracy benchmark",
+      "Gmail behavior and receipts are simulated",
+      "Short worker history; does not establish older archive retrieval quality",
+      "Exact send_draft fields are checked; surrounding prose still merits review",
+      "The demo supplies user confirmation only after its draft checks pass; this is not a product approval gate"
+    ]
+  },
+  "content_review": {
+    "review_type": "model_assisted",
+    "human_review": false,
+    "finding": "The requested recipient, subject and body are preserved. The saved draft ID is sent once after the separate confirmation. The draft is displayed twice, so the interaction is unnecessarily repetitive.",
+    "limit": "One explicit synthetic scenario; no real Gmail account or provider behavior is validated."
+  }
+}

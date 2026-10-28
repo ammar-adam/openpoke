@@ -1,9 +1,9 @@
 # Explaining and defending the discovery change
 
 Use this as speaker notes, not a claim that the system is production-ready.
-The implementation detail is in [the guide](agent-discovery.md). Live evaluation
-is underway; the [live evidence report](evidence/live-routing.md) is forthcoming.
-Do not quote a live result until that report records the run and its limitations.
+The implementation detail is in [the guide](agent-discovery.md). The
+[live evidence report](evidence/live-routing.md) records measured runs and limitations.
+Use [slides 5–9 and speaker notes](slides-and-speaker-notes.md) for copy-ready bullets.
 
 ## The problem and the claim
 
@@ -105,10 +105,10 @@ not a novel ranking algorithm.
 | Live models on synthetic scenarios | Actual model selection and response behavior under the recorded prompts and fixtures | Representative production quality or successful Gmail execution |
 | Real Gmail integration testing | Provider behavior and state changes checked against a controlled account | Broad routing quality or multi-user scalability by itself |
 
-There are currently **15 authored regression cases and 20 fresh authored challenge
-cases**. “Fresh” means newly written; authors know the implementation. The smoke and
+There are **15 authored regression cases and 40 further authored cases**: 20 challenge
+cases plus 20 additional scenarios. “Fresh” means newly written; authors know the implementation. The smoke and
 validation groups organize the workflow and are not independent statistical
-holdouts. Live results are pending. The challenge callback cases run the real
+holdouts. Recorded live results are mixed. The challenge callback cases run the real
 Interaction Agent callback and follow-up with a shared conversation and catalog;
 publication evidence must be generated through the real tools, not preseeded as
 correct. Worker executions are mocked, so these runs send no Gmail messages.
@@ -125,7 +125,7 @@ trials are marked unrun/incomplete/operational failures, not wrong routing answe
 **“Fifteen cases isn't enough.”**
 
 “Correct. They are regression examples for specific failure mechanisms, not a
-population accuracy estimate. We added 20 fresh stress cases and repeated live
+population accuracy estimate. We added 40 authored cases and repeated live
 trials, but neither makes them representative. I can defend the bounds and the
 behavior on these recorded cases. A broader quality claim needs representative,
 de-identified conversations, independent labels, and evaluation after the choices

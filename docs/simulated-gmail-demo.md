@@ -1,5 +1,16 @@
 # Internal execution demo with simulated Gmail
 
+The optional demo requires **Python 3.11+** for its bounded asynchronous timeout.
+
+The recorded live run on 28 October used `openai/gpt-6-luna` and passed all **12
+integration checks** across 15 model calls. It created one exact draft, displayed
+it, and sent the same simulated draft once after the separate confirmation.
+The draft was displayed twice, so the conversation remains unnecessarily
+repetitive. This is one synthetic success, not a reliability estimate. The
+[complete recorded result](evidence/execution-demo.json) includes the actual
+tool sequence, worker journals, callbacks, checks, and model-assisted content
+review. No human content review or real Gmail validation was performed.
+
 This optional demo runs live models through the actual Interaction Agent,
 ExecutionBatchManager, ExecutionAgentRuntime, catalog, publication tools, and worker
 journal. Gmail is an in-memory simulator. It accesses no Gmail account and sends no

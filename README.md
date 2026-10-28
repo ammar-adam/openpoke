@@ -52,7 +52,9 @@ The setup template enables `OPENPOKE_AGENT_DISCOVERY=focus`. `retrieval` removes
 publication priority for comparison; `legacy` restores full-roster discovery.
 All use the same execution runtime. No extra routing-model call, task migration,
 or durable queue is required. See the [architecture and teaching guide](docs/agent-discovery.md)
-for signals, recovery, tradeoffs, and source locations.
+for signals, recovery, tradeoffs, and source locations, and the
+[slides and speaker notes](docs/slides-and-speaker-notes.md) for a short explanation.
+Models are configurable globally or per role; see [model configuration](docs/model-configuration.md).
 
 ### What the measurements establish
 
@@ -68,8 +70,19 @@ These are **candidate inclusion results, not model routing accuracy**. The fixtu
 provide correct publication annotations; they do not establish how reliably a live
 model supplies them. At 10,000 workers, the observed maximum roster block fell from
 483,936 to 5,668 characters. Indexed lookup itself was slower than constructing
-the in-memory roster string in this local test; end-to-end latency and token savings
-have not been measured. See [reproducible development evidence](docs/evidence/discovery-development.md).
+the in-memory roster string in this local test. See
+[reproducible development evidence](docs/evidence/discovery-development.md) for that
+historical measurement.
+
+The follow-up live campaign uses 40 authored scenarios, real model calls, and actual
+Interaction Agent callback/follow-up turns. In the main 1,000-worker Luna comparison,
+focus used about 76% fewer recorded input tokens than the full roster across 14 cases
+repeated three times per mode. **Routing quality was mixed; the complete system has
+not been shown to be better.** These are implementation-informed synthetic cases,
+not representative user traffic. Worker execution is mocked in the routing campaign;
+content reviews are model-assisted. Recorded timings include deliberate request
+pacing and do not establish a production speedup. See the
+[live evidence and limitations](docs/evidence/live-routing.md).
 
 At small roster sizes, richer cards can contain more text than the original names.
 The 100,000-record stress probe also exposes costly broad searches; indexed lookup
@@ -83,8 +96,8 @@ queries can still do substantial database work. Worker names retain the original
 filename-collision limitation. The compact result is an unverified excerpt, not
 a complete semantic summary; old receipts that were truncated before saving
 cannot be recovered. Observed draft/thread IDs do not establish ownership,
-current provider state, or approval. Wrong-agent execution recovery and live
-model/Gmail validation remain unfinished. The bounds above cover individual
+current provider state, or approval. Wrong-agent execution recovery, independent
+quality validation, and real Gmail validation remain unfinished. The bounds above cover individual
 context components, not total tokens across an entire run.
 Synchronous provider calls run off the event loop, so other requests can progress.
 A timeout or cancellation cannot stop a provider call already running in a thread;
@@ -158,9 +171,9 @@ The web app proxies API calls to the Python server using the values in `.env`, s
 
 ## Checks and evaluation
 
-The offline suite checks context bounds, source attribution, stale-state rejection,
+The latest recorded offline run passes **243 tests**. The suite checks context bounds, source attribution, stale-state rejection,
 archive recovery, and callback handling. The routing evaluation also has 20 fresh
-challenge cases plus 20 further authored stress cases alongside the original 15
+challenge cases plus 20 additional authored cases alongside the original 15
 regression cases, real callback → user
 follow-up sessions, and a shared reservation ledger across live runs. These are
 hand-authored scenarios, not a representative sample of real users.
@@ -176,6 +189,10 @@ Its opt-in live mode still mocks worker execution and requires an explicit model
 prices, and call/cost limits. It separates wrong decisions from provider failures
 and unrun trials; semantic response reviews remain separate from dispatch identity.
 See the [evaluation instructions](evals/routing/README.md).
+The [internal execution demo](docs/simulated-gmail-demo.md) also runs the actual
+worker runtime and callbacks with simulated Gmail. Its recorded live-model run
+passed all 12 integration checks. It does not access a Gmail account or validate
+the provider integration; one successful synthetic task is not a reliability estimate.
 
 ## Project Layout
 - `server/` – FastAPI application and agents

@@ -2,8 +2,10 @@
 
 This prototype changes how the Interaction Agent finds existing workers. It keeps
 the current chat interface, worker names, execution histories, and email tools.
-Live model routing remains unmeasured. This version extends the existing execution
-architecture; it adds no separate task runtime, durable job queue, or model router.
+Live model routing has now been measured on authored synthetic scenarios, with mixed
+quality results. See the [live evidence report](evidence/live-routing.md). This version
+extends the existing execution architecture; it adds no separate task runtime,
+durable job queue, or model router.
 
 ## Run it
 
@@ -217,10 +219,11 @@ Cancelling a run cannot stop an already-running provider call; its remote outcom
 be unknown. The system does not automatically retry that external action.
 
 A successful Interaction Agent `wait` now ends the current model loop after every
-tool call in that response has been processed. A dispatch or publication following
-`wait` in the same batch is preserved. Explicit user messages and logged drafts stay
-visible; fallback assistant prose is suppressed because `wait` is a silent yield.
-A failed wait can be corrected on the next model call. Pending execution workers
+tool call in that response has been processed, provided the entire batch succeeded.
+A failed dispatch or other failed tool call permits model recovery before yielding.
+A dispatch or publication following `wait` in the same batch is preserved. Explicit
+user messages and logged drafts stay visible; fallback assistant prose is suppressed
+on a successful yield. A failed wait can be corrected on the next model call. Pending execution workers
 are not cancelled, and their later callbacks run as normal new interaction turns.
 This fixes repeated wait calls exhausting the eight-iteration cap.
 
@@ -271,10 +274,19 @@ The command writes JSONL records, a manifest, and a summary under
 and histories. It measures initial candidate recall, rendered characters, and lookup
 latency. Keeping the target in the shortlist is not the same as selecting it correctly.
 
-The fifteen hand-authored cases are development scenarios, not a held-out benchmark.
-Publication fixtures are preseeded with correct references; the lookup results do not
+The original fifteen hand-authored cases are development scenarios, not a held-out benchmark.
+Their publication fixtures are preseeded with correct references; the lookup results do not
 measure how reliably a live model supplies publication annotations. Separate runtime
 tests check validation, omission behavior, asynchronous callbacks, and reset handling.
+
+The live campaign adds 20 challenge cases and 20 further authored cases. Its callback
+scenarios run actual callback and user-follow-up turns with shared conversation/catalog
+state; publication references must be produced by the model through the real tools.
+The 14-case main comparison repeats each case three times across three modes, yielding
+126 attempts, not 126 unique requests. Authors knew the implementation. Semantic
+reviews are model-assisted, uncertain judgments remain null, and these results are
+not a representative or independently labeled accuracy estimate. See the
+[evidence report](evidence/live-routing.md) for separate cohorts and recorded failures.
 
 For opt-in live routing, add `--live`, a model, verified effective input/output prices
 per million tokens, `--max-estimated-usd`, and `--max-calls`. An OpenRouter key must be
@@ -296,6 +308,8 @@ All three modes also share the wait-yield runtime correction above. Therefore th
 comparisons preserve the baseline prompt/schema but do not run its original broken
 wait-loop behavior. Keep pre-fix and post-fix live runs separate and retain their
 source digests; do not silently pool earlier iteration-limit failures with later runs.
+The later refinement that permits recovery after any failed tool in a wait batch
+also has separate confirmation runs; the main Luna comparison predates that refinement.
 
 ## Tradeoffs and limits to explain
 
@@ -303,7 +317,7 @@ source digests; do not silently pool earlier iteration-limit failures with later
 |---|---|---|
 | SQLite sidecar | Simple persistence and indexed lookup | Single-user prototype; no authentication or distributed capacity proof |
 | Lexical search first | Understandable signals, no extra model call | Can miss paraphrases and weak legacy descriptions |
-| Existing Interaction Agent chooses | Preserves orchestration and avoids a new routing-model dependency | Selection quality still needs live evaluation |
+| Existing Interaction Agent chooses | Preserves orchestration and avoids a new routing-model dependency | Live synthetic results are mixed; independent quality validation remains |
 | Published-worker candidates | Helps resolve short continuations | Depends on valid, relevant publication annotations |
 | Explicit creation flag | Makes accidental creation harder | The model still decides when work is genuinely new |
 | One search expansion | Bounds additional discovery work | May stop before a difficult reference is resolved |
