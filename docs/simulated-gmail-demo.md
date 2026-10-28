@@ -27,8 +27,10 @@ It also records visible replies, tools, model calls, usage, and failed checks. T
 aggregate success flag requires every listed strict integration check: for example,
 a recovered stale-card tool error still fails `no_tool_errors`, even if the final
 deliverable is correct. Inspect individual checks rather than treating this flag as
-a general task-quality metric. Exact
-text inclusion and source-ID agreement do not replace review of displayed content.
+a general task-quality metric. The callback's successful `send_draft` calls must
+match the requested recipient, subject, and body exactly; merely including the
+right text inside a longer, incorrect draft is insufficient. Source-ID agreement
+and exact draft fields do not replace review of surrounding prose.
 
 Run from the repository root with an explicitly chosen model and verified rates:
 

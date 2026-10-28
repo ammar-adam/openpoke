@@ -274,7 +274,14 @@ async def run_demo(responder, state_dir, *, model="injected", timeout_seconds=18
             async with asyncio.timeout(timeout_seconds):
                 await ia.InteractionAgentRuntime(discovery_mode="focus", catalog=catalog).execute(REQUEST)
                 await drain()
-            shown = any(all(value in message for value in (RECIPIENT, SUBJECT, BODY)) for message in conversation.replies)
+            # Correct text appearing somewhere does not prove that the displayed
+            # artifact is exact: it could also contain invented additional terms.
+            draft_presentations = [tool["arguments"] for tool in tools
+                                   if tool["phase"] == "draft" and tool["role"] == "callback"
+                                   and tool["name"] == "send_draft" and tool["success"]]
+            shown = bool(draft_presentations) and all(
+                item.get("to") == RECIPIENT and item.get("subject") == SUBJECT
+                and item.get("body") == BODY for item in draft_presentations)
             correct_draft = len(provider.drafts) == 1 and all(
                 draft.get("recipient_email") == RECIPIENT and draft.get("subject") == SUBJECT and draft.get("body") == BODY
                 for draft in provider.drafts.values())
@@ -344,7 +351,7 @@ async def run_demo(responder, state_dir, *, model="injected", timeout_seconds=18
         "local_reserved_estimated_usd": getattr(responder, "reserved_estimated_usd", None),
         "ledger_after": responder.ledger.snapshot() if getattr(responder, "ledger", None) else None,
         "limits": ["One explicit synthetic task, not a routing accuracy benchmark", "Gmail behavior and receipts are simulated",
-                   "Short worker history; does not establish older archive retrieval quality", "Exact text inclusion is checked; displayed content still merits review",
+                   "Short worker history; does not establish older archive retrieval quality", "Exact send_draft fields are checked; surrounding prose still merits review",
                    "The demo supplies user confirmation only after its draft checks pass; this is not a product approval gate"]}
     (state_dir / "conversation.xml").write_text(conversation.transcript, encoding="utf-8")
     return report

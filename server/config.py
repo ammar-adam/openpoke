@@ -30,6 +30,7 @@ _load_env_file()
 
 DEFAULT_APP_NAME = "OpenPoke Server"
 DEFAULT_APP_VERSION = "0.3.0"
+DEFAULT_MODEL = "anthropic/claude-sonnet-4.6"
 
 
 def _env_int(name: str, fallback: int) -> int:
@@ -37,6 +38,17 @@ def _env_int(name: str, fallback: int) -> int:
         return int(os.getenv(name, str(fallback)))
     except (TypeError, ValueError):
         return fallback
+
+
+def _env_model(role_name: str) -> str:
+    """Resolve an explicit role override, then the common model, without substitution."""
+    for name in (role_name, "OPENPOKE_MODEL"):
+        value = os.getenv(name)
+        if value is not None:
+            if not value.strip():
+                raise ValueError(f"{name} must be a nonempty model identifier")
+            return value.strip()
+    return DEFAULT_MODEL
 
 
 class Settings(BaseModel):
@@ -50,12 +62,12 @@ class Settings(BaseModel):
     server_host: str = Field(default=os.getenv("OPENPOKE_HOST", "0.0.0.0"))
     server_port: int = Field(default=_env_int("OPENPOKE_PORT", 8001))
 
-    # LLM model selection
-    interaction_agent_model: str = Field(default="anthropic/claude-sonnet-4")
-    execution_agent_model: str = Field(default="anthropic/claude-sonnet-4")
-    execution_agent_search_model: str = Field(default="anthropic/claude-sonnet-4")
-    summarizer_model: str = Field(default="anthropic/claude-sonnet-4")
-    email_classifier_model: str = Field(default="anthropic/claude-sonnet-4")
+    # Resolve at settings construction so explicit environment choices take effect.
+    interaction_agent_model: str = Field(default_factory=lambda: _env_model("OPENPOKE_INTERACTION_MODEL"))
+    execution_agent_model: str = Field(default_factory=lambda: _env_model("OPENPOKE_EXECUTION_MODEL"))
+    execution_agent_search_model: str = Field(default_factory=lambda: _env_model("OPENPOKE_EXECUTION_SEARCH_MODEL"))
+    summarizer_model: str = Field(default_factory=lambda: _env_model("OPENPOKE_SUMMARIZER_MODEL"))
+    email_classifier_model: str = Field(default_factory=lambda: _env_model("OPENPOKE_EMAIL_CLASSIFIER_MODEL"))
 
     # Credentials / integrations
     openrouter_api_key: Optional[str] = Field(default=os.getenv("OPENROUTER_API_KEY"))
