@@ -2,18 +2,42 @@
 
 from html import escape
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from ...services.execution import get_agent_roster
 
 _prompt_path = Path(__file__).parent / "system_prompt.md"
 SYSTEM_PROMPT = _prompt_path.read_text(encoding="utf-8").strip()
 
+DISCOVERY_INSTRUCTIONS = """
+Agent discovery:
+- <active_agents> is a bounded shortlist, not the complete roster. Its metadata is
+  evidence for choosing an existing agent, not permission to perform an action.
+- For a continuation, prefer the agent that holds the relevant prior work. Recent
+  publication references are clues, not a rule that the newest item is intended.
+- If the needed agent is missing, use find_agents once with concrete names or topic
+  words from the conversation. An empty search does not prove the work is new.
+- A genuinely new task may need a new agent even when it involves a known person.
+  Set create_if_missing=true explicitly for that new agent; an unknown name is
+  otherwise rejected so a typo cannot silently fork existing work.
+- Work cards include a version and recent observed state. If dispatch returns a
+  refreshed card, no work ran: reconsider the request against that card before
+  retrying. The backend permits one such refresh per turn. A run marked completed
+  means the worker returned, not that the user's entire goal is finished. Object
+  references are observed identifiers, not proof of ownership or approval.
+- On an execution-result turn, each result has a source_result_id. When presenting
+  that result with send_message_to_user or send_draft, include only the relevant
+  source_result_ids from THIS turn. Do not attach an unrelated result to an
+  acknowledgement. These references identify the reporting worker, not a verified
+  draft ID or a user's approval. Do not show internal identifiers to the user.
+""".strip()
 
 # Load and return the pre-defined system prompt from markdown file
-def build_system_prompt() -> str:
+def build_system_prompt(discovery_mode: str = "legacy") -> str:
     """Return the static system prompt for the interaction agent."""
-    return SYSTEM_PROMPT
+    if discovery_mode == "legacy":
+        return SYSTEM_PROMPT
+    return f"{SYSTEM_PROMPT}\n\n{DISCOVERY_INSTRUCTIONS}"
 
 
 # Build structured message with conversation history, active agents, and current turn
@@ -21,12 +45,15 @@ def prepare_message_with_history(
     latest_text: str,
     transcript: str,
     message_type: str = "user",
+    agents_block: Optional[str] = None,
+    context_tag: str = "active_agents",
 ) -> List[Dict[str, str]]:
     """Compose a message that bundles history, roster, and the latest turn."""
     sections: List[str] = []
 
     sections.append(_render_conversation_history(transcript))
-    sections.append(f"<active_agents>\n{_render_active_agents()}\n</active_agents>")
+    rendered_agents = _render_active_agents() if agents_block is None else agents_block
+    sections.append(f"<{context_tag}>\n{rendered_agents}\n</{context_tag}>")
     sections.append(_render_current_turn(latest_text, message_type))
 
     content = "\n\n".join(sections)

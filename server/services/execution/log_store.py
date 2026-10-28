@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 import threading
 from html import escape, unescape
@@ -66,18 +67,23 @@ class ExecutionAgentLogStore:
         """Get log file path for an agent."""
         return self._base_dir / f"{_slugify(agent_name)}.log"
 
-    def _append(self, agent_name: str, tag: str, payload: str) -> None:
+    def _append(self, agent_name: str, tag: str, payload: str, *, json_payload=False):
         """Append an entry with the given tag."""
-        encoded = _encode_payload(str(payload))
+        encoded = escape(str(payload), quote=False) if json_payload else _encode_payload(str(payload))
         timestamp = now_in_user_timezone("%Y-%m-%d %H:%M:%S")
-        entry = f"<{tag} timestamp=\"{timestamp}\">{encoded}</{tag}>\n"
+        encoding = ' encoding="json"' if json_payload else ''
+        entry = f"<{tag} timestamp=\"{timestamp}\"{encoding}>{encoded}</{tag}>\n".encode("utf-8")
 
         with self._lock_for(agent_name):
             try:
-                with self._log_path(agent_name).open("a", encoding="utf-8") as handle:
+                with self._log_path(agent_name).open("ab") as handle:
+                    offset = handle.tell()
                     handle.write(entry)
+                return {"offset":offset,"end_offset":offset+len(entry)}
             except Exception as exc:
                 logger.error(f"Failed to append to log: {exc}")
+                if json_payload:
+                    raise  # Never report a new full receipt as archived when its write failed.
 
     def _parse_line(self, line: str) -> Optional[Tuple[str, str, str]]:
         """Parse a single log line."""
@@ -106,7 +112,8 @@ class ExecutionAgentLogStore:
             match.group(1): match.group(2) for match in _ATTR_PATTERN.finditer(attr_string)
         }
         timestamp = attributes.get("timestamp", "")
-        payload = _decode_payload(stripped[open_end + 1 : close_start])
+        raw_payload = stripped[open_end + 1 : close_start]
+        payload = unescape(raw_payload) if attributes.get("encoding")=="json" else _decode_payload(raw_payload)
         return tag, timestamp, payload
 
     def record_request(self, agent_name: str, instructions: str) -> None:
@@ -124,6 +131,117 @@ class ExecutionAgentLogStore:
     def record_agent_response(self, agent_name: str, response: str) -> None:
         """Record the agent's final response."""
         self._append(agent_name, "agent_response", response)
+
+    def record_tool_receipt(self, agent_name, tool_name, arguments, result, success, run_id=None):
+        """Preserve complete new JSON receipts, including literal escapes and newlines."""
+        payload = {"tool":tool_name,"arguments":arguments,"result":result,
+                   "tool_returned_normally":bool(success),"run_id":run_id}
+        return self._append(agent_name,"tool_receipt",json.dumps(payload,ensure_ascii=False,default=str),json_payload=True)
+
+    @staticmethod
+    def _cursor(value, name="offset"):
+        if not isinstance(value,int) or isinstance(value,bool) or value<0:
+            raise ValueError(f"{name} must be a nonnegative integer")
+        return value
+
+    def recent_memory(self, agent_name, max_chars=12000):
+        """A bounded raw tail, explicitly an excerpt; never scans the whole journal."""
+        budget = max(512,min(12000,int(max_chars)))
+        with self._lock_for(agent_name):
+            try:
+                with self._log_path(agent_name).open("rb") as handle:
+                    handle.seek(0,2)
+                    end = handle.tell()
+                    start = max(0,end-budget*4)
+                    handle.seek(start)
+                    data = handle.read(budget*4)
+            except FileNotFoundError:
+                start,end,data = 0,0,b""
+        while data and data[0]&0xC0==0x80:
+            data,start = data[1:],start+1
+        text = data.decode("utf-8")
+        result = {"format":"Raw XML journal excerpt; may start mid-entry. Not a semantic summary.",
+                  "offset":start,"end_offset":end,"archive_bytes":end,"omitted_earlier":start>0,"text":text}
+        while len(json.dumps(result))>budget:
+            removed = max(1,len(result["text"])//4)
+            result["offset"] += len(result["text"][:removed].encode("utf-8"))
+            result["text"] = result["text"][removed:]
+            result["omitted_earlier"] = True
+        return result
+
+    def read_archive(self, agent_name, offset=0, limit=3000):
+        """Read exact raw UTF-8 journal text; byte cursors survive JSON escaping."""
+        offset = self._cursor(offset)
+        limit = min(4000,self._cursor(limit,"limit"))
+        if not limit:
+            raise ValueError("limit must be positive")
+        with self._lock_for(agent_name):
+            try:
+                with self._log_path(agent_name).open("rb") as handle:
+                    handle.seek(0,2)
+                    total = handle.tell()
+                    if offset>total:
+                        raise ValueError("offset exceeds archive length")
+                    handle.seek(offset)
+                    data = handle.read(limit+3)
+            except FileNotFoundError:
+                if offset:
+                    raise ValueError("offset exceeds archive length")
+                total,data = 0,b""
+        # Up to three additional bytes complete a UTF-8 character at the boundary.
+        stop = min(limit,len(data))
+        while stop<len(data) and data[stop]&0xC0==0x80:
+            stop += 1
+        try:
+            text = data[:stop].decode("utf-8")
+        except UnicodeDecodeError as exc:
+            raise ValueError("offset must be at a UTF-8 character boundary") from exc
+        result = {"offset":offset,"next_offset":None,"archive_bytes":total,
+                  "format":"raw_xml_journal_utf8","text":text}
+        while True:
+            end = offset+len(result["text"].encode("utf-8"))
+            result["next_offset"] = end if end<total else None
+            if len(json.dumps(result))<=5000:
+                return result
+            result["text"] = result["text"][:max(1,len(result["text"])//2)]
+
+    def search_archive(self, agent_name, query, offset=0):
+        """Literal, case-sensitive search of at most 64 KiB per call, with continuation."""
+        offset = self._cursor(offset)
+        if not isinstance(query,str) or not query or len(query)>200:
+            raise ValueError("query must be 1 to 200 characters")
+        needle = escape(query,quote=False).encode("utf-8")
+        scan_bytes = 65536
+        with self._lock_for(agent_name):
+            try:
+                with self._log_path(agent_name).open("rb") as handle:
+                    handle.seek(0,2)
+                    total = handle.tell()
+                    if offset>total:
+                        raise ValueError("offset exceeds archive length")
+                    handle.seek(offset)
+                    data = handle.read(scan_bytes+len(needle)-1)
+            except FileNotFoundError:
+                if offset:
+                    raise ValueError("offset exceeds archive length")
+                total,data = 0,b""
+        matches,position = [],0
+        while len(matches)<5:
+            found = data.find(needle,position)
+            if found<0 or found>=scan_bytes:
+                break
+            matches.append({"offset":offset+found,
+                            "excerpt":data[max(0,found-60):found+180].decode("utf-8",errors="replace")})
+            position = found+1
+        consumed = position if len(matches)==5 else min(scan_bytes,max(0,total-offset))
+        end = offset+consumed
+        result = {"matches":matches,"next_offset":end if end<total else None,
+                  "scanned_bytes":consumed,"archive_bytes":total,"search":"literal case-sensitive stored text"}
+        # Excerpts alone may shrink; match offsets and scan continuation stay exact.
+        while len(json.dumps(result))>5000:
+            for match in matches:
+                match["excerpt"] = match["excerpt"][:len(match["excerpt"])//2]
+        return result
 
     def iter_entries(self, agent_name: str) -> Iterator[Tuple[str, str, str]]:
         """Iterate over all log entries for an agent."""

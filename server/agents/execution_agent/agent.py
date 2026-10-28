@@ -1,5 +1,6 @@
 """Execution Agent implementation."""
 
+import json
 from pathlib import Path
 from typing import List, Optional, Dict, Any
 
@@ -43,7 +44,7 @@ class ExecutionAgent:
 
         Args:
             name: Human-readable agent name (e.g., 'conversation with keith')
-            conversation_limit: Optional limit on past conversations to include (None = all)
+            conversation_limit: Retained for compatibility; history is always character-bounded.
         """
         self.name = name
         self.conversation_limit = conversation_limit
@@ -60,7 +61,7 @@ class ExecutionAgent:
         )
 
     # Combine base system prompt with conversation history, applying conversation limits
-    def build_system_prompt_with_history(self) -> str:
+    def build_system_prompt_with_history(self, current_state=None) -> str:
         """
         Build system prompt including agent history.
 
@@ -69,31 +70,29 @@ class ExecutionAgent:
         """
         base_prompt = self.build_system_prompt()
 
-        # Load history transcript
-        transcript = self._log_store.load_transcript(self.name)
-
-        if transcript:
-            # Apply conversation limit if needed
-            if self.conversation_limit and self.conversation_limit > 0:
-                # Parse entries and limit them
-                lines = transcript.split('\n')
-                request_count = sum(1 for line in lines if '<agent_request' in line)
-
-                if request_count > self.conversation_limit:
-                    # Find where to cut
-                    kept_requests = 0
-                    cutoff_index = len(lines)
-                    for i in range(len(lines) - 1, -1, -1):
-                        if '<agent_request' in lines[i]:
-                            kept_requests += 1
-                            if kept_requests == self.conversation_limit:
-                                cutoff_index = i
-                                break
-                    transcript = '\n'.join(lines[cutoff_index:])
-
-            return f"{base_prompt}\n\n# Execution History\n\n{transcript}"
-
-        return base_prompt
+        memory = json.dumps(self._log_store.recent_memory(self.name,max_chars=12000))
+        state = {}
+        if isinstance(current_state,dict):
+            for key in ("version","last_run_status","latest_run_id","last_result_run_id"):
+                state[key] = current_state.get(key)
+            state["last_instruction"] = str(current_state.get("last_instruction", ""))[:512]
+            state["last_result_excerpt_unverified"] = str(current_state.get("last_result_excerpt", ""))[:600]
+            state["observed_refs"] = list(current_state.get("observed_refs") or [])[:8]
+            state["omitted_refs"] = max(0,len(current_state.get("observed_refs") or [])-8)
+            while len(json.dumps(state))>4000 and state["observed_refs"]:
+                state["observed_refs"].pop()
+                state["omitted_refs"] += 1
+            if len(json.dumps(state))>4000:
+                state = {"note":"Current state exceeded its display bound; inspect the archive."}
+        instructions = (
+            "History is an excerpt, not a semantic summary or complete list of constraints. "
+            "Use search_worker_archive for older facts; continue its next_offset until null before concluding no match. "
+            "Use read_worker_archive with a returned byte offset to retrieve exact stored text, following next_offset. "
+            "Chunks are raw XML journal text: concatenate them before decoding XML entities or JSON receipt escapes. "
+            "Observed object IDs and run status are hints, not proof of current provider state, ownership, or user approval. "
+            "Legacy logs may already have truncated details; the archive cannot restore those."
+        )
+        return f"{base_prompt}\n\n# Compact worker state\n{json.dumps(state)}\n\n# Recent archive excerpt\n{memory}\n\n{instructions}"
 
     # Format current instruction as user message for LLM consumption
     def build_messages_for_llm(self, current_instruction: str) -> List[Dict[str, str]]:
@@ -115,9 +114,6 @@ class ExecutionAgent:
         """Record agent's response to the log."""
         self._log_store.record_agent_response(self.name, response)
 
-    # Log tool invocation and results with truncated content for readability
-    def record_tool_execution(self, tool_name: str, arguments: str, result: str) -> None:
-        """Record tool execution details."""
-        self._log_store.record_action(self.name, f"Calling {tool_name} with: {arguments[:200]}")
-        # Record the tool response
-        self._log_store.record_tool_response(self.name, tool_name, result[:500])
+    def record_tool_execution(self, tool_name, arguments, result, success=True, run_id=None):
+        """Persist full new receipts; clipping happens only in the model-facing view."""
+        return self._log_store.record_tool_receipt(self.name,tool_name,arguments,result,success,run_id)

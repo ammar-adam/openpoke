@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import asyncio
 from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 
 from server.config import get_settings
@@ -312,7 +313,8 @@ async def _perform_search(
     )
 
     try:
-        raw_result = execute_gmail_tool(
+        raw_result = await asyncio.to_thread(
+            execute_gmail_tool,
             "GMAIL_FETCH_EMAILS",
             composio_user_id,
             arguments=composio_arguments,
