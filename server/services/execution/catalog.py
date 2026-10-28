@@ -12,6 +12,7 @@ import re
 import sqlite3
 import threading
 import time
+import xml.etree.ElementTree as ET
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any, Iterable, Iterator, Optional
@@ -24,6 +25,22 @@ MAX_QUERY_TERMS = 64
 MAX_SEARCH_RESULTS = 100
 DEFAULT_MAX_CARDS = 12
 DEFAULT_MAX_CHARS = 6000
+FTS_SCHEMA_VERSION = "2-porter-unicode61"
+MAX_HISTORY_CHARS = 12000
+MAX_HISTORY_QUERY_CHARS = 500
+MAX_HISTORY_QUERY_TERMS = 32
+MAX_HISTORY_CANDIDATES = 3
+# Deliberately conservative English lexical heuristic, not coreference. A name,
+# topic, ID or unfamiliar word disables this path, including "send it to Bob".
+_CONTINUATION_WORDS = frozenset("""
+    it that this them these those the same yes yeah yep ok okay please thanks
+    send email message draft reply make shorter longer more less formal informal
+    concise friendly warmer clearer polite professional revise edit update change
+    rewrite shorten expand improve remove add now again do go ahead continue
+    proceed carry on try and then can could would you i want to just a bit
+""".split())
+_ANAPHORS = frozenset("it that this them these those".split())
+_GENERIC_CONTINUATIONS = {"continue", "proceed", "go ahead", "carry on", "try again"}
 _TRUNCATED = "… [truncated]"
 _OPEN = "<agent_catalog>\n"
 _CLOSE = "\n</agent_catalog>"
@@ -54,6 +71,53 @@ def _limit(value: int, maximum: int = MAX_SEARCH_RESULTS) -> int:
 def _terms(query: str) -> list[str]:
     # Quote independently extracted words; never pass user FTS operators through.
     return list(dict.fromkeys(re.findall(r"[^\W_]+", str(query), re.UNICODE)))[:MAX_QUERY_TERMS]
+
+
+def _is_generic_continuation(query: str) -> bool:
+    if len(query) > 160 or re.search(r"[^a-zA-Z\s,.!?]", query):
+        return False
+    words = re.findall(r"[a-z]+", query.lower())
+    if not words or len(words) > 16 or not set(words) <= _CONTINUATION_WORDS:
+        return False
+    phrase = " ".join(words)
+    stripped = " ".join(word for word in words if word not in {"yes", "yeah", "yep", "ok", "okay", "please", "thanks", "now"})
+    return bool(set(words) & _ANAPHORS or "the same" in phrase or stripped in _GENERIC_CONTINUATIONS)
+
+
+def continuation_history_query(query: str, transcript: str, message_type: str = "user") -> tuple[str, dict[str, Any]]:
+    """Select one bounded real user record; never infer ownership from prose.
+
+    Only direct XML user_message children count. Summary, assistant and background
+    records are not query sources. Truncated/malformed XML fails closed. We never
+    hunt through older topics when the latest user record is itself generic.
+    """
+    trace = {"heuristic": "closed_english_continuation_v1", "eligible": False,
+             "max_candidates": MAX_HISTORY_CANDIDATES, "query_chars": 0}
+    if message_type != "user":
+        return "", dict(trace, reason="not_user_turn")
+    if not _is_generic_continuation(str(query)):
+        return "", dict(trace, reason="current_query_specific_or_unsupported")
+    trace["eligible"] = True
+    tail = str(transcript or "")[-MAX_HISTORY_CHARS:]
+    try:
+        if "<!" in tail:
+            raise ET.ParseError("Declarations are not conversation records")
+        root = ET.fromstring("<history>" + tail + "</history>")
+    except ET.ParseError:
+        return "", dict(trace, reason="malformed_or_truncated_transcript")
+    users = [record for record in root if record.tag == "user_message"]
+    if not users:
+        return "", dict(trace, reason="no_recent_user_record")
+    latest = users[-1]
+    if len(latest):
+        return "", dict(trace, reason="noncanonical_user_record")
+    prior = " ".join((latest.text or "").split())
+    if not prior or _is_generic_continuation(prior):
+        return "", dict(trace, reason="latest_user_empty_or_generic")
+    history_query = " ".join(_terms(prior[:MAX_HISTORY_QUERY_CHARS])[:MAX_HISTORY_QUERY_TERMS])
+    if not history_query:
+        return "", dict(trace, reason="no_lexical_terms")
+    return history_query, dict(trace, reason="recent_user_context", query_chars=len(history_query))
 
 
 def _card(row: Any) -> dict[str, Any]:
@@ -194,44 +258,58 @@ class AgentCatalog:
             ):
                 if name not in columns:
                     connection.execute(f"ALTER TABLE agents ADD COLUMN {name} {declaration}")
+            # Commit ordinary columns first, then migrate the derived FTS index
+            # atomically. Existing source rows, generations and refs stay intact.
+            connection.commit()
             try:
+                connection.execute("BEGIN IMMEDIATE")
                 fts_columns = {row["name"] for row in connection.execute("PRAGMA table_info(agent_fts)")}
-                if fts_columns and "last_result_excerpt" not in fts_columns:
-                    connection.executescript("""
-                        DROP TRIGGER IF EXISTS catalog_agents_insert;
-                        DROP TRIGGER IF EXISTS catalog_agents_delete;
-                        DROP TRIGGER IF EXISTS catalog_agents_update;
-                        DROP TABLE agent_fts;
-                        DELETE FROM catalog_meta WHERE key='fts_initialized';
-                    """)
-                connection.executescript("""
+                version = connection.execute(
+                    "SELECT value FROM catalog_meta WHERE key='fts_schema_version'"
+                ).fetchone()
+                rebuild = (not fts_columns or "last_result_excerpt" not in fts_columns
+                           or version is None or version["value"] != FTS_SCHEMA_VERSION)
+                if rebuild:
+                    for trigger in ("catalog_agents_insert", "catalog_agents_delete", "catalog_agents_update"):
+                        connection.execute(f"DROP TRIGGER IF EXISTS {trigger}")
+                    connection.execute("DROP TABLE IF EXISTS agent_fts")
+                connection.execute("""
                     CREATE VIRTUAL TABLE IF NOT EXISTS agent_fts USING fts5(
                         agent_name, purpose, last_instruction, last_result_excerpt,
-                        content='agents', content_rowid='rowid'
-                    );
+                        content='agents', content_rowid='rowid', tokenize='porter unicode61'
+                    )
+                """)
+                connection.execute("""
                     CREATE TRIGGER IF NOT EXISTS catalog_agents_insert AFTER INSERT ON agents BEGIN
                         INSERT INTO agent_fts(rowid, agent_name, purpose, last_instruction, last_result_excerpt)
                         VALUES (new.rowid, new.agent_name, new.purpose, new.last_instruction, new.last_result_excerpt);
-                    END;
+                    END
+                """)
+                connection.execute("""
                     CREATE TRIGGER IF NOT EXISTS catalog_agents_delete AFTER DELETE ON agents BEGIN
                         INSERT INTO agent_fts(agent_fts, rowid, agent_name, purpose, last_instruction, last_result_excerpt)
                         VALUES ('delete', old.rowid, old.agent_name, old.purpose, old.last_instruction, old.last_result_excerpt);
-                    END;
+                    END
+                """)
+                connection.execute("""
                     CREATE TRIGGER IF NOT EXISTS catalog_agents_update AFTER UPDATE OF purpose,last_instruction,last_result_excerpt ON agents BEGIN
                         INSERT INTO agent_fts(agent_fts, rowid, agent_name, purpose, last_instruction, last_result_excerpt)
                         VALUES ('delete', old.rowid, old.agent_name, old.purpose, old.last_instruction, old.last_result_excerpt);
                         INSERT INTO agent_fts(rowid, agent_name, purpose, last_instruction, last_result_excerpt)
                         VALUES (new.rowid, new.agent_name, new.purpose, new.last_instruction, new.last_result_excerpt);
-                    END;
+                    END
                 """)
                 indexed = connection.execute(
                     "SELECT value FROM catalog_meta WHERE key='fts_initialized'"
                 ).fetchone()
-                if indexed is None:
+                if rebuild or indexed is None:
                     connection.execute("INSERT INTO agent_fts(agent_fts) VALUES ('rebuild')")
-                    connection.execute("INSERT INTO catalog_meta VALUES ('fts_initialized', '1')")
+                    connection.execute("INSERT OR REPLACE INTO catalog_meta VALUES ('fts_initialized', '1')")
+                connection.execute("INSERT OR REPLACE INTO catalog_meta VALUES ('fts_schema_version', ?)",
+                                   (FTS_SCHEMA_VERSION,))
                 self._fts_available = True
             except sqlite3.OperationalError as exc:
+                connection.rollback()
                 if "no such module" not in str(exc).lower():
                     raise
                 self._fts_available = False
@@ -485,8 +563,10 @@ class AgentCatalog:
     def shortlist(
         self, query: str, include_focus: bool = True,
         max_cards: int = DEFAULT_MAX_CARDS, max_chars: int = DEFAULT_MAX_CHARS,
+        *, history_query: str = "",
     ) -> dict[str, Any]:
         max_cards = _limit(max_cards, DEFAULT_MAX_CARDS)
+        max_chars = max(0, min(int(max_chars), DEFAULT_MAX_CHARS))
         candidates: list[dict[str, Any]] = []
         reasons: dict[str, str] = {}
 
@@ -498,6 +578,9 @@ class AgentCatalog:
         add(self.get_agent(str(query).strip()), "exact_name")
         for card in self.match_observed_refs(query, limit=max_cards):
             add(card, "observed_reference")
+        if history_query:
+            for card in self.search(history_query[:MAX_HISTORY_QUERY_CHARS], limit=MAX_HISTORY_CANDIDATES):
+                add(card, "recent_user_context")
         if include_focus:
             for card in self.recent_published(limit=3):
                 add(card, "published")
@@ -506,6 +589,7 @@ class AgentCatalog:
         selected, rendered = _fit_cards(candidates, max_cards, max_chars)
         trace = {
             "backend": self.search_backend,
+            "tokenizer": "porter unicode61" if self._fts_available else "substring_fallback_no_stemming",
             "include_focus": bool(include_focus),
             "max_cards": max_cards,
             "max_chars": max(0, int(max_chars)),
@@ -518,6 +602,23 @@ class AgentCatalog:
             ],
         }
         return {"cards": selected, "rendered": rendered, "trace": trace}
+
+    def shortlist_for_turn(
+        self, query: str, transcript: str = "", *, message_type: str = "user",
+        include_focus: bool = False, max_cards: int = DEFAULT_MAX_CARDS,
+        max_chars: int = DEFAULT_MAX_CHARS,
+    ) -> dict[str, Any]:
+        """Shared initial-discovery policy for runtime and offline measurements.
+
+        Current exact identities/refs precede at most three history matches, then
+        published focus and current lexical matches. History is only a candidate
+        hint; it is neither dispatch authorization nor source attribution.
+        """
+        history_query, trace = continuation_history_query(query, transcript, message_type)
+        result = self.shortlist(query, include_focus=include_focus, max_cards=max_cards,
+                                max_chars=max_chars, history_query=history_query)
+        result["trace"]["history_retrieval"] = trace
+        return result
 
     def get_generation(self) -> int:
         with self._connect() as connection:

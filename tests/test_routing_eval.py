@@ -90,8 +90,10 @@ def test_runtime_failure_after_correct_dispatch_is_not_scored_as_success(tmp_pat
 
     result = asyncio.run(run_case(case, "focus", catalog, roster, FailsAfterDispatch()))
     assert result["dispatches"] == list(case.expected_agents)
-    assert result["automatic_correct"] is False
-    assert result["outcome"] == "runtime_failed"
+    assert result["automatic_correct"] is None
+    assert result["outcome"] == "model_transport_error"
+    assert result["record_status"] == "operational_error"
+    assert result["observed_dispatch_correct"] is True
     assert len(result["model_calls"]) == 2
     assert result["model_calls"][-1]["status"] == "error"
 

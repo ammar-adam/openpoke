@@ -27,10 +27,11 @@ flowchart LR
     P --> C
 ```
 
-- **Build a shortlist:** exact worker names and observed object IDs first, up to
-  three workers whose results were actually published next, then lexical search
-  over names, instructions, and the latest result excerpt. Every card explains
-  why it was included. The total candidate block is capped at 6,000 characters.
+- **Build a shortlist:** exact worker names and observed object IDs first. Short,
+  generic follow-ups may add up to three matches from the last user request;
+  recently published work and lexical matches follow. English word stemming
+  handles forms such as “forecast”/“forecasts.” Every card explains why it was
+  included. The total candidate block is capped at 6,000 characters.
 - **Check before dispatch:** code compares the selected card's version with
   stored state. If it changed, no work is dispatched; the IA gets one fresh card
   and can reconsider. A second stale attempt stops. A search miss can also use
@@ -55,7 +56,8 @@ for signals, recovery, tradeoffs, and source locations.
 
 ### What the measurements establish
 
-On 15 hand-authored development cases, 12 require existing workers. At 100, 1,000,
+The original offline measurement, before the stemming/history recovery changes,
+used 15 hand-authored development cases; 12 require existing workers. At 100, 1,000,
 and 10,000 stored workers, instruction-only lexical search included all required
 workers in 6/12 cases; current-state lexical search did so in 9/12; adding
 publication evidence reached 11/12. The remaining case deliberately uses a
@@ -96,7 +98,7 @@ its outcome may remain unknown, and this build does not automatically retry it.
 ## Quickstart
 1. **Clone and enter the repo.**
    ```bash
-   git clone --branch codex/continuation-aware-discovery https://github.com/ammar-adam/openpoke.git
+   git clone https://github.com/ammar-adam/openpoke.git
    cd openpoke
    ```
 2. **Create a shared env file.** Copy the template and open it in your editor:
@@ -156,8 +158,11 @@ The web app proxies API calls to the Python server using the values in `.env`, s
 
 ## Checks and evaluation
 
-The final offline suite passes **113 tests**. Four existing FastAPI `on_event`
-deprecation warnings remain. No live model or Gmail actions were used for validation.
+The offline suite checks context bounds, source attribution, stale-state rejection,
+archive recovery, and callback handling. The routing evaluation also has 20 fresh
+challenge cases alongside the original 15 regression cases, real callback → user
+follow-up sessions, and a shared reservation ledger across live runs. These are
+hand-authored scenarios, not a representative sample of real users.
 
 ```bash
 pip install pytest
@@ -166,9 +171,10 @@ python -m evals.routing.run --scales 100 1000 10000
 ```
 
 The default evaluation uses synthetic data and makes no model or Gmail calls.
-Its opt-in live mode still mocks worker execution and requires explicit call/cost
-limits; see the teaching guide. The offline suite checks bounds, source attribution,
-stale-state rejection, archive recovery, and callback handling.
+Its opt-in live mode still mocks worker execution and requires an explicit model,
+prices, and call/cost limits. It separates wrong decisions from provider failures
+and unrun trials; semantic response reviews remain separate from dispatch identity.
+See the [evaluation instructions](evals/routing/README.md).
 
 ## Project Layout
 - `server/` – FastAPI application and agents

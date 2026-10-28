@@ -43,6 +43,7 @@ class _LoopSummary:
     user_messages: List[str] = field(default_factory=list)
     tool_names: List[str] = field(default_factory=list)
     execution_agents: Set[str] = field(default_factory=set)
+    waiting: bool = False
 
 
 class InteractionAgentRuntime:
@@ -180,8 +181,9 @@ class InteractionAgentRuntime:
         if self.discovery_mode == "legacy":
             return prepare_message_with_history(latest_text, transcript, message_type=message_type)
         self.catalog.ensure_legacy_backfill(get_agent_roster())
-        shortlist = self.catalog.shortlist(
-            latest_text, include_focus=self.discovery_mode == "focus", max_cards=12, max_chars=6000
+        shortlist = self.catalog.shortlist_for_turn(
+            latest_text, transcript, message_type=message_type,
+            include_focus=self.discovery_mode == "focus", max_cards=12, max_chars=6000
         )
         self.last_discovery_trace["initial"] = shortlist["trace"]
         self._offered_versions.update({card["agent_name"]: card["version"] for card in shortlist["cards"]})
@@ -245,6 +247,9 @@ class InteractionAgentRuntime:
 
                 result = self._execute_tool(tool_call)
 
+                if tool_call.name == "wait" and result.success:
+                    summary.waiting = True
+
                 if result.user_message:
                     summary.user_messages.append(result.user_message)
 
@@ -254,10 +259,15 @@ class InteractionAgentRuntime:
                     "content": self._format_tool_result(tool_call, result),
                 }
                 messages.append(tool_message)
+            # A successful wait yields this turn, not its pending workers. Finish
+            # the whole batch first: a dispatch/publication can follow wait in
+            # the same response and must not be silently dropped.
+            if summary.waiting:
+                break
         else:
             raise RuntimeError("Reached tool iteration limit without final response")
 
-        if not summary.user_messages and not summary.last_assistant_text:
+        if not summary.waiting and not summary.user_messages and not summary.last_assistant_text:
             logger.warning("Interaction loop exited without assistant content")
 
         return summary
@@ -525,5 +535,8 @@ class InteractionAgentRuntime:
 
         if summary.user_messages:
             return summary.user_messages[-1]
+
+        if summary.waiting:
+            return ""
 
         return summary.last_assistant_text

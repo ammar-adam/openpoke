@@ -59,9 +59,61 @@ behavior, including refusing a card whose version changed before dispatch. Such
 tests establish protocol behavior, not model routing accuracy. A refusal itself
 does not count as a successfully completed routing task.
 
-Live model evaluation is optional and requires `--live`, explicit model prices,
-and a spending ceiling. It has not been run for this change. That leaves actual
-worker-selection quality, recovery success, unnecessary clarification, model
-tokens/cost, and user-task completion unmeasured. This small development suite is
-not a held-out benchmark, a multi-tenant load test, or evidence that paraphrases
-are solved.
+## Fresh challenge cases and live runs
+
+`--suite challenge` adds 20 fresh cases: six smoke cases and fourteen validation
+cases. They cover plural wording, prior-user references, different tasks for the
+same person, new work, clarification, direct answers, multiple publications,
+silent completions, and state changes between lookup and dispatch. The split
+controls the workflow; neither group is an independent statistical holdout.
+The original fifteen cases remain a development regression suite.
+
+For callback cases the real Interaction Agent receives worker results, publishes
+through its actual tools, and then handles the follow-up in the same conversation.
+Publication evidence is not seeded as correct. Worker execution remains mocked;
+there are no Gmail sends or real-account reads. This measures live model routing
+on synthetic scenarios, not successful completion of real email tasks.
+
+Before each run the runner writes the case contents, fixture hashes, code digest,
+model, prices, limits, and planned trial count. Use a new output directory each
+time. For example, after setting `OPENROUTER_API_KEY` in ignored `.env`:
+
+```powershell
+python -m evals.routing.run --live --suite challenge --split smoke --scales 100 --metadata current_state --modes legacy retrieval focus --model openai/gpt-6-luna --input-rate 0.2 --output-rate 0.75 --max-output-tokens 2048 --max-calls 120 --max-estimated-usd 2 --ledger evals/routing/results/live-budget.sqlite3 --total-budget-usd 50 --total-max-calls 5000 --output evals/routing/results/smoke
+```
+
+Rates above are conservative maximum advertised token tiers checked on 2026-10-28;
+verify effective rates against the [provider model registry](https://openrouter.ai/api/v1/models)
+before using them. All invocations in one campaign must use the **same ledger path
+and limits**. Reservations occur atomically before requests, persist across CLI
+invocations, and are not refunded after failed/unknown requests. They use conservative
+input-size estimates and output caps; they are not provider billing measurements.
+Reported token usage and cost fields, when present, remain separate evidence.
+
+The runner stops making requests after a budget limit or operational error. It
+writes `not_run` placeholders for the remaining trials, and preserves partial
+scenarios as `incomplete`. Neither becomes an incorrect routing answer. A provider
+failure is `operational_error`. Run a new phase after diagnosing an error; do not
+delete the shared ledger to restart the budget.
+
+`--repeats 3` repeats a case without treating three attempts as three independent
+cases. Mode order rotates. Paired comparisons require matching, complete, scored
+repeat sets in both modes. Missing or unreviewed cases are shown explicitly; there
+is no majority-vote product score or statistical significance claim.
+
+The reporter separates initial candidate inclusion, dispatch identity, source-ID
+annotations, and reviewed response/publication content. Correct source IDs do not
+prove that the model showed the right draft. Choosing the right worker does not
+prove that its instructions were correct. ASK/ANSWER text also needs review.
+
+To prepare a blinded review packet and join completed labels:
+
+```powershell
+python -m evals.routing.review export evals/routing/results/smoke/results.jsonl --output evals/routing/results/smoke/review.jsonl --mapping evals/routing/results/smoke/review-map.json
+python -m evals.routing.review join evals/routing/results/smoke/results.jsonl --mapping evals/routing/results/smoke/review-map.json --labels evals/routing/results/smoke/labels.jsonl --output evals/routing/results/smoke/reviewed.jsonl
+```
+
+Review labels must state whether a person or model assisted the review. A model
+review must not be presented as human validation. Real-account Gmail execution,
+representative user traffic, concurrent multi-user load, and semantic paraphrase
+coverage remain separate work.
