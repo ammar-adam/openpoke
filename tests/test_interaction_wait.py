@@ -1,10 +1,13 @@
 """Successful wait yields the shared IA loop without losing same-batch work."""
 
 import asyncio
+import copy
+import json
 
 import pytest
 
 from test_discovery_runtime import answer, env, make_runtime, source
+from server.agents.interaction_agent import runtime
 
 
 @pytest.mark.parametrize("mode", ["legacy", "retrieval", "focus"])
@@ -103,3 +106,49 @@ def test_wait_on_last_allowed_iteration_is_a_clean_yield(env):
     result = asyncio.run(instance.execute("question"))
     assert result.success
     assert len(captured) == 1
+
+
+@pytest.mark.parametrize("wait_first", [False, True])
+def test_wait_does_not_hide_rejected_dispatch_and_state_can_recover(env, wait_first):
+    env.catalog.record_dispatch("Alice", "Old invoice")
+    captured = []
+
+    async def client(**kwargs):
+        captured.append(copy.deepcopy(kwargs))
+        if len(captured) == 1:
+            # The shortlist was already prepared. The first dispatch must reject
+            # this stale version instead of starting a worker.
+            env.catalog.record_dispatch("Alice", "Updated invoice")
+            calls = [
+                ("send_message_to_agent", {"agent_name": "Alice", "instructions": "Revise invoice"}),
+                ("wait", {"reason": "Waiting for the worker"}),
+            ]
+            if wait_first:
+                calls.reverse()
+            calls.append(("send_message_to_user", {"message": "I am checking the current invoice."}))
+            return answer(*calls)
+        assert len(captured) == 2
+        assert env.dispatched == []
+        failures = [json.loads(item["content"]) for item in kwargs["messages"]
+                    if item["role"] == "tool" and json.loads(item["content"])["status"] == "error"]
+        assert failures[0]["error"]["code"] == "agent_state_refresh"
+        assert "Updated invoice" in failures[0]["error"]["work_card"]
+        return answer(
+            ("send_message_to_agent", {"agent_name": "Alice", "instructions": "Revise updated invoice"}),
+            ("wait", {"reason": "The updated request is now dispatched"}),
+        )
+
+    instance = runtime.InteractionAgentRuntime(discovery_mode="focus", catalog=env.catalog, model_client=client)
+
+    async def run():
+        result = await instance.execute("Alice")
+        await asyncio.sleep(0)
+        return result
+
+    result = asyncio.run(run())
+    assert result.success
+    assert result.response == "I am checking the current invoice."
+    assert len(captured) == 2
+    assert env.log.replies == ["I am checking the current invoice."]
+    assert len(instance.last_discovery_trace["state_refreshes"]) == 1
+    assert [(name, instructions) for name, instructions, _ in env.dispatched] == [("Alice", "Revise updated invoice")]

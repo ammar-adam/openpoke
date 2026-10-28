@@ -237,6 +237,8 @@ class InteractionAgentRuntime:
             if not parsed_tool_calls:
                 break
 
+            batch_waiting = False
+            batch_failed = False
             for tool_call in parsed_tool_calls:
                 summary.tool_names.append(tool_call.name)
 
@@ -248,7 +250,9 @@ class InteractionAgentRuntime:
                 result = self._execute_tool(tool_call)
 
                 if tool_call.name == "wait" and result.success:
-                    summary.waiting = True
+                    batch_waiting = True
+                if not result.success:
+                    batch_failed = True
 
                 if result.user_message:
                     summary.user_messages.append(result.user_message)
@@ -262,6 +266,9 @@ class InteractionAgentRuntime:
             # A successful wait yields this turn, not its pending workers. Finish
             # the whole batch first: a dispatch/publication can follow wait in
             # the same response and must not be silently dropped.
+            # A rejected dispatch may have started no worker at all. Let the
+            # model see every failure before honoring a wait from that batch.
+            summary.waiting = batch_waiting and not batch_failed
             if summary.waiting:
                 break
         else:
