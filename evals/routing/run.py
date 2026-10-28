@@ -136,14 +136,18 @@ def summarize(results, *, live, baseline_commit=BASELINE_COMMIT):
 
 
 def selected_suite(args):
-    if args.suite == "challenge":
-        from .cases_challenge import CHALLENGE_CASES, roster_records as challenge_records
-        cases, records = list(CHALLENGE_CASES), challenge_records
+    if args.suite in {"challenge", "extension"}:
+        if args.suite == "challenge":
+            from .cases_challenge import CHALLENGE_CASES, roster_records as challenge_records
+            cases, records = list(CHALLENGE_CASES), challenge_records
+        else:
+            from .cases_extension import EXTENSION_CASES, roster_records as extension_records
+            cases, records = list(EXTENSION_CASES), extension_records
         if args.split != "all":
             cases = [case for case in cases if case.fixture_group == args.split]
     else:
         if args.split != "all":
-            raise ValueError("--split applies only to the challenge suite")
+            raise ValueError("--split applies only to the challenge or extension suite")
         cases, records = list(CASES), roster_records
     if args.case_ids:
         missing = set(args.case_ids) - {case.case_id for case in cases}
@@ -254,11 +258,14 @@ def evaluate(args):
         "platform": platform.platform(), "shortlist_max_cards": 12,
         "shortlist_max_characters": 6000, "limits_are_tokens": False,
         "publication_fixtures": ("real callback turn before follow-up for callback cases; content needs review"
-                                 if args.suite == "challenge" else "preseeded references; annotation quality not measured"),
+                                 if args.suite != "development" else "preseeded references; annotation quality not measured"),
         "status": "running", "record_count": 0, "started_at": datetime.now(timezone.utc).isoformat(),
     }
-    if args.suite == "challenge":
-        from .cases_challenge import fixture_manifest
+    if args.suite != "development":
+        if args.suite == "challenge":
+            from .cases_challenge import fixture_manifest
+        else:
+            from .cases_extension import fixture_manifest
         manifest["full_suite_manifest"] = fixture_manifest()
     # Persist the exact case selection before the first request, including after a crash.
     write_json(args.output / "manifest.json", manifest)
@@ -273,7 +280,7 @@ def evaluate(args):
                 seed_path = scratch / f"seed-{scale}-{metadata}.db"
                 build_started = time.perf_counter()
                 seed_catalog(AgentCatalog(seed_path), records, metadata,
-                             current_results={} if args.suite == "challenge" else None)
+                             current_results={} if args.suite != "development" else None)
                 build_ms = (time.perf_counter() - build_started) * 1000
                 database_bytes = sum(path.stat().st_size for path in scratch.glob(seed_path.name + "*"))
                 for case, mode, repeat in trial_plan(cases, args.modes, args.repeats):
@@ -334,8 +341,8 @@ def build_parser():
     parser.add_argument("--scales", type=int, nargs="+", default=[100, 1000, 10000])
     parser.add_argument("--metadata", nargs="+", choices=["names_only", "enriched", "current_state"], default=["names_only", "enriched", "current_state"])
     parser.add_argument("--modes", nargs="+", choices=["legacy", "retrieval", "focus"], default=["legacy", "retrieval", "focus"])
-    parser.add_argument("--suite", choices=["development", "challenge"], default="development")
-    parser.add_argument("--split", choices=["all", "smoke", "validation"], default="all")
+    parser.add_argument("--suite", choices=["development", "challenge", "extension"], default="development")
+    parser.add_argument("--split", choices=["all", "smoke", "validation", "extension"], default="all")
     parser.add_argument("--case-ids", nargs="+")
     parser.add_argument("--repeats", type=int, default=1)
     parser.add_argument("--output", type=Path, default=Path("evals/routing/results") / time.strftime("%Y%m%d-%H%M%S"))

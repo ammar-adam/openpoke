@@ -68,6 +68,12 @@ silent completions, and state changes between lookup and dispatch. The split
 controls the workflow; neither group is an independent statistical holdout.
 The original fifteen cases remain a development regression suite.
 
+`--suite extension` adds twenty further authored requests, increasing the new live
+scenario set to forty. These were written after smoke review and frozen before
+their own calls; they are not an independent holdout. They use the same worker
+population but broaden phrasing and task types. Five include real callbacks with
+explicit email-body boundaries. Both original suites remain unchanged.
+
 For callback cases the real Interaction Agent receives worker results, publishes
 through its actual tools, and then handles the follow-up in the same conversation.
 Publication evidence is not seeded as correct. Worker execution remains mocked;

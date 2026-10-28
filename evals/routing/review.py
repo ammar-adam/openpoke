@@ -67,7 +67,7 @@ def prepare_review(rows, fixtures):
                   "visible_callback": _visible(turns.get("callback") or {}),
                   "visible_followup": _visible(followup),
                   "followup_run_status": row["record_status"],
-                  "label_definitions": {"response_correct": "The follow-up response and accepted worker instructions satisfy the request and rubric; matching only the worker name is insufficient.",
+                  "label_definitions": {"response_correct": "Judge only the follow-up response and its accepted worker instructions against the request and rubric; matching only the worker name is insufficient. Do not fold callback actions into this label: extra callback actions are checked separately by the joint/protocol score.",
                                         "publication_content_correct": "The completed callback displays the correct intended content; source-ID metadata alone is insufficient.",
                                         "unnecessary_clarification": "The assistant asks a question that the available request and context already resolve."},
                   "required_labels": required,

@@ -76,6 +76,15 @@ def test_challenge_split_is_explicit_and_preserves_fixture_hash(tmp_path):
         run.selected_suite(args)
 
 
+def test_extension_suite_has_fresh_cases_and_no_foreign_state(tmp_path):
+    args = arguments(tmp_path, "--suite", "extension", "--modes", "focus")
+    cases, records = run.selected_suite(args)
+    assert len(cases) == 20
+    assert all(case.fixture_group == "extension" for case in cases)
+    assert not {case.case_id for case in cases} & {case.case_id for case in CASES}
+    assert len(list(records(100))) == 100
+
+
 def test_stale_mutation_occurs_after_lookup_once_and_not_in_callback():
     case = SimpleNamespace(mutation={"agent_name": "Example", "instructions": "Changed",
                                      "when": "before_followup_model_call"})

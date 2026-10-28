@@ -116,6 +116,63 @@ def test_correct_identity_and_source_annotation_do_not_imply_semantic_success():
     assert group["joint_scenario_behavior_review"]["by_reviewer_type"]["model_assisted"]["observed"] == 1
 
 
+@pytest.mark.parametrize("structural_failure", [
+    {"callback_dispatches": ["Porto event venues"]},
+    {"runtime_success": False},
+    {"outcome": "unexpected_callback_dispatch"},
+])
+def test_joint_score_cannot_pass_structural_failure_with_correct_reviewed_text(structural_failure):
+    row = callback_result(manual_review={"reviewer_type": "model_assisted", "response_correct": True,
+                                        "publication_content_correct": True}, **structural_failure)
+    group = build_report([row])["groups"][0]
+    assert group["response_semantics_review"]["correct"] == 1
+    assert group["publication_content_review"]["correct"] == 1
+    assert group["joint_scenario_behavior_review"]["correct"] == 0
+    assert group["joint_scenario_behavior_review"]["structural_failures"] == 1
+
+
+def test_nested_callback_dispatch_is_a_joint_failure_without_inventing_human_review():
+    row = callback_result()
+    row["turns"]["callback"]["dispatches"] = ["Porto event venues"]
+    joint = build_report([row])["groups"][0]["joint_scenario_behavior_review"]
+    assert joint["observed"] == 1 and joint["correct"] == 0
+    assert joint["unreviewed_components"] == 1
+    assert joint["by_reviewer_type"]["human"]["observed"] == 0
+    assert joint["by_reviewer_type"]["model_assisted"]["observed"] == 0
+
+
+@pytest.mark.parametrize("status", ["not_run", "incomplete", "operational_error"])
+def test_unfinished_status_keeps_joint_unknown_even_when_structural_failure_is_visible(status):
+    row = callback_result(record_status=status, automatic_correct=None, runtime_success=False,
+                          callback_dispatches=["Porto event venues"],
+                          manual_review={"reviewer_type": "human", "response_correct": True,
+                                         "publication_content_correct": True})
+    from evals.routing.reporting import reviewed_scenario_score
+    assert reviewed_scenario_score(row) is None
+    assert build_report([row])["groups"][0]["joint_scenario_behavior_review"]["observed"] == 0
+
+
+@pytest.mark.parametrize("failure", ["runtime_failed", "unexpected_callback_dispatch"])
+def test_observed_identity_is_distinct_from_routing_protocol_failure(failure):
+    row = callback_result(automatic_correct=False, observed_dispatch_correct=True, outcome=failure,
+                          runtime_success=failure != "runtime_failed")
+    report = build_report([row])
+    group = report["groups"][0]
+    assert group["automatic_dispatch_identity"] == {"observed": 1, "correct": 1, "fraction": 1}
+    assert group["dispatch_or_reviewed_response_attempts"]["correct"] == 0
+    assert group["combined_score_metric"] == "routing_protocol_or_reviewed_ask_answer"
+    paired = build_report([row, {**row, "mode": "legacy"}])["paired_comparisons"][0]
+    assert paired["metric"] == "routing_protocol_or_reviewed_ask_answer"
+    assert "Routing protocol / reviewed ASK or ANSWER" in render_markdown(report)
+
+
+def test_identity_compatibility_fallback_applies_only_to_absent_field():
+    unknown = result(automatic_correct=False, observed_dispatch_correct=None)
+    old = result(repeat=1, automatic_correct=True)
+    group = build_report([unknown, old])["groups"][0]
+    assert group["automatic_dispatch_identity"] == {"observed": 1, "correct": 1, "fraction": 1}
+
+
 def test_completed_callback_survives_later_failure_for_publication_metrics_only():
     row = callback_result(record_status="operational_error", automatic_correct=None,
                           manual_review={"reviewer_type": "human", "publication_content_correct": True})
@@ -138,6 +195,8 @@ def test_review_packets_hide_condition_and_preserve_instructions():
     assert packet["visible_followup"]["accepted_worker_instructions"][0]["instructions"] == "Keep Cedar Auditorium."
     assert "synthetic-test-model" in json.dumps(mapping)
     assert "response_correct" in packet["required_labels"]
+    assert "Judge only the follow-up" in packet["label_definitions"]["response_correct"]
+    assert "callback actions are checked separately" in packet["label_definitions"]["response_correct"]
 
 
 def test_label_join_is_validated_and_keeps_model_assistance_explicit():
@@ -194,6 +253,8 @@ def test_resources_count_reported_usage_once_and_keep_partial_latency_separate()
     empty = build_report([result()])["groups"][0]["resources"]
     assert empty["provider_reported_usage"]["cost"]["reported_total"] is None
     assert empty["completed_scenario_local_wall_latency"]["p95_ms"] is None
+    assert "INCLUDE configured evaluation pacing" in resources["latency_boundary"]
+    assert "evidence of a speedup" in render_markdown(build_report([complete, partial]))
 
 
 def test_cli_review_export_and_join(tmp_path):

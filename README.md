@@ -160,7 +160,8 @@ The web app proxies API calls to the Python server using the values in `.env`, s
 
 The offline suite checks context bounds, source attribution, stale-state rejection,
 archive recovery, and callback handling. The routing evaluation also has 20 fresh
-challenge cases alongside the original 15 regression cases, real callback → user
+challenge cases plus 20 further authored stress cases alongside the original 15
+regression cases, real callback → user
 follow-up sessions, and a shared reservation ledger across live runs. These are
 hand-authored scenarios, not a representative sample of real users.
 

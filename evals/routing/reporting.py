@@ -61,10 +61,19 @@ def callback_completed(row):
     return ((row.get("turns") or {}).get("callback") or {}).get("record_status") == "completed"
 
 
+def _joint_protocol_failure(row):
+    callback = ((row.get("turns") or {}).get("callback") or {})
+    return (row.get("runtime_success") is False or callback.get("runtime_success") is False
+            or bool(row.get("callback_dispatches")) or bool(callback.get("dispatches"))
+            or row.get("outcome") == "unexpected_callback_dispatch")
+
+
 def reviewed_scenario_score(row):
-    """Reviewed behavior, including publication when applicable; never action success."""
+    """Joint reviewed content/behavior with structural vetoes; never action success."""
     if row["record_status"] != "completed":
         return None
+    if _joint_protocol_failure(row):
+        return False
     review = row.get("manual_review", {})
     behavior = review.get("response_correct")
     if not isinstance(behavior, bool):
@@ -137,7 +146,7 @@ def resource_metrics(rows):
             "completed_scenario_local_wall_latency": _distribution(row.get("latency_ms") for row in rows if row["record_status"] == "completed"),
             "partial_or_error_scenario_local_wall_latency": _distribution(row.get("latency_ms") for row in rows if row["record_status"] in {"incomplete", "operational_error"}),
             "recorded_model_invocation_local_wall_latency": _distribution(call.get("latency_ms") for call in calls),
-            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; not completed user-task latency",
+            "latency_boundary": "isolated IA scenario, including callback when present; workers mocked; scenario and model-invocation wall times INCLUDE configured evaluation pacing; not production latency, completed user-task latency, or evidence of a speedup",
             "cost_boundary": "Only provider-reported usage.cost in its returned units; ledger reservations and price estimates are excluded."}
 
 
@@ -161,25 +170,35 @@ def _group(rows):
     clarification_metric["unnecessary"] = clarification_metric.pop("correct")
     for metric in clarification_metric["by_reviewer_type"].values():
         metric["unnecessary"] = metric.pop("correct")
+    joint = _review_metric(
+        [{**row, "manual_review": {**row.get("manual_review", {}), "scenario_correct": reviewed_scenario_score(row)}} for row in completed], "scenario_correct")
+    joint["structural_failures"] = sum(_joint_protocol_failure(row) for row in completed)
+    joint["complete_component_reviews"] = sum(
+        isinstance(row.get("manual_review", {}).get("response_correct"), bool)
+        and (not (row.get("turns") or {}).get("callback")
+             or isinstance(row.get("manual_review", {}).get("publication_content_correct"), bool))
+        for row in completed)
+    joint["unreviewed_components"] = len(completed)-joint["complete_component_reviews"]
     return {"record_count": len(rows), "case_count": len(cases),
             "statuses": {status: sum(row["record_status"] == status for row in rows) for status in STATUSES},
             "candidate_inclusion": _metric([candidate_presence(row) for row in rows]),
             "dispatch_or_reviewed_response_attempts": _metric([followup_score(row) for row in rows]),
-            "automatic_dispatch_identity": _metric([row.get("automatic_correct") for row in completed if row.get("expected_action") in {"route", "new"}]),
+            "combined_score_metric": "routing_protocol_or_reviewed_ask_answer",
+            "automatic_dispatch_identity": _metric([row.get("observed_dispatch_correct", row.get("automatic_correct"))
+                                                      for row in completed if row.get("expected_action") in {"route", "new"}]),
             "mean_of_observed_case_rates": statistics.mean(available_rates) if available_rates else None,
             "cases_with_scored_attempts": len(available_rates), "cases": per_case,
             "publication_source_metadata": _metric(annotations),
             "completed_callback_count": len(callbacks),
             "response_semantics_review": _review_metric(completed, "response_correct"),
             "publication_content_review": _review_metric(callbacks, "publication_content_correct"),
-            "joint_scenario_behavior_review": _review_metric(
-                [{**row, "manual_review": {**row.get("manual_review", {}), "scenario_correct": reviewed_scenario_score(row)}} for row in completed], "scenario_correct"),
+            "joint_scenario_behavior_review": joint,
             "unnecessary_clarification_review": clarification_metric,
             "resources": resource_metrics(rows),
             "completed_unscored": sum(row["record_status"] == "completed" and followup_score(row) is None for row in rows)}
 
 
-def _paired(rows, scorer=followup_score, metric="dispatch_identity_or_reviewed_ask_answer"):
+def _paired(rows, scorer=followup_score, metric="routing_protocol_or_reviewed_ask_answer"):
     cohorts = defaultdict(lambda: defaultdict(lambda: defaultdict(dict)))
     for row in rows:
         key = condition(row)
@@ -225,10 +244,13 @@ def build_report(rows):
             "notes": ["Candidate inclusion is not final worker selection or task completion.",
                       "Operational errors, incomplete runs, and not-run records are shown separately; they have no quality score.",
                       "Completed ASK/ANSWER responses need attributed review; an unexpected dispatch still fails.",
-                      "Route/new automatic scores check dispatch identities, not instruction fidelity or completed worker actions.",
+                      "The routing protocol score includes matching worker dispatches, a finished IA loop, and no extra callback dispatch; it is broader than worker identity alone.",
+                      "Worker identity uses observed_dispatch_correct, with automatic_correct only as a compatibility fallback for old rows missing that field. Identity matching does not establish instruction fidelity or completed worker actions.",
                       "Review metrics distinguish human from model-assisted judgments and retain unreviewed counts.",
                       "Publication metrics use completed callbacks even if the later follow-up fails; joint scenario review requires the whole run to complete.",
                       "Joint scenario review checks displayed content and response/instruction behavior; mocked workers cannot establish actual task completion.",
+                      "Response correctness reviews only the follow-up. A failed IA loop or an extra callback dispatch independently forces completed joint scenarios to fail, even when response and publication labels are true.",
+                      "Joint structural failures can be known before content review; unreviewed component counts remain separate and those failures are not presented as human judgments.",
                       "Source-ID annotation agreement is metadata only, not proof that the right content was displayed.",
                       "Repeated attempts remain grouped by case; no majority-vote policy or independent-sample significance claim is made.",
                       "Paired case differences require identical repeat sets, all complete and scored in both modes.",
@@ -238,7 +260,7 @@ def build_report(rows):
 
 def render_markdown(report):
     lines = ["# Routing challenge results", "", "Candidate inclusion, dispatch identity, reviewed behavior, and publication content are separate measurements.", "",
-             "| Group / mode / scale / metadata | Complete | Not run | Incomplete | Operational error | Dispatch identity or reviewed ASK/ANSWER | Unscored complete |", "|---|---:|---:|---:|---:|---:|---:|"]
+             "| Group / mode / scale / metadata | Complete | Not run | Incomplete | Operational error | Routing protocol / reviewed ASK or ANSWER | Unscored complete |", "|---|---:|---:|---:|---:|---:|---:|"]
     for group in report["groups"]:
         label = f"{group.get('fixture_group')} / {group['mode']} / {group.get('scale')} / {group.get('metadata')} / {group.get('model')}"
         status, score = group["statuses"], group["dispatch_or_reviewed_response_attempts"]
@@ -251,16 +273,16 @@ def render_markdown(report):
         candidate, dispatch, annotation = (group[key] for key in ("candidate_inclusion", "automatic_dispatch_identity", "publication_source_metadata"))
         label = f"{group.get('fixture_group')} / {group['mode']} / {group.get('scale')} / {group.get('model')}"
         lines.append(f"| {label} | {candidate['correct']}/{candidate['observed']} | {dispatch['correct']}/{dispatch['observed']} | {annotation['correct']}/{annotation['observed']} | {group['completed_callback_count']} |")
-    lines += ["", "Source-ID agreement is metadata, not proof of correct displayed content. An unobserved or inapplicable metric stays 0/0, not perfect accuracy.", "", "## Complete paired cases", ""]
+    lines += ["", "Source-ID agreement is metadata, not proof of correct displayed content. An unobserved or inapplicable metric stays 0/0, not perfect accuracy.", "", "## Complete paired cases: routing protocol / reviewed ASK or ANSWER", ""]
     for pair in report["paired_comparisons"]:
         difference = pair["mean_case_difference_right_minus_left"]
         rendered = "unavailable" if difference is None else f"{difference:+.3f}"
         lines.append(f"- {pair.get('fixture_group')} / {pair.get('scale')} / {pair.get('metadata')}: {pair['right_mode']} minus {pair['left_mode']}: {rendered}; {pair['paired_case_count']} complete scored cases, {len(pair['excluded'])} excluded. This is descriptive, not statistical significance.")
-    lines += ["", "## Reviewed semantics and content", "", "| Group / mode | Behavior reviewed / eligible | Publication reviewed / completed callbacks | Joint behavior/content correct / reviewed | Joint reviews: human / model-assisted |", "|---|---:|---:|---:|---:|"]
+    lines += ["", "## Reviewed semantics and content", "", "| Group / mode | Behavior reviewed / eligible | Publication reviewed / completed callbacks | Joint correct / evaluated | Structural joint failures | Joint reviewer labels: human / model-assisted |", "|---|---:|---:|---:|---:|---:|"]
     for group in report["groups"]:
         behavior, publication, joint = (group[key] for key in ("response_semantics_review", "publication_content_review", "joint_scenario_behavior_review"))
         kinds = joint["by_reviewer_type"]
-        lines.append(f"| {group.get('fixture_group')} / {group['mode']} / {group.get('scale')} / {group.get('model')} | {behavior['observed']}/{behavior['eligible']} | {publication['observed']}/{publication['eligible']} | {joint['correct']}/{joint['observed']} | {kinds['human']['observed']} / {kinds['model_assisted']['observed']} |")
+        lines.append(f"| {group.get('fixture_group')} / {group['mode']} / {group.get('scale')} / {group.get('model')} | {behavior['observed']}/{behavior['eligible']} | {publication['observed']}/{publication['eligible']} | {joint['correct']}/{joint['observed']} | {joint['structural_failures']} | {kinds['human']['observed']} / {kinds['model_assisted']['observed']} |")
     lines += ["", "## Interpretation", ""] + [f"- {note}" for note in report["notes"]]
     lines += ["", "## Observed model resources", "",
               "| Group / mode / scale / model | Recorded invocations | Reported prompt / completion tokens | Reported usage.cost | Calls missing usage object | Complete IA scenario p50 / p95 ms |",
@@ -272,7 +294,7 @@ def render_markdown(report):
         usage, latency = resources["provider_reported_usage"], resources["completed_scenario_local_wall_latency"]
         label = f"{group.get('fixture_group')} / {group['mode']} / {group.get('scale')} / {group.get('model')}"
         lines.append(f"| {label} | {resources['recorded_model_invocations']} | {display(usage['prompt_tokens']['reported_total'])} / {display(usage['completion_tokens']['reported_total'])} | {display(usage['cost']['reported_total'])} | {resources['calls_without_usage_object']} | {display(latency['p50_ms'])} / {display(latency['p95_ms'])} |")
-    lines += ["", "Token/cost sums cover only reported fields; per-field unavailable counts are in report.json. Missing usage is not zero. Provider usage.cost is separate from ledger reservations and is not an invoice guarantee. These are local synthetic-scenario IA timings with mocked workers, not completed user-task latency; partial/error durations are reported separately in JSON."]
+    lines += ["", "Token/cost sums cover only reported fields; per-field unavailable counts are in report.json. Missing usage is not zero. Provider usage.cost is separate from ledger reservations and is not an invoice guarantee. Scenario and model-invocation wall timings INCLUDE configured evaluation pacing; consult the run manifest for its interval. These local synthetic-scenario IA timings use mocked workers and are not production latency, completed user-task latency, or evidence of a speedup. Partial/error durations are reported separately in JSON."]
     return "\n".join(lines) + "\n"
 
 
