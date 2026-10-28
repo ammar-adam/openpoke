@@ -23,8 +23,15 @@ def chat_history() -> ChatHistoryResponse:
 
 
 @router.delete("/history", response_model=ChatHistoryClearResponse)
-def clear_history() -> ChatHistoryClearResponse:
+async def clear_history() -> ChatHistoryClearResponse:
     from ..services import get_execution_agent_logs, get_agent_roster
+    from ..services.execution.catalog import get_agent_catalog
+
+    # Keep this synchronous sequence on the single-process app's event loop,
+    # with no awaits: IA turns cannot backfill the old roster midway through.
+    # Advance the generation first to invalidate callbacks and turns waiting on
+    # model calls. This does not cancel already-started external worker actions.
+    get_agent_catalog().clear()
 
     # Clear conversation log
     log = get_conversation_log()

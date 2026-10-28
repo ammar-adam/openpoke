@@ -44,3 +44,8 @@ server/venv/
 # Generated documentation / analysis artifacts
 server/repomix-output.txt
 server/plans/
+
+# Local routing evaluation outputs
+evals/routing/results/
+.pytest_cache/
+evals/tasks/results/

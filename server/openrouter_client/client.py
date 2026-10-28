@@ -54,6 +54,7 @@ async def request_chat_completion(
     api_key: Optional[str] = None,
     tools: Optional[List[Dict[str, Any]]] = None,
     base_url: str = OpenRouterBaseURL,
+    max_tokens: Optional[int] = None,
 ) -> Dict[str, Any]:
     """Request a chat completion and return the raw JSON payload."""
 
@@ -64,6 +65,10 @@ async def request_chat_completion(
     }
     if tools:
         payload["tools"] = tools
+    if max_tokens is not None:
+        if isinstance(max_tokens, bool) or not isinstance(max_tokens, int) or max_tokens <= 0:
+            raise ValueError("max_tokens must be a positive integer")
+        payload["max_tokens"] = max_tokens
 
     url = f"{base_url.rstrip('/')}/chat/completions"
 

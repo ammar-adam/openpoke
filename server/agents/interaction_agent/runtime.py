@@ -1,13 +1,17 @@
 """Interaction Agent Runtime - handles LLM calls for user and agent turns."""
 
 import json
+import os
+import uuid
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Set
 
 from .agent import build_system_prompt, prepare_message_with_history
-from .tools import ToolResult, get_tool_schemas, handle_tool_call
+from .tools import ToolContext, ToolResult, get_tool_schemas, handle_tool_call, tool_context
 from ...config import get_settings
 from ...services.conversation import get_conversation_log, get_working_memory_log
+from ...services.execution import get_agent_roster
+from ...services.execution.catalog import render_cards
 from ...openrouter_client import request_chat_completion
 from ...logging_config import logger
 
@@ -47,16 +51,28 @@ class InteractionAgentRuntime:
     MAX_TOOL_ITERATIONS = 8
 
     # Initialize interaction agent runtime with settings and service dependencies
-    def __init__(self) -> None:
+    def __init__(self, discovery_mode: Optional[str] = None, catalog=None, model_client=None) -> None:
         settings = get_settings()
         self.api_key = settings.openrouter_api_key
         self.model = settings.interaction_agent_model
         self.settings = settings
         self.conversation_log = get_conversation_log()
         self.working_memory_log = get_working_memory_log()
-        self.tool_schemas = get_tool_schemas()
+        self.discovery_mode = discovery_mode or os.getenv("OPENPOKE_AGENT_DISCOVERY", "legacy")
+        if self.discovery_mode not in {"legacy", "retrieval", "focus"}:
+            raise ValueError("OPENPOKE_AGENT_DISCOVERY must be legacy, retrieval, or focus")
+        self.catalog = catalog
+        if self.discovery_mode in {"retrieval", "focus"} and self.catalog is None:
+            from ...services.execution.catalog import get_agent_catalog
+            self.catalog = get_agent_catalog()
+        self.tool_schemas = get_tool_schemas(self.discovery_mode)
+        self.model_client = model_client
+        self.last_discovery_trace: Dict[str, Any] = {}
+        self._search_expansions = 0
+        self._active_context: Optional[ToolContext] = None
+        self._offered_versions: Dict[str, int] = {}
 
-        if not self.api_key:
+        if not self.api_key and model_client is None:
             raise ValueError(
                 "OpenRouter API key not configured. Set OPENROUTER_API_KEY environment variable."
             )
@@ -64,18 +80,18 @@ class InteractionAgentRuntime:
     # Main entry point for processing user messages through the LLM interaction loop
     async def execute(self, user_message: str) -> InteractionResult:
         """Handle a user-authored message."""
-
         try:
+            context = self._new_context()
+            self._ensure_context_current(context)
             transcript_before = self._load_conversation_transcript()
             self.conversation_log.record_user_message(user_message)
 
-            system_prompt = build_system_prompt()
-            messages = prepare_message_with_history(
-                user_message, transcript_before, message_type="user"
-            )
+            system_prompt = build_system_prompt(self.discovery_mode)
+            messages = self._prepare_messages(user_message, transcript_before, "user")
 
             logger.info("Processing user message through interaction agent")
-            summary = await self._run_interaction_loop(system_prompt, messages)
+            summary = await self._run_interaction_loop(system_prompt, messages, context)
+            self._ensure_context_current(context)
 
             final_response = self._finalize_response(summary)
 
@@ -97,20 +113,24 @@ class InteractionAgentRuntime:
             )
 
     # Handle incoming messages from execution agents and generate appropriate responses
-    async def handle_agent_message(self, agent_message: str) -> InteractionResult:
+    async def handle_agent_message(
+        self, agent_message: str, source_results: Optional[List[Dict[str, str]]] = None,
+        correlation_id: Optional[str] = None, catalog_generation: Optional[int] = None,
+    ) -> InteractionResult:
         """Process a status update emitted by an execution agent."""
 
         try:
+            context = self._new_context(source_results, correlation_id, catalog_generation)
+            self._ensure_context_current(context)
             transcript_before = self._load_conversation_transcript()
             self.conversation_log.record_agent_message(agent_message)
 
-            system_prompt = build_system_prompt()
-            messages = prepare_message_with_history(
-                agent_message, transcript_before, message_type="agent"
-            )
+            system_prompt = build_system_prompt(self.discovery_mode)
+            messages = self._prepare_messages(agent_message, transcript_before, "agent")
 
             logger.info("Processing execution agent results")
-            summary = await self._run_interaction_loop(system_prompt, messages)
+            summary = await self._run_interaction_loop(system_prompt, messages, context)
+            self._ensure_context_current(context)
 
             final_response = self._finalize_response(summary)
 
@@ -131,18 +151,70 @@ class InteractionAgentRuntime:
                 error=str(exc),
             )
 
-    # Core interaction loop that handles LLM calls and tool executions until completion
+    def _new_context(self, source_results=None, correlation_id=None, catalog_generation=None) -> ToolContext:
+        sources = {}
+        for source in source_results or []:
+            if not isinstance(source, dict) or any(not isinstance(source.get(key), str) or not source[key] for key in ("result_id", "agent_name", "correlation_id")):
+                raise ValueError("Invalid trusted execution-result metadata")
+            if source["result_id"] in sources:
+                raise ValueError("Duplicate execution result ID")
+            sources[source["result_id"]] = {key: source[key] for key in ("result_id", "agent_name", "correlation_id")}
+        source_correlations = {source["correlation_id"] for source in sources.values()}
+        if len(source_correlations) > 1:
+            raise ValueError("Execution results from different originating turns cannot share a callback")
+        correlation = correlation_id or next(iter(source_correlations), str(uuid.uuid4()))
+        if source_correlations and source_correlations != {correlation}:
+            raise ValueError("Execution result correlation does not match its callback")
+        generation = self.catalog.get_generation() if self.catalog is not None else 0
+        if catalog_generation is not None:
+            generation = catalog_generation
+        self.last_discovery_trace = {"mode": self.discovery_mode, "initial": None, "expansions": [], "state_refreshes": []}
+        self._offered_versions = {}
+        return ToolContext(self.discovery_mode, correlation, self.catalog, generation, sources, self._offered_versions)
+
+    def _ensure_context_current(self, context: ToolContext) -> None:
+        if context.catalog is not None and context.generation != context.catalog.get_generation():
+            raise RuntimeError("Conversation was cleared; dropping this old turn")
+
+    def _prepare_messages(self, latest_text, transcript, message_type):
+        if self.discovery_mode == "legacy":
+            return prepare_message_with_history(latest_text, transcript, message_type=message_type)
+        self.catalog.ensure_legacy_backfill(get_agent_roster())
+        shortlist = self.catalog.shortlist(
+            latest_text, include_focus=self.discovery_mode == "focus", max_cards=12, max_chars=6000
+        )
+        self.last_discovery_trace["initial"] = shortlist["trace"]
+        self._offered_versions.update({card["agent_name"]: card["version"] for card in shortlist["cards"]})
+        return prepare_message_with_history(
+            latest_text, transcript, message_type=message_type, agents_block=shortlist["rendered"]
+        )
+
+    # Each turn has independent tool metadata, search budget, and clear-generation guard.
     async def _run_interaction_loop(
         self,
         system_prompt: str,
         messages: List[Dict[str, Any]],
+        context: Optional[ToolContext] = None,
     ) -> _LoopSummary:
+        context = context or self._new_context()
+        previous = self._active_context
+        self._active_context = context
+        self._search_expansions = 0
+        try:
+            with tool_context(context):
+                return await self._run_scoped_interaction_loop(system_prompt, messages)
+        finally:
+            self._active_context = previous
+
+    async def _run_scoped_interaction_loop(self, system_prompt, messages) -> _LoopSummary:
         """Iteratively query the LLM until it issues a final response."""
 
         summary = _LoopSummary()
 
         for iteration in range(self.MAX_TOOL_ITERATIONS):
+            self._ensure_context_current(self._active_context)
             response = await self._make_llm_call(system_prompt, messages)
+            self._ensure_context_current(self._active_context)
             assistant_message = self._extract_assistant_message(response)
 
             assistant_content = (assistant_message.get("content") or "").strip()
@@ -210,7 +282,8 @@ class InteractionAgentRuntime:
             "Interaction agent calling LLM",
             extra={"model": self.model, "tools": len(self.tool_schemas)},
         )
-        return await request_chat_completion(
+        client = self.model_client or request_chat_completion
+        return await client(
             model=self.model,
             messages=messages,
             system=system_prompt,
@@ -293,8 +366,13 @@ class InteractionAgentRuntime:
             return ToolResult(success=False, payload={"error": error})
 
         try:
+            if self._active_context is not None:
+                self._ensure_context_current(self._active_context)
             self._log_tool_invocation(tool_call, stage="start")
-            result = handle_tool_call(tool_call.name, tool_call.arguments)
+            if tool_call.name == "find_agents" and self.discovery_mode != "legacy":
+                result = self._find_agents(tool_call.arguments)
+            else:
+                result = handle_tool_call(tool_call.name, tool_call.arguments)
         except Exception as exc:  # pragma: no cover - defensive
             logger.error(
                 "Tool execution crashed",
@@ -325,6 +403,45 @@ class InteractionAgentRuntime:
             },
         )
         self._log_tool_invocation(tool_call, stage="done", result=result)
+        if isinstance(result.payload, dict) and result.payload.get("code") == "agent_state_refresh":
+            self.last_discovery_trace["state_refreshes"].append({"agent_name": tool_call.arguments.get("agent_name"), "dispatched": False})
+        return result
+
+    def _find_agents(self, arguments: Dict[str, Any]) -> ToolResult:
+        if self._search_expansions >= 1:
+            return ToolResult(success=False, payload={"error": "Discovery expansion limit reached (one per turn)"})
+        query = arguments.get("query")
+        exact_name = arguments.get("exact_name")
+        if not isinstance(query, str) or (exact_name is not None and not isinstance(exact_name, str)) or set(arguments) - {"query", "exact_name"}:
+            return ToolResult(success=False, payload={"error": "find_agents requires query text and an optional exact_name"})
+        if len(query) > 1000 or (exact_name is not None and len(exact_name) > 1000):
+            return ToolResult(success=False, payload={"error": "Search input is too long (maximum 1000 characters per field)"})
+        if len(json.dumps(arguments)) > 1500:
+            return ToolResult(success=False, payload={"error": "Encoded search input is too long"})
+        self._search_expansions += 1
+        if exact_name is not None:
+            card = self.catalog.get_agent(exact_name)
+            cards = [card] if card is not None else []
+            rendered = render_cards(cards, max_cards=12, max_chars=6000)
+            trace = {"method": "exact_name", "query": exact_name, "agent_names": [card["agent_name"] for card in cards], "rendered_chars": len(rendered)}
+        else:
+            shortlist = self.catalog.shortlist(query, include_focus=False, max_cards=12, max_chars=6000)
+            cards, rendered, trace = shortlist["cards"], shortlist["rendered"], shortlist["trace"]
+        # Bound the actual serialized tool message, including JSON escaping and
+        # echoed arguments. Drop whole cards rather than corrupting identities.
+        while True:
+            result = ToolResult(success=True, payload={
+                "agents": rendered, "match_count": len(cards),
+                "note": "Bounded discovery, not the entire roster. No match does not prove a task is new.",
+            })
+            message_chars = len(self._format_tool_result(_ToolCall(None, "find_agents", arguments), result))
+            if message_chars <= 6000 or not cards:
+                break
+            cards = cards[:-1]
+            rendered = render_cards(cards, max_cards=12, max_chars=6000)
+        trace = dict(trace, returned_agent_names=[card["agent_name"] for card in cards], model_result_chars=message_chars)
+        self.last_discovery_trace["expansions"].append(trace)
+        self._offered_versions.update({card["agent_name"]: card["version"] for card in cards})
         return result
 
     # Format tool execution results into JSON for LLM consumption
@@ -341,11 +458,19 @@ class InteractionAgentRuntime:
             },
         }
 
+        if tool_call.name in {"find_agents", "send_message_to_agent"} and self.discovery_mode != "legacy":
+            # The model already supplied the query. Echoing it can make even an
+            # input-validation error arbitrarily large and defeat output limits.
+            payload["arguments"] = {}
+
         if result.payload is not None:
             key = "result" if result.success else "error"
             payload[key] = result.payload
 
-        return self._safe_json_dump(payload)
+        rendered = self._safe_json_dump(payload)
+        if tool_call.name == "find_agents" and self.discovery_mode != "legacy" and not result.success and len(rendered) > 6000:
+            return self._safe_json_dump({"tool": "find_agents", "status": "error", "error": "Discovery failed; error detail exceeded the output budget"})
+        return rendered
 
     # Safely serialize objects to JSON with fallback to string representation
     def _safe_json_dump(self, payload: Any) -> str:

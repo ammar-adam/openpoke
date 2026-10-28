@@ -1,0 +1,674 @@
+{
+  "measured_on": "2026-10-28",
+  "manifest": {
+    "baseline_commit": "5b5f635935a64ab37884c025d70abb0ed731c094",
+    "live": false,
+    "scales": [
+      100,
+      1000,
+      10000
+    ],
+    "modes": [
+      "legacy",
+      "retrieval",
+      "focus"
+    ],
+    "metadata": [
+      "names_only",
+      "enriched",
+      "current_state"
+    ],
+    "case_count": 15,
+    "model": null,
+    "held_out": false,
+    "live_calls": 0,
+    "reserved_estimated_usd": null,
+    "python": "3.12.10",
+    "sqlite": "3.49.1",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "shortlist_max_cards": 12,
+    "shortlist_max_characters": 6000,
+    "limits_are_tokens": false,
+    "publication_fixtures": "preseeded correct references; annotation quality is not measured"
+  },
+  "measurement": "candidate_lookup_only",
+  "matrix_observations": 405,
+  "groups": [
+    {
+      "metadata": "current_state",
+      "scale": 100,
+      "mode": "focus",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 11,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 5659,
+      "lookup_p50_ms": 13.53599998401478,
+      "lookup_p95_ms": 18.03549999021925,
+      "catalog_build_ms": 109.17130002053455,
+      "catalog_database_bytes": 118784,
+      "misses": [
+        "paraphrase"
+      ]
+    },
+    {
+      "metadata": "current_state",
+      "scale": 100,
+      "mode": "legacy",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 12,
+      "max_candidate_count": 100,
+      "max_candidate_block_characters": 4776,
+      "lookup_p50_ms": 0.05679999594576657,
+      "lookup_p95_ms": 0.08420000085607171,
+      "catalog_build_ms": 109.17130002053455,
+      "catalog_database_bytes": 118784,
+      "misses": []
+    },
+    {
+      "metadata": "current_state",
+      "scale": 100,
+      "mode": "retrieval",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 9,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 5263,
+      "lookup_p50_ms": 10.62149999779649,
+      "lookup_p95_ms": 18.451500014634803,
+      "catalog_build_ms": 109.17130002053455,
+      "catalog_database_bytes": 118784,
+      "misses": [
+        "published_followup",
+        "unpublished_interruption",
+        "paraphrase"
+      ]
+    },
+    {
+      "metadata": "current_state",
+      "scale": 1000,
+      "mode": "focus",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 11,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 5669,
+      "lookup_p50_ms": 13.865099987015128,
+      "lookup_p95_ms": 21.165299986023456,
+      "catalog_build_ms": 161.77540001808666,
+      "catalog_database_bytes": 466944,
+      "misses": [
+        "paraphrase"
+      ]
+    },
+    {
+      "metadata": "current_state",
+      "scale": 1000,
+      "mode": "legacy",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 12,
+      "max_candidate_count": 1000,
+      "max_candidate_block_characters": 48336,
+      "lookup_p50_ms": 0.47470000572502613,
+      "lookup_p95_ms": 1.6926999960560352,
+      "catalog_build_ms": 161.77540001808666,
+      "catalog_database_bytes": 466944,
+      "misses": []
+    },
+    {
+      "metadata": "current_state",
+      "scale": 1000,
+      "mode": "retrieval",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 9,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 5490,
+      "lookup_p50_ms": 11.815099976956844,
+      "lookup_p95_ms": 20.222999999532476,
+      "catalog_build_ms": 161.77540001808666,
+      "catalog_database_bytes": 466944,
+      "misses": [
+        "published_followup",
+        "unpublished_interruption",
+        "paraphrase"
+      ]
+    },
+    {
+      "metadata": "current_state",
+      "scale": 10000,
+      "mode": "focus",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 11,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 5668,
+      "lookup_p50_ms": 27.473800000734627,
+      "lookup_p95_ms": 38.30969997216016,
+      "catalog_build_ms": 779.1117000160739,
+      "catalog_database_bytes": 4583424,
+      "misses": [
+        "paraphrase"
+      ]
+    },
+    {
+      "metadata": "current_state",
+      "scale": 10000,
+      "mode": "legacy",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 12,
+      "max_candidate_count": 10000,
+      "max_candidate_block_characters": 483936,
+      "lookup_p50_ms": 4.138199990848079,
+      "lookup_p95_ms": 9.254799981135875,
+      "catalog_build_ms": 779.1117000160739,
+      "catalog_database_bytes": 4583424,
+      "misses": []
+    },
+    {
+      "metadata": "current_state",
+      "scale": 10000,
+      "mode": "retrieval",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 9,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 5490,
+      "lookup_p50_ms": 22.34419999876991,
+      "lookup_p95_ms": 41.648399987025186,
+      "catalog_build_ms": 779.1117000160739,
+      "catalog_database_bytes": 4583424,
+      "misses": [
+        "published_followup",
+        "unpublished_interruption",
+        "paraphrase"
+      ]
+    },
+    {
+      "metadata": "enriched",
+      "scale": 100,
+      "mode": "focus",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 8,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 5365,
+      "lookup_p50_ms": 14.200100005837157,
+      "lookup_p95_ms": 23.32659999956377,
+      "catalog_build_ms": 63.02709999727085,
+      "catalog_database_bytes": 118784,
+      "misses": [
+        "paraphrase",
+        "current_result_words",
+        "same_person_current_work",
+        "exact_observed_reference"
+      ]
+    },
+    {
+      "metadata": "enriched",
+      "scale": 100,
+      "mode": "legacy",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 12,
+      "max_candidate_count": 100,
+      "max_candidate_block_characters": 4776,
+      "lookup_p50_ms": 0.05269999383017421,
+      "lookup_p95_ms": 0.08099997648969293,
+      "catalog_build_ms": 63.02709999727085,
+      "catalog_database_bytes": 118784,
+      "misses": []
+    },
+    {
+      "metadata": "enriched",
+      "scale": 100,
+      "mode": "retrieval",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 6,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 5130,
+      "lookup_p50_ms": 11.089300009189174,
+      "lookup_p95_ms": 15.385500009870157,
+      "catalog_build_ms": 63.02709999727085,
+      "catalog_database_bytes": 118784,
+      "misses": [
+        "published_followup",
+        "unpublished_interruption",
+        "paraphrase",
+        "current_result_words",
+        "same_person_current_work",
+        "exact_observed_reference"
+      ]
+    },
+    {
+      "metadata": "enriched",
+      "scale": 1000,
+      "mode": "focus",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 8,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 5361,
+      "lookup_p50_ms": 19.559199979994446,
+      "lookup_p95_ms": 26.23340001446195,
+      "catalog_build_ms": 114.2552999954205,
+      "catalog_database_bytes": 466944,
+      "misses": [
+        "paraphrase",
+        "current_result_words",
+        "same_person_current_work",
+        "exact_observed_reference"
+      ]
+    },
+    {
+      "metadata": "enriched",
+      "scale": 1000,
+      "mode": "legacy",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 12,
+      "max_candidate_count": 1000,
+      "max_candidate_block_characters": 48336,
+      "lookup_p50_ms": 0.47450000420212746,
+      "lookup_p95_ms": 1.0983000101987273,
+      "catalog_build_ms": 114.2552999954205,
+      "catalog_database_bytes": 466944,
+      "misses": []
+    },
+    {
+      "metadata": "enriched",
+      "scale": 1000,
+      "mode": "retrieval",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 6,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 5128,
+      "lookup_p50_ms": 14.266100013628602,
+      "lookup_p95_ms": 18.716100021265447,
+      "catalog_build_ms": 114.2552999954205,
+      "catalog_database_bytes": 466944,
+      "misses": [
+        "published_followup",
+        "unpublished_interruption",
+        "paraphrase",
+        "current_result_words",
+        "same_person_current_work",
+        "exact_observed_reference"
+      ]
+    },
+    {
+      "metadata": "enriched",
+      "scale": 10000,
+      "mode": "focus",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 8,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 5371,
+      "lookup_p50_ms": 25.961299979826435,
+      "lookup_p95_ms": 39.039700001012534,
+      "catalog_build_ms": 675.6859000015538,
+      "catalog_database_bytes": 4583424,
+      "misses": [
+        "paraphrase",
+        "current_result_words",
+        "same_person_current_work",
+        "exact_observed_reference"
+      ]
+    },
+    {
+      "metadata": "enriched",
+      "scale": 10000,
+      "mode": "legacy",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 12,
+      "max_candidate_count": 10000,
+      "max_candidate_block_characters": 483936,
+      "lookup_p50_ms": 4.602200002409518,
+      "lookup_p95_ms": 10.60229999711737,
+      "catalog_build_ms": 675.6859000015538,
+      "catalog_database_bytes": 4583424,
+      "misses": []
+    },
+    {
+      "metadata": "enriched",
+      "scale": 10000,
+      "mode": "retrieval",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 6,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 5136,
+      "lookup_p50_ms": 20.634699991205707,
+      "lookup_p95_ms": 37.375499989138916,
+      "catalog_build_ms": 675.6859000015538,
+      "catalog_database_bytes": 4583424,
+      "misses": [
+        "published_followup",
+        "unpublished_interruption",
+        "paraphrase",
+        "current_result_words",
+        "same_person_current_work",
+        "exact_observed_reference"
+      ]
+    },
+    {
+      "metadata": "names_only",
+      "scale": 100,
+      "mode": "focus",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 8,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 3534,
+      "lookup_p50_ms": 13.228299998445436,
+      "lookup_p95_ms": 22.350400016875938,
+      "catalog_build_ms": 46.64390001562424,
+      "catalog_database_bytes": 94208,
+      "misses": [
+        "paraphrase",
+        "current_result_words",
+        "same_person_current_work",
+        "exact_observed_reference"
+      ]
+    },
+    {
+      "metadata": "names_only",
+      "scale": 100,
+      "mode": "legacy",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 12,
+      "max_candidate_count": 100,
+      "max_candidate_block_characters": 4776,
+      "lookup_p50_ms": 0.04980000085197389,
+      "lookup_p95_ms": 0.14509999891743064,
+      "catalog_build_ms": 46.64390001562424,
+      "catalog_database_bytes": 94208,
+      "misses": []
+    },
+    {
+      "metadata": "names_only",
+      "scale": 100,
+      "mode": "retrieval",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 7,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 3201,
+      "lookup_p50_ms": 11.133099993458018,
+      "lookup_p95_ms": 63.965900015318766,
+      "catalog_build_ms": 46.64390001562424,
+      "catalog_database_bytes": 94208,
+      "misses": [
+        "published_followup",
+        "paraphrase",
+        "current_result_words",
+        "same_person_current_work",
+        "exact_observed_reference"
+      ]
+    },
+    {
+      "metadata": "names_only",
+      "scale": 1000,
+      "mode": "focus",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 8,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 3535,
+      "lookup_p50_ms": 16.46680000703782,
+      "lookup_p95_ms": 20.502999977907166,
+      "catalog_build_ms": 65.08299999404699,
+      "catalog_database_bytes": 221184,
+      "misses": [
+        "paraphrase",
+        "current_result_words",
+        "same_person_current_work",
+        "exact_observed_reference"
+      ]
+    },
+    {
+      "metadata": "names_only",
+      "scale": 1000,
+      "mode": "legacy",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 12,
+      "max_candidate_count": 1000,
+      "max_candidate_block_characters": 48336,
+      "lookup_p50_ms": 0.39420000393874943,
+      "lookup_p95_ms": 1.1032999900635332,
+      "catalog_build_ms": 65.08299999404699,
+      "catalog_database_bytes": 221184,
+      "misses": []
+    },
+    {
+      "metadata": "names_only",
+      "scale": 1000,
+      "mode": "retrieval",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 7,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 3201,
+      "lookup_p50_ms": 11.764700000640005,
+      "lookup_p95_ms": 16.82670001173392,
+      "catalog_build_ms": 65.08299999404699,
+      "catalog_database_bytes": 221184,
+      "misses": [
+        "published_followup",
+        "paraphrase",
+        "current_result_words",
+        "same_person_current_work",
+        "exact_observed_reference"
+      ]
+    },
+    {
+      "metadata": "names_only",
+      "scale": 10000,
+      "mode": "focus",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 8,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 3535,
+      "lookup_p50_ms": 19.96750000398606,
+      "lookup_p95_ms": 27.52510001300834,
+      "catalog_build_ms": 281.1171000066679,
+      "catalog_database_bytes": 1409024,
+      "misses": [
+        "paraphrase",
+        "current_result_words",
+        "same_person_current_work",
+        "exact_observed_reference"
+      ]
+    },
+    {
+      "metadata": "names_only",
+      "scale": 10000,
+      "mode": "legacy",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 12,
+      "max_candidate_count": 10000,
+      "max_candidate_block_characters": 483936,
+      "lookup_p50_ms": 4.242700000759214,
+      "lookup_p95_ms": 6.137799995485693,
+      "catalog_build_ms": 281.1171000066679,
+      "catalog_database_bytes": 1409024,
+      "misses": []
+    },
+    {
+      "metadata": "names_only",
+      "scale": 10000,
+      "mode": "retrieval",
+      "case_count": 15,
+      "target_cases": 12,
+      "all_targets_present": 7,
+      "max_candidate_count": 12,
+      "max_candidate_block_characters": 3201,
+      "lookup_p50_ms": 14.54040000680834,
+      "lookup_p95_ms": 22.976199979893863,
+      "catalog_build_ms": 281.1171000066679,
+      "catalog_database_bytes": 1409024,
+      "misses": [
+        "published_followup",
+        "paraphrase",
+        "current_result_words",
+        "same_person_current_work",
+        "exact_observed_reference"
+      ]
+    }
+  ],
+  "final_100k_probe": {
+    "scale": 100000,
+    "metadata": "current_state",
+    "case_ids": [
+      "direct_old",
+      "paraphrase",
+      "current_result_words",
+      "exact_observed_reference"
+    ],
+    "catalog_build_ms": 8073.386899981415,
+    "catalog_database_bytes": 38400000,
+    "live_calls": 0,
+    "results": [
+      {
+        "case_id": "direct_old",
+        "category": "direct_reference",
+        "mode": "legacy",
+        "initial_candidate_count": 100000,
+        "initial_roster_characters": 4839936,
+        "initial_lookup_ms": 53.20160000701435,
+        "initial_target_recall": 1.0,
+        "initial_all_targets_present": true
+      },
+      {
+        "case_id": "direct_old",
+        "category": "direct_reference",
+        "mode": "retrieval",
+        "initial_candidate_count": 12,
+        "initial_roster_characters": 4952,
+        "initial_lookup_ms": 107.73330001393333,
+        "initial_target_recall": 1.0,
+        "initial_all_targets_present": true
+      },
+      {
+        "case_id": "direct_old",
+        "category": "direct_reference",
+        "mode": "focus",
+        "initial_candidate_count": 12,
+        "initial_roster_characters": 4952,
+        "initial_lookup_ms": 113.20060002617538,
+        "initial_target_recall": 1.0,
+        "initial_all_targets_present": true
+      },
+      {
+        "case_id": "paraphrase",
+        "category": "paraphrase",
+        "mode": "legacy",
+        "initial_candidate_count": 100000,
+        "initial_roster_characters": 4839936,
+        "initial_lookup_ms": 47.31949997949414,
+        "initial_target_recall": 1.0,
+        "initial_all_targets_present": true
+      },
+      {
+        "case_id": "paraphrase",
+        "category": "paraphrase",
+        "mode": "retrieval",
+        "initial_candidate_count": 0,
+        "initial_roster_characters": 32,
+        "initial_lookup_ms": 11.14330001291819,
+        "initial_target_recall": 0.0,
+        "initial_all_targets_present": false
+      },
+      {
+        "case_id": "paraphrase",
+        "category": "paraphrase",
+        "mode": "focus",
+        "initial_candidate_count": 0,
+        "initial_roster_characters": 32,
+        "initial_lookup_ms": 13.286699977470562,
+        "initial_target_recall": 0.0,
+        "initial_all_targets_present": false
+      },
+      {
+        "case_id": "current_result_words",
+        "category": "current_work",
+        "mode": "legacy",
+        "initial_candidate_count": 100000,
+        "initial_roster_characters": 4839936,
+        "initial_lookup_ms": 53.93359999288805,
+        "initial_target_recall": 1.0,
+        "initial_all_targets_present": true
+      },
+      {
+        "case_id": "current_result_words",
+        "category": "current_work",
+        "mode": "retrieval",
+        "initial_candidate_count": 1,
+        "initial_roster_characters": 595,
+        "initial_lookup_ms": 10.027899988926947,
+        "initial_target_recall": 1.0,
+        "initial_all_targets_present": true
+      },
+      {
+        "case_id": "current_result_words",
+        "category": "current_work",
+        "mode": "focus",
+        "initial_candidate_count": 1,
+        "initial_roster_characters": 595,
+        "initial_lookup_ms": 15.267399983713403,
+        "initial_target_recall": 1.0,
+        "initial_all_targets_present": true
+      },
+      {
+        "case_id": "exact_observed_reference",
+        "category": "object_reference",
+        "mode": "legacy",
+        "initial_candidate_count": 100000,
+        "initial_roster_characters": 4839936,
+        "initial_lookup_ms": 59.47459998424165,
+        "initial_target_recall": 1.0,
+        "initial_all_targets_present": true
+      },
+      {
+        "case_id": "exact_observed_reference",
+        "category": "object_reference",
+        "mode": "retrieval",
+        "initial_candidate_count": 1,
+        "initial_roster_characters": 744,
+        "initial_lookup_ms": 15.385400009108707,
+        "initial_target_recall": 1.0,
+        "initial_all_targets_present": true
+      },
+      {
+        "case_id": "exact_observed_reference",
+        "category": "object_reference",
+        "mode": "focus",
+        "initial_candidate_count": 1,
+        "initial_roster_characters": 744,
+        "initial_lookup_ms": 21.119299985002726,
+        "initial_target_recall": 1.0,
+        "initial_all_targets_present": true
+      }
+    ]
+  },
+  "earlier_100k_probe": {
+    "catalog_build_ms": 25498.9074000041,
+    "max_lookup_ms_by_mode": {
+      "legacy": 173.79900001105852,
+      "retrieval": 393.2697999989614,
+      "focus": 325.8473000023514
+    },
+    "phase": "before final publication-card addition"
+  }
+}
